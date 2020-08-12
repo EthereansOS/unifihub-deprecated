@@ -1,0 +1,118 @@
+html {background-color: #01182b;margin: 0;}
+h1,h4,h3, h5,h6,h2 {margin-block-end: 0;margin-block-start: 0;}
+body {width: 100%; position: relative; margin: 0; font-family: Helvetica Neue,Helvetica,Arial,メイリオ\, meiryo,ヒラギノ角ゴ pro w3,hiragino kaku gothic pro,sans-serif;}
+ol,ul, li {margin-block-start: 0; margin-block-end: 0; list-style-type: none; padding-inline-start:0;}
+p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-inline-start: 0px;margin-inline-end: 0px;}
+p, h1, h2, h3, h4, h5, h6, a, label, aside {color: #f1f1f1;}
+figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margin-inline-end: 0px;}
+.ldio-wdnt6erfulc div {position: absolute;width: 30px;height: 30px;animation: ldio-wdnt6erfulc 1.333333333333333s infinite;}
+.ldio-wdnt6erfulc div:nth-child(1) {top: 5px;left: 5px;background: #398bf0;animation-delay: -0.5333333333333333s}
+.ldio-wdnt6erfulc div:nth-child(2) {top: 35px;left: 5px;background: #8f00ff;animation-delay: -0.3999999999999999s}
+.ldio-wdnt6erfulc div:nth-child(3) {top: 65px;left: 5px;background: #5fe084;animation-delay: -0.26666666666666666s}
+.ldio-wdnt6erfulc div:nth-child(4) {top: 5px;left: 35px;background: #8f00ff;animation-delay: -0.3999999999999999s}
+.ldio-wdnt6erfulc div:nth-child(5) {top: 35px;left: 35px;background: #5fe084;animation-delay: -0.26666666666666666s}
+.ldio-wdnt6erfulc div:nth-child(6) {top: 65px;left: 35px;background: #d664dd;animation-delay: -0.13333333333333333s}
+.ldio-wdnt6erfulc div:nth-child(7) {top: 5px;left: 65px;background: #5fe084;animation-delay: -0.26666666666666666s}
+.ldio-wdnt6erfulc div:nth-child(8) {top: 35px;left: 65px;background: #d664dd;animation-delay: -0.13333333333333333s}
+.ldio-wdnt6erfulc div:nth-child(9) {top: 65px;left: 65px;background: #398bf0;animation-delay: 0s}
+.loadingio-spinner-square-iyrjry8g9g9 {width: 41px;height: 41px;display: inline-block;overflow: hidden;background: none;}
+.ldio-wdnt6erfulc {width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(0.41);backface-visibility: hidden;transform-origin: 0 0;}
+.ldio-wdnt6erfulc div { box-sizing: content-box; }
+@keyframes ldio-2it1sjbil3o { 0% {top: 83.19px;left: 83.19px;width: 0;height: 0;opacity: 1; } 100% {top: 2.6550000000000002px;left: 2.6550000000000002px;width: 161.07px;height: 161.07px;opacity: 0;}}
+.ldio-2it1sjbil3o div {position: absolute;border-width: 5.3100000000000005px;border-style: solid;opacity: 1;border-radius: 50%;animation: ldio-2it1sjbil3o 1.36986301369863s cubic-bezier(0,0.2,0.8,1) infinite;}
+.ldio-2it1sjbil3o div:nth-child(1) {border-color: #8f00ff}
+.ldio-2it1sjbil3o div:nth-child(2) {border-color: #5fe084;animation-delay: -0.684931506849315s;}
+.loadingio-spinner-ripple-6l4nh0xpwdg {width: 177px;height: 177px;display: inline-block;overflow: hidden;background: none;}
+.ldio-2it1sjbil3o {width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(1);backface-visibility: hidden;transform-origin: 0 0;}
+.ldio-2it1sjbil3o div { box-sizing: content-box; }
+.OnePage {width: 100%; display: inline-block; overflow-x: hidden; text-align: center;}
+.Head {width: 100%; display: inline-block; height: auto; background-color: #000000; padding: 25px 0; text-align: center;}
+.HBrand {width: 60%; vertical-align: middle; display: inline-block; text-align: left;}
+.HBrand h6 {font-size: 20px; margin-left: 10px; color: #f1f1f1;}
+.HActions {width: 39%; display: inline-block; text-align: left; vertical-align: middle;}
+.HActions a {margin: 4px; text-decoration: underline; font-size: 14px; color: #f1f1f1; font-weight: bold; display: inline-block;}
+.PagerMenu {width: 100%; background-color: #000000;height: 30px;}
+.Menu {width: 90%; display: inline-block;}
+.Menu a {width: 33%; display: inline-block; height: 18px; padding: 6px 0;font-size: 12px; font-weight: bold; color: #f1f1f1; text-decoration: none;}
+.Menu a:hover, .Menu .selected {background-color: #01182b; color: #f1f1f1; text-decoration: none;}
+.Menu .InfoOpener:hover, .InfoOpener:active {background-color: #01182b;}
+.ActionSection {width: 100%; padding: 25px 0; display: inline-block; text-align: center;}
+.switch, .info, .stake {width: 100%; padding: 25px 0; display: inline-block; text-align: center;}
+.switch h3 {display: inline-block; margin: 10px auto; font-size: 30px;}
+.switchBox {width: 290px; background-color: #000000; display: inline-block; border-radius: 50px; margin-top: 100px; padding: 30px 0;}
+.switchTools {width: 90%; padding: 2%; display: inline-block;}
+.switchTools .switchAll {font-size: 15px; padding: 5px 8px; background-color: #8f00ff; border-radius: 5px; margin-right: 5px; display: inline-block; vertical-align: middle; text-decoration: none; font-weight: bold;}
+.switchTools input {width: 150px; display: inline-block; height: 35px; background-color: #252525; border-radius: 20px; border: none;color: #f1f1f1;font-size: 20px;text-align: right;}
+.switchTools img {width: 25px;height: 25px; display: inline-block; vertical-align: middle;}
+.switchTools .switchLink {display: inline-block; margin: auto 10px; color: #f1f1f1; font-size: 20px; vertical-align: middle; text-decoration: underline;}
+.switchTools .switchLink b {font-size: 15px; text-decoration: none; text-decoration: underline #000000;}
+.switchTools .switchFinal {display: inline-block; border-radius: 20px; border: none;color: #f1f1f1;font-size: 20px;text-align: right;vertical-align: middle;font-weight: bold;}
+.switchBox p {display: inline-block;width: 200px;font-size: 12px; margin: 5px auto;}
+.switchActions {display: inline-block; margin: 20px auto;}
+.switchActions .switchAction {font-size: 16px; padding: 15px 40px; background-color: #808080; color: #f1f1f1; font-weight: normal; margin: 5px 5px; display: inline-block; border-radius: 10px;}
+.switchActions .active {font-weight: bolder; background-color: #09b439;}
+.info {background-color: #01182b;}
+.status {background-color: #01182b;}
+.ExpTop {width: 95%; text-align: left; display: inline-block; margin: 20px auto;}
+.ExpTop h1 {font-size: 30px; padding: 20px 10px; color: #f1f1f1;}
+.ExpTop h2 {font-size: 18px; padding: 15px 0px; color: #f1f1f1;}
+.ExpTop p {font-size: 16px; text-align: left; line-height: 1.5;}
+.ExpTop p a {font-weight: bold; color: #d664dd;}
+.ExpPar {width: 90%; padding: 20px 0;}
+.statusBox {width: 290px; display: block; margin: 0px auto 10px auto;}
+.statusBox h2 {font-size: 35px; display: inline-block; width: 100%; text-align: center; margin: 50px auto;}
+.statusTitle {width: 100%; padding: 20px 0; display: inline-block;}
+.statusFlip {display: inline-block; width: 290px;}
+.statusFlip img {width: 25px; height: 25px; display: inline-block; margin: auto 5px; vertical-align: middle;}
+.statusFlip a {display: inline-block; margin: 5px 5px; vertical-align: middle; font-size: 20px; color: #f1f1f1; text-decoration: underline;}
+.statusFlip h3 {font-size: 35px;}
+.statusFlip h6 {font-size: 18px; font-weight: normal;}
+.statusBox ul {width: 100%; display: inline-block;}
+.statusBox ul li {width: 100%; display: inline-block; margin: 20px auto;}
+.statusBox ul li h1 {font-size: 25px; text-align: center; width: 100px; display: inline-block;}
+.statusBox ul li h5 {font-size: 16px; text-align: center; width: 89px; display: inline-block; font-weight: normal;}
+.statusBox ul li h5 a {width: 100%; text-decoration: underline; font-weight: bold;}
+.statusBox ul li h5 .Active {color: #5fe084; text-decoration: none;}
+.statusBox ul li h5 .Next {color: #398bf0; text-decoration: none;}
+.statusBox ul li h5 .Ended {color: #e62e2e; text-decoration: none;}
+.DisclamerBanner {width: 100%; height: 100%; overflow: hidden; position: absolute; top: 0; left: 0; background-color: #252525; text-align: center; padding-top: 100px; z-index: 999999999999999999;}
+.DisclamerBanner h1 {font-size: 30px; width: 100%; display: inline-block; margin-bottom: 50px; color: #f1f1f1;}
+.DisclamerBanner p {font-size: 20px; width: 100%; display: inline-block; margin-bottom: 50px; color: #f1f1f1;}
+.DisclamerBanner a {font-size: 16px; padding: 10px 15px; color: #f1f1f1; background-color: #09b439; font-weight: bold; display: inline-block; text-decoration: none;}
+
+
+@media only screen and (min-width: 640px) {
+    .HBrand h6 {font-size: 25px; margin-left: 50px;}
+    .Head {height: 35px;}
+    .HActions a {margin: 10px; font-size: 17px;}
+    .Menu {width: 500px;}
+    .PagerMenu, .Menu a {height: 55px;}
+    .Menu a {padding: 18px 0; font-size: 17px;}
+    .ExpTop {width: 500px;}
+    .ExpTop h1 {font-size: 45px;}
+    .ExpTop h2 {font-size: 21px;}
+    .ExpPar {width: 450px;}
+    .switchBox {width: 450px;}
+    .switchTools input {width: 200px;}
+    .switchBox p {width: 350px;}
+    .statusBox {width: 450px;}
+    .statusFlip {width: 200px;}
+    .statusBox ul li h1 {font-size: 30px; width: 100px;}
+    .statusBox ul li h5 {font-size: 18px; width: 150px;}
+}
+@media only screen and (min-width: 890px) {
+    .Menu {width: 850px;}
+    .PagerMenu {height: 70px;}
+    .Menu a {padding: 22px 0;font-size: 20px;height: 26px;}
+    .ExpTop {width: 800px;}
+    .ExpTop h1 {font-size: 50px;}
+    .ExpTop h2 {font-size: 25px;}
+    .ExpPar {width: 600px;}
+    .switchBox {width: 600px;}
+    .switchTools input {width: 200px;}
+    .switchBox p {width: 480px;}
+    .statusBox {width: 600px;}
+    .statusFlip {width: 250px;}
+    .statusBox ul li h1 {font-size: 30px; width: 150px;}
+    .statusBox ul li h5 {font-size: 20px; width: 210px;}
+}
