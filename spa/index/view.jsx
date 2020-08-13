@@ -1,33 +1,70 @@
 var Index = React.createClass({
     requiredScripts: [
-        'spa/loader.jsx',
-        "spa/index/StableCoin",
-        "spa/index/Crafting",
-        "spa/index/Dex",
-        "spa/index/Grimoire"
+        'spa/loader.jsx'
     ],
-    getInitialState() {
-        return {
-            element: "Info"
-        };
+    renderExStableCoin() {
+        return this.renderInput("");
     },
-    getDefaultSubscriptions() {
-        return {
-            'ethereum/ping' : this.controller.loadData
-        };
+    renderExCrafting() {
+        return this.renderInput("");
     },
-    onClick(e) {
-        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        this.changeView(e.currentTarget.innerHTML);
+    renderExDex() {
+        return this.renderInput("");
     },
-    
-    componentDidMount() {
-        this.controller.loadData();
+    renderExGrimoire() {
+        return this.renderInput("");
+    },
+    renderInput(containerClass, checkBoxClassName, fieldName, label, inputClassName, inputType, postFixedText, percentage, description) {
+        var _this = this;
+        return (
+        <section className="explainer">
+            <figure>
+                <img></img>
+            </figure>
+            <article>
+                <h3></h3>
+                <p></p>
+                <aside>
+                    <a href=""></a>
+                    <a href=""></a>
+                </aside>
+            </article>
+        </section>
+        );
     },
     render() {
         return (
-            <section className="OnePage">
-                
+            <section className="unifiWelcome">
+                <article className="cover">
+                    <figure>
+                        <img></img>
+                        <a></a>
+                    </figure>
+                    <img></img>
+                    <header>
+                        <h2></h2>
+                        <p></p>
+                    </header>
+                </article>
+                <section className="coverMenu">
+
+                </section>
+                <section className="explainer">
+                    <figure>
+                        <img></img>
+                    </figure>
+                    <article>
+                        <h3></h3>
+                        <p></p>
+                        <aside>
+                            <a href=""></a>
+                            <a href=""></a>
+                        </aside>
+                    </article>
+                </section>
+                <footer>
+                    
+                </footer>
             </section>
         );
     }
