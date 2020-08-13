@@ -1,0 +1,6 @@
+/**/.DS_Store
+/**/.vscode
+/**/spa/**/style.css
+/**/node_modules
+/**/package-lock.json
+/**/npm/dist
