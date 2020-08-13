@@ -1,9 +1,11 @@
 var Index = React.createClass({
     requiredModules: [
-        "spa/info"
+        "spa/index/StableCoin",
+        "spa/index/Crafting",
+        "spa/index/Dex",
+        "spa/index/Grimoire"
     ],
     requiredScripts: [
-        'spa/bigLoader.jsx',
         'spa/loader.jsx'
     ],
     getInitialState() {
