@@ -1,4 +1,4 @@
 var CraftingData = React.createClass({
-    render() {
+    render() {<section></section>
     }
 });

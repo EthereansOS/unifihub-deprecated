@@ -1,4 +1,4 @@
 var DexData = React.createClass({
-    render() {
+    render() {<section></section>
     }
 });

@@ -1,4 +1,4 @@
 var StableCoinData = React.createClass({
-    render() {
+    render() {<section></section>
     }
 });

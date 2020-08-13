@@ -1,4 +1,4 @@
 var GrimoireData = React.createClass({
-    render() {
+    render() {<section></section>
     }
 });
