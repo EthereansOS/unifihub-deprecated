@@ -1,0 +1,2 @@
+var ExplainerController = function (view) {
+};

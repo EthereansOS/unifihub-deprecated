@@ -6,26 +6,16 @@ p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-in
 p, h1, h2, h3, h4, h5, h6, a, label, aside {color: #f1f1f1;}
 h1 {font-size: 30px;}
 figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margin-inline-end: 0px;}
-.ldio-wdnt6erfulc div {position: absolute;width: 30px;height: 30px;animation: ldio-wdnt6erfulc 1.333333333333333s infinite;}
-.ldio-wdnt6erfulc div:nth-child(1) {top: 5px;left: 5px;background: #398bf0;animation-delay: -0.5333333333333333s}
-.ldio-wdnt6erfulc div:nth-child(2) {top: 35px;left: 5px;background: #8f00ff;animation-delay: -0.3999999999999999s}
-.ldio-wdnt6erfulc div:nth-child(3) {top: 65px;left: 5px;background: #5fe084;animation-delay: -0.26666666666666666s}
-.ldio-wdnt6erfulc div:nth-child(4) {top: 5px;left: 35px;background: #8f00ff;animation-delay: -0.3999999999999999s}
-.ldio-wdnt6erfulc div:nth-child(5) {top: 35px;left: 35px;background: #5fe084;animation-delay: -0.26666666666666666s}
-.ldio-wdnt6erfulc div:nth-child(6) {top: 65px;left: 35px;background: #d664dd;animation-delay: -0.13333333333333333s}
-.ldio-wdnt6erfulc div:nth-child(7) {top: 5px;left: 65px;background: #5fe084;animation-delay: -0.26666666666666666s}
-.ldio-wdnt6erfulc div:nth-child(8) {top: 35px;left: 65px;background: #d664dd;animation-delay: -0.13333333333333333s}
-.ldio-wdnt6erfulc div:nth-child(9) {top: 65px;left: 65px;background: #398bf0;animation-delay: 0s}
-.loadingio-spinner-square-iyrjry8g9g9 {width: 41px;height: 41px;display: inline-block;overflow: hidden;background: none;}
-.ldio-wdnt6erfulc {width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(0.41);backface-visibility: hidden;transform-origin: 0 0;}
-.ldio-wdnt6erfulc div { box-sizing: content-box; }
-@keyframes ldio-2it1sjbil3o { 0% {top: 83.19px;left: 83.19px;width: 0;height: 0;opacity: 1; } 100% {top: 2.6550000000000002px;left: 2.6550000000000002px;width: 161.07px;height: 161.07px;opacity: 0;}}
-.ldio-2it1sjbil3o div {position: absolute;border-width: 5.3100000000000005px;border-style: solid;opacity: 1;border-radius: 50%;animation: ldio-2it1sjbil3o 1.36986301369863s cubic-bezier(0,0.2,0.8,1) infinite;}
-.ldio-2it1sjbil3o div:nth-child(1) {border-color: #8f00ff}
-.ldio-2it1sjbil3o div:nth-child(2) {border-color: #5fe084;animation-delay: -0.684931506849315s;}
-.loadingio-spinner-ripple-6l4nh0xpwdg {width: 177px;height: 177px;display: inline-block;overflow: hidden;background: none;}
-.ldio-2it1sjbil3o {width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(1);backface-visibility: hidden;transform-origin: 0 0;}
-.ldio-2it1sjbil3o div { box-sizing: content-box; }
+@keyframes ldio-0gkg81ar46i {0% { transform: rotate(0deg); }100% { transform: rotate(90deg); }}
+.ldio-0gkg81ar46i > div {position: absolute;width: 200px;height: 200px;top: 0;left: 0; border-radius: 50%;}
+.ldio-0gkg81ar46i div:nth-child(1) { background: #e90c59; border-radius: 50%;}
+.ldio-0gkg81ar46i div:nth-child(2) div {border-radius: 50%;position: absolute;left: -200px;width: 600px;height: 600px;opacity: 0.4;transform-origin: 300px 300px;animation: ldio-0gkg81ar46i linear infinite 3.0303030303030303s;}
+.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(1) {border-radius: 50%;top: -500px;border-radius: 180px;background: #a9f6ff;animation-duration: 1.009090909090909s;}
+.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(2) {border-radius: 50%;top: -520px;border-radius: 190px;background: #00e6ff;animation-duration: 1.5151515151515151s;}
+.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(3) {border-radius: 50%;top: -540px;border-radius: 200px;background: #0be7ff;}
+.loadingio-spinner-fluid-nww6j88yem {border-radius: 50%;width: 200px;height: 200px;display: inline-block;overflow: hidden;background: #ffffff;}
+.ldio-0gkg81ar46i {border-radius: 50%;width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(1);backface-visibility: hidden;transform-origin: 0 0;}
+.ldio-0gkg81ar46i div {border-radius: 50%; box-sizing: content-box; }
 .Intro {width: 100%; height: 100%; display: inline-block; overflow: hidden; text-align: center; background-color: #01182b;}
 .Intro h1 {font-weight: normal;}
 .Intro span {color: #8f00ff;}
