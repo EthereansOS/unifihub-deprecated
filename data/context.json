@@ -8,7 +8,7 @@
     "etherscanURL": "https://etherscan.io/",
     "etherscanURLRopsten": "https://ropsten.etherscan.io/",
     "trustwalletImgURLTemplate": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{0}/logo.png",
-    "stableCoinAddressRopsten" : "0x7f4FcBEE6fFE13f5b50929cfc03C11E580CA3Ba4",
+    "stableCoinAddressRopsten" : "0x32329eE7b043c9A4c0cacD5b8eFE10cd06B423f7",
     "stableCoinAddress" : "0x04C2d7C0712089a61C52A315FCe8F28a55F34DFa",
     "infuraNode" : "https://mainnet.infura.io/v3/5e302428cc5e41a188dc717dc6f34a5b",
     "uniswapV2RouterAddress" : "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",

@@ -152,7 +152,7 @@ contract StableCoin is ERC20, IStableCoin {
             10**decimals(),
             path
         )[1];
-        reward = reward * burnt;
+        reward = reward * (burnt / (10**decimals()));
         reward =
             (reward * _rebalanceRewardMultiplier[0]) /
             _rebalanceRewardMultiplier[1];
@@ -283,6 +283,7 @@ contract StableCoin is ERC20, IStableCoin {
         (, uint256 burnable) = differences();
         uint256 available = balanceOf(msg.sender);
         burnable = available >= burnable ? burnable : burnable - available;
+        require(burnable >= 10**decimals(), "Insufficient amount to burn");
         _burn(msg.sender, burnable);
         IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).submit(
             "mintNewVotingTokens",

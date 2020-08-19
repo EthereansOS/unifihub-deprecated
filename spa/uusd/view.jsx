@@ -55,10 +55,9 @@ var Uusd = React.createClass({
         var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].value;
         this.controller.approve(this.state.selectedPair, e.currentTarget.dataset.token, token0Value, token1Value);
     },
-    updateAmounts(token0Value, token1Value) {
-        $(this.domRoot).children().find('input[data-token="0"]')[0].value = token0Value;
-        $(this.domRoot).children().find('input[data-token="1"]')[0].value = token1Value;
-        this.refreshStableCoinOutput();
+    rebalance(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.controller.rebalance();
     },
     render() {
         return (
@@ -87,7 +86,7 @@ var Uusd = React.createClass({
                     {this.state && this.state.selectedPair && <section className="UniTierQuantity">
                         <h5>Quantity</h5>
                         <label className="UniActiveQuantityTier">
-                            <input data-token="0" onChange={this.onType} ref={ref => ref && (ref.value = '0.00')} />
+                            <input data-token="0" onChange={this.onType} />
                             <img src={this.state.selectedPair.token0.logo} />
                             <p>{this.state.selectedPair.token0.symbol}</p>
                             {(!this.state.token0Approved && (this.state.approving === undefined || this.state.approving === null) && !this.state.performing) && <a href="javascript:;" onClick={this.approve} data-token="0">Approve</a>}
@@ -95,13 +94,13 @@ var Uusd = React.createClass({
                         </label>
                         <h6>And</h6>
                         <label className="UniDisactiveQuantityTier">
-                            <input data-token="1" onChange={this.onType} ref={ref => ref && (ref.value = '0.00')} />
+                            <input data-token="1" onChange={this.onType} />
                             <img src={this.state.selectedPair.token1.logo} />
                             <p>{this.state.selectedPair.token1.symbol}</p>
                             {(!this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && !this.state.performing) && <a href="javascript:;" onClick={this.approve} data-token="1">Approve</a>}
                             {this.state.approving === '1' && <LoaderMini />}
                         </label>
-                        <h5>for <b ref={ref => (this.stableCoinOutput = ref) && (ref.innerHTML = '0')}></b>{'\u00a0'}{window.stableCoin.symbol}</h5>
+                        <h5>for <b ref={ref => this.stableCoinOutput = ref}></b>{'\u00a0'}{window.stableCoin.symbol}</h5>
                         {this.state.token0Approved && this.state.token1Approved && !this.state.performing && <a href="javascript:;" onClick={this.doAction}>GO</a>}
                         {this.state.performing && <LoaderMini />}
                     </section>}
@@ -117,6 +116,7 @@ var Uusd = React.createClass({
                             Burnable:
                                 <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)}</span>
                         </label>
+                        {(this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <a href="javascript:;" onClick={this.rebalance}>Rebalance</a>}
                     </section>}
                     {this.state && this.state.totalSupply && <section>
                         <h4>Total Supply:</h4>

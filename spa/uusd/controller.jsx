@@ -8,7 +8,14 @@ var UusdController = function (view) {
     };
 
     context.loadEconomicData = async function loadEconomicData() {
-        context.view.setState({differences : await window.blockchainCall(window.stableCoin.token.methods.differences)});
+        var differences = await window.blockchainCall(window.stableCoin.token.methods.differences);
+        if(parseInt(differences[0]) < (10**parseInt(window.stableCoin.decimals))) {
+            differences[0] = '0';
+        }
+        if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
+            differences[1] = '0';
+        }
+        context.view.setState({differences});
         context.view.setState({totalSupply : await window.blockchainCall(window.stableCoin.token.methods.totalSupply)});
     };
 
@@ -45,7 +52,7 @@ var UusdController = function (view) {
     };
 
     context.approve = async function approve(pairData, token, originalToken0Value, originalToken1Value) {
-        context.view.setState({ approving: token, performing: null }, () => context.view.updateAmounts(originalToken0Value, originalToken1Value));
+        context.view.setState({ approving: token, performing: null });
         var errorMessage;
         var state = { approving: null };
         try {
@@ -57,10 +64,7 @@ var UusdController = function (view) {
                 errorMessage = message;
             }
         }
-        context.view.setState(state, () => {
-            context.view.updateAmounts(originalToken0Value, originalToken1Value);
-            errorMessage && setTimeout(() => alert(errorMessage));
-        });
+        context.view.setState(state, () => errorMessage && setTimeout(() => alert(errorMessage)));
     }
 
     context.calculateOtherPair = async function calculateOtherPair(pairData, token, firstValue) {
@@ -92,9 +96,7 @@ var UusdController = function (view) {
     };
 
     context.performMint = async function performMint(pairData, token0Value, token1Value) {
-        var originalToken0Value = token0Value;
-        var originalToken1Value = token1Value;
-        context.view.setState({ approving: null, performing: true }, () => context.view.updateAmounts(originalToken0Value, originalToken1Value));
+        context.view.setState({ approving: null, performing: true });
         var errorMessage;
         try {
             token0Value = window.toDecimals(token0Value.split(',').join(''), pairData.token0.decimals);
@@ -125,16 +127,11 @@ var UusdController = function (view) {
                 errorMessage = message;
             }
         }
-        context.view.setState({ approving: null, performing: null }, () => {
-            context.view.updateAmounts(originalToken0Value, originalToken1Value);
-            errorMessage && setTimeout(() => alert(errorMessage));
-        });
+        context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
     };
 
     context.performBurn = async function performBurn(pairData, token0Value, token1Value) {
-        var originalToken0Value = token0Value;
-        var originalToken1Value = token1Value;
-        context.view.setState({ approving: null, performing: true }, () => context.view.updateAmounts(originalToken0Value, originalToken1Value));
+        context.view.setState({ approving: null, performing: true });
         var errorMessage;
         try {
             var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
@@ -170,9 +167,30 @@ var UusdController = function (view) {
                 errorMessage = message;
             }
         }
-        context.view.setState({ approving: null, performing: null }, () => {
-            context.view.updateAmounts(originalToken0Value, originalToken1Value);
-            errorMessage && setTimeout(() => alert(errorMessage));
-        });
+        context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
+    };
+
+    context.rebalance = async function rebalance() {
+        var differences = await window.blockchainCall(window.stableCoin.token.methods.differences);
+        if(parseInt(differences[0]) < (10**parseInt(window.stableCoin.decimals))) {
+            differences[0] = '0';
+        }
+        if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
+            differences[1] = '0';
+        }
+        context['perform' + (differences[0] !== '0' ? 'Redeem' : 'Rebalance')](differences);
+    };
+
+    context.performRedeen = async function performRedeem(differences) {
+    };
+
+    context.performRebalance = async function performRebalance(differences) {
+        var burnable = parseInt(differences[1]);
+        var available = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
+        burnable = available >= burnable ? burnable : burnable - available;
+        if(burnable < 10**parseInt(window.stableCoin.decimals)) {
+            return alert("You must have at least 1 " + window.stableCoin.symbol + " to perform this action");
+        }
+        window.blockchainCall(window.stableCoin.token.methods.rebalance);
     };
 };
