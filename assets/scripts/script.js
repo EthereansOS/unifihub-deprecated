@@ -102,15 +102,19 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     return alert('This network is actually not supported!');
                 }
                 window.DFOHub(window.web3);
-                window.vasaPowerSwitch = window.newContract(window.context.VasaPowerSwitchAbi, window.getNetworkElement("vasaPowerSwitchAddress"));
-                window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.vasaPowerSwitch.methods.doubleProxy))
+                window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
+                window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
                 window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
                 window.uniswapV2Router = window.newContract(window.context.UniswapV2RouterAbi, window.context.uniswapV2RouterAddress);
                 window.wethToken = window.newContract(window.context.votingTokenAbi, window.wethAddress = window.web3.utils.toChecksumAddress(await window.blockchainCall(window.uniswapV2Router.methods.WETH)));
-                window.oldToken = await window.loadTokenInfos(window.getNetworkElement("oldTokenAddress"), window.wethAddress);
-                window.dfo = await window.dfo;
-                window.newToken = await window.loadTokenInfos((await window.dfo.votingToken).options.address, window.wethAddress);
+                window.uniswapV2Factory = window.newContract(window.context.UniswapV2FactoryAbi, window.context.uniswapV2FactoryAddress);
+                window.stableCoin = await window.loadTokenInfos(stableCoin.options.address, window.wethToken.options.address, window.context.StableCoinAbi);
+                window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address, window.wethToken.options.address);
                 update = true;
+            }
+            try {
+                window.walletAddress = (await window.web3.eth.getAccounts())[0];
+            } catch(e) {
             }
             update && $.publish('ethereum/update');
             $.publish('ethereum/ping');
@@ -1190,11 +1194,23 @@ window.formatMoney = function formatMoney(value, decPlaces, thouSeparator, decSe
         sign = n < 0 ? "-" : "",
         i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
         j = (j = i.length) > 3 ? j % 3 : 0;
-    return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+    var result = sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+    return window.eliminateFloatingFinalZeroes(result, decSeparator);
 };
 
+window.eliminateFloatingFinalZeroes = function eliminateFloatingFinalZeroes(value, decSeparator) {
+    decSeparator = decSeparator || '.';
+    if (value.indexOf(decSeparator) === -1) {
+        return value;
+    }
+    var split = value.split(decSeparator);
+    while (split[1].endsWith('0')) {
+        split[1] = split[1].substring(0, split[1].length - 1);
+    }
+    return split[1].length === 0 ? split[0] : split.join(decSeparator);
+};
 
-window.loadTokenInfos = async function loadTokenInfos(addresses, wethAddress) {
+window.loadTokenInfos = async function loadTokenInfos(addresses, wethAddress, abi) {
     wethAddress = wethAddress || await window.blockchainCall(window.newContract(window.context.uniSwapV2RouterAbi, window.context.uniSwapV2RouterAddress).methods.WETH);
     wethAddress = window.web3.utils.toChecksumAddress(wethAddress);
     var single = (typeof addresses).toLowerCase() === 'string';
@@ -1202,7 +1218,7 @@ window.loadTokenInfos = async function loadTokenInfos(addresses, wethAddress) {
     var tokens = [];
     for (var address of addresses) {
         address = window.web3.utils.toChecksumAddress(address);
-        var token = window.newContract(window.context.votingTokenAbi, address);
+        var token = window.newContract(abi || window.context.votingTokenAbi, address);
         tokens.push({
             address,
             token,
