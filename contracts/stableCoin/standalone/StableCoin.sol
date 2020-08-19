@@ -19,6 +19,8 @@ contract StableCoin is ERC20, IStableCoin {
 
     uint256[] private _mintables;
 
+    uint256 private _lastRedeemBlock;
+
     constructor(
         string memory name,
         string memory symbol,
@@ -245,6 +247,17 @@ contract StableCoin is ERC20, IStableCoin {
         uint256 amount0,
         uint256 amount1
     ) public override _forAllowedPair(pairIndex) returns (uint256 redeemed) {
+        require(
+            block.number >=
+            _lastRedeemBlock + 
+            IStateHolder(
+                IMVDProxy(IDoubleProxy(_doubleProxy).proxy())
+                    .getStateHolderAddress()
+            )
+                .getUint256("stablecoin.redeem.block.interval"),
+            "Unauthorized action!"
+        );
+        _lastRedeemBlock = block.number;
         (uint256 redeemable, ) = differences();
         (address token0, address token1, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);

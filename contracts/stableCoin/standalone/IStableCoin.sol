@@ -98,6 +98,7 @@ interface IMVDFunctionalitiesManager {
 
 interface IStateHolder {
     function getBool(string calldata varName) external view returns (bool);
+    function getUint256(string calldata varName) external view returns (uint256);
 }
 
 interface IUniswapV2Router {

@@ -4,6 +4,12 @@ var UusdController = function (view) {
 
     context.loadData = async function loadData() {
         context.loadPairs();
+        context.loadEconomicData();
+    };
+
+    context.loadEconomicData = async function loadEconomicData() {
+        context.view.setState({differences : await window.blockchainCall(window.stableCoin.token.methods.differences)});
+        context.view.setState({totalSupply : await window.blockchainCall(window.stableCoin.token.methods.totalSupply)});
     };
 
     context.loadPairs = async function loadPairs() {
@@ -112,6 +118,7 @@ var UusdController = function (view) {
             token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
             token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
             await window.blockchainCall(window.stableCoin.token.methods.mint, pairData.index, token0Value, token1Value, token0Slippage, token1Slippage);
+            context.loadEconomicData();
         } catch (e) {
             var message = e.message || e;
             if(message.toLowerCase().indexOf('user denied') === -1) {
@@ -156,6 +163,7 @@ var UusdController = function (view) {
             token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
             token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
             await window.blockchainCall(window.stableCoin.token.methods.burn, pairData.index, supplyInPercentage, token0Slippage, token1Slippage);
+            context.loadEconomicData();
         } catch (e) {
             var message = e.message || e;
             if(message.toLowerCase().indexOf('user denied') === -1) {
