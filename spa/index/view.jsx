@@ -3,12 +3,13 @@ var Index = React.createClass({
         'spa/loader.jsx'
     ],
     requiredModules: [
-        'spa/explainer'
+        'spa/explainer',
+        'spa/uusd'
     ],
     render() {
         return (
             <section className="unifiAll">
-                <Explainer/>
+                <Uusd/>
             </section>
         );
     }

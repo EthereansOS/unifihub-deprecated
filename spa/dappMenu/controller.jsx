@@ -1,0 +1,2 @@
+var DappMenuController = function (view) {
+};

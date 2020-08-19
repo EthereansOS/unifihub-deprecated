@@ -1,11 +1,12 @@
-html {background-color: #01182b;margin: 0;}
+html {margin: 0; background-color: #2b2622;}
 h1,h4,h3, h5,h6,h2 {margin-block-end: 0;margin-block-start: 0;}
-body {width: 100%; position: relative; margin: 0; font-family: Helvetica Neue,Helvetica,Arial,メイリオ\, meiryo,ヒラギノ角ゴ pro w3,hiragino kaku gothic pro,sans-serif;}
+body {width: 100%; position: relative; margin: 0; font-family: "Myriad Pro";}
 ol,ul, li {margin-block-start: 0; margin-block-end: 0; list-style-type: none; padding-inline-start:0;}
 p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-inline-start: 0px;margin-inline-end: 0px;}
-p, h1, h2, h3, h4, h5, h6, a, label, aside {color: #f1f1f1;}
+p, h1, h2, h3, h4, h5, h6, a, label, aside {color: #000000;}
 h1 {font-size: 30px;}
 figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margin-inline-end: 0px;}
+section, article, label {display: inline-block;}
 @keyframes ldio-0gkg81ar46i {0% { transform: rotate(0deg); }100% { transform: rotate(90deg); }}
 .ldio-0gkg81ar46i > div {position: absolute;width: 200px;height: 200px;top: 0;left: 0; border-radius: 50%;}
 .ldio-0gkg81ar46i div:nth-child(1) { background: #e90c59; border-radius: 50%;}
@@ -20,11 +21,94 @@ figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margi
 .Intro h1 {font-weight: normal;}
 .Intro span {color: #8f00ff;}
 .introLoader {width: 250px; height: 250px; display: inline-block; margin: 100px 0;}
+.unifiWelcome, .unifiAll, .unifiDapp {width: 100%; text-align: center;}
+.cover {max-height: 400px; width: 100%; margin: 0 auto; display: block; overflow: hidden; position: relative; text-align: center;}
+.cover > img {width: 200%; display: inline-block;}
+.cover header {position: relative; bottom: 35px; width: 300px; display: inline-block;}
+.cover header h2 {font-size: 15px; font-weight: bolder; color: #291d01;}
 
+
+.feature {width: 100%; text-align: center;}
+.feature .cardinfo {width: 260px; text-align: center; margin: 20px auto;}
+.feature .cardinfo figure {width: 90px; display: inline-block; vertical-align: middle; margin-right: 10px;}
+.feature .cardinfo figure img {width: 100%;}
+.feature .cardinfo article {width: 160px; display: inline-block; vertical-align: middle; text-align: left;}
+.coverMenu {margin: 10px auto 10px auto; width: 90%; height: 50px; border: 3px solid #bab9b9;background: #5f5d5e; border-radius: 20px;}
+.featureDescription h3 {font-size: 15px; color: #c7ac97; margin-bottom: 10px;}
+.featureDescription p {font-size: 11px; color: #f1f1f1;}
+.featureActions {width: 100%; margin: 10px 0;}
+.featureActions a {font-size: 11px; font-weight: bold; padding: 3px 5px; text-decoration: none; color: #f1f1f1; border-radius: 5px; display: inline-block; margin: auto 5px; border: 2px solid #5d5e60;}
+.featureActions .dappButton {border-color: #b21eec;}
+.featureActions .dappButton {background-color: #b21eec;}
+.featureActions .InfoButton {border-color: #2fd2c1;}
+.featureActions .InfoButton {background-color: #2fd2c1;}
+.featureActions .soonButton {border-color: #5e5f63;}
+.featureActions .soonButton {background-color: #5e5f63;}
+.featureActions .readButton {border-color: #2fd245;}
+.featureActions .readButton {background-color: #2fd245;}
+.featureActions .gitButton {border-color: #e90c59;}
+.featureActions .gitButton {background-color: #e90c59;}
+
+footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; background-color: #272727; display: inline-block;}
+
+.unifiDapp {position: relative;}
+.dappMenu {position: relative; width: 90%; top: 15px; left: 0; height: 50px;}
+.UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 1rem; margin: 50px 10px 50px 10px;}
+.UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
+.UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
+.UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
+
+.UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
+.UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
+.UniTitle h6 {display: inline-block; width: 90%; text-align: center; font-size: 11px; margin: 5px auto;}
+.UniTitle label {display: inline-block; width: 100%;}
+.UniTierQuantity {margin: 5px auto;}
+.UniTierQuantity h5 {font-size: 20px; font-weight: bold;}
+.UniTierQuantity label {width: 246px; text-align: left;}
+.UniTierQuantity label img {width: 20px; height: 20px; margin: 0 5px; vertical-align: middle; display: inline-block;}
+.UniTierQuantity label input {width: 130px; display: inline-block; height: 30px;}
+
+
+
+.Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
+.RPG .UniBox, .RPG .UniSideBox {background: #c7ac97; border-radius: 20px; color: #000000; border: 7px solid #bab9b9; width: 100%;}
+.RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
+.RPG .dappMenu {border: 7px solid #bab9b9;background: #c7ac97; border-radius: 100px;}
+.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #291d01; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
+.RPG .UniTitle h6 {color: #000000;}
 
 @media only screen and (min-width: 640px) {
-    
+    .cover {max-height: 410px; width: 100%;}
+    .UniBox {max-width: 300px;width: 100%; margin: 100px 10px 50px 10px;}
+    .cover > img {width: 100%;}
+    .feature .cardinfo {width: 540px;}
+    .feature .cardinfo figure {width: 150px; margin-right: 50px;}
+    .feature .cardinfo article {width: 300px;}
+    .featureDescription h3 {font-size: 30px;}
+    .coverMenu {margin: 10px auto 50px auto;}
+    .featureDescription p {font-size: 13px;}
+    .featureActions a {padding: 4px 7px; font-size: 13px;}
+    .cover header {bottom: 60px; width: 490px;}
+    .cover header h2 {font-size: 23px;}
+    footer {margin-top: 70px;}
+
 }
 @media only screen and (min-width: 890px) {
-    
+    .cover {max-height: 740px; width: 100%;}
+    .UniBox {max-width: 450px; margin: 150px 10px 50px 10px;}
+    .UniTitle label {width: auto;}
+    .feature .cardinfo {width: 850px;}
+    .feature .cardinfo figure {width: 250px; margin-right: 50px;}
+    .feature .cardinfo article {width: 400px;}
+    .featureDescription h3 {font-size: 40px;}
+    .coverMenu {margin: 10px auto 80px auto;}
+    .featureDescription p {font-size: 18px;}
+    .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
+    .cover header {bottom: 95px; width: 800px;}
+    .cover header h2 {font-size: 35px;}
+}
+
+@media only screen and (min-width: 1620px) {
+    .cover {max-height: 740px; width: 1620px;}
+    .coverMenu {width: 1463px;}
 }
