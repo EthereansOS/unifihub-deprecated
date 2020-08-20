@@ -1,4 +1,4 @@
-var Uusd = React.createClass({
+var StableCoin = React.createClass({
     requiredScripts: [
         'spa/loader.jsx',
         'spa/banner.jsx',

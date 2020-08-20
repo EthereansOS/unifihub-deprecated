@@ -1,4 +1,4 @@
-var UusdController = function (view) {
+var StableCoinController = function (view) {
     var context = this;
     context.view = view;
 

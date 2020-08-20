@@ -1263,3 +1263,9 @@ window.getTierKey = function getTierKey(blockLimit) {
     }
     return 'Custom';
 };
+
+window.resolveImageURL = function resolveImageURL(image, extension) {
+    extension = extension || 'png';
+    extension.indexOf('.') === 0 && (extension = extension.substring(1));
+    return 'assets/img/' + image + '.' + extension;
+};

@@ -1,50 +1,64 @@
 var DappMenu = React.createClass({
-    renderMenuIconSC() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m4.png", "Stable Coin", "MStableCoin", "javascript:;", "id1");
+    getDefaultSubscriptions() {
+        return {
+            'ethereum/ping': () => this.forceUpdate()
+        }
     },
-    renderMenuIconCR() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m2.png", "Liquidity Crafting", "MLiquidityCrafting", "javascript:;", "id2");
+    getInitialState() {
+        return {
+            menuItems: [{
+                title: "Stable Coin",
+                icon: "m4",
+                props: {
+                    onClick: () => this.emit('section/change', 'stableCoin')
+                }
+            }, {
+                title: "Liquidity Crafting",
+                icon: "m2"
+            }, {
+                title: "Liquidity Offering",
+                icon: "m5"
+            }, {
+                title: "Swap Bazar",
+                icon: "m1"
+            }, {
+                title: "Grimoire",
+                icon: "m0"
+            }, {
+                title: "Github",
+                icon: "m3"
+            }, {
+                title: "Connect",
+                icon: "m6",
+                props: {
+                    onClick: () => window.getAddress()
+                }
+            }]
+        };
     },
-    renderMenuIconILO() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m5.png", "Liquidity Offering", "MLiquidityOffering", "javascript:;",  "id3");
-    },
-    renderMenuIconBZ() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m1.png", "Swap Bazar", "MSwapBazar", "javascript:;",  "id4");
-    },
-    renderMenuIconGR() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m0.png", "Grimoire", "MGrimoire", "javascript:;",  "id5");
-    },
-    renderMenuIconGH() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m3.png", "Github", "MGithub", "javascript:;",  "id6");
-    },
-    renderMenuIconETH() {
-        return this.renderInput("assets/img/mk.png", "assets/img/m6.png", "Connect", "MConnect", "javascript:;",  "id7");
-    },
-    renderInput(arrowkey, menuIcon, menuTitle, menuFunction, menuLink, menuID) {
-        var _this = this;
+    renderMenuItem(menuItem, i) {
+        menuItem.id = menuItem.id || ('id' + (i + 1));
+        menuItem.props = menuItem.props || {};
+        menuItem.props.id = menuItem.props.id || menuItem.id;
+        menuItem.props.href = menuItem.props.href || "javascript:;";
+        menuItem.className = menuItem.className || ("M" + menuItem.title.split(' ').join(''));
         return (
-        <li className={menuFunction}>
-            <a href={menuLink} id={menuID}>
-                <img src={menuIcon}></img>
-                <span>{menuTitle}</span>
-            </a>
-            <span className="menuArrow"><img src={arrowkey}></img></span>
-        </li>
+            <li key={menuItem.id} className={menuItem.className}>
+                {React.createElement('a', menuItem.props, [
+                    <img src={window.resolveImageURL(menuItem.icon)} />,
+                    <span>{menuItem.title}</span>
+                ])}
+                <span className="menuArrow"><img src={window.resolveImageURL(menuItem.arrowkey || 'mk')} /></span>
+            </li>
         );
     },
     render() {
         return (
             <section className="MenuOpen">
                 <section className="coverMenu">
-                    {this.renderMenuIconSC()}
-                    {this.renderMenuIconCR()}
-                    {this.renderMenuIconILO()}
-                    {this.renderMenuIconBZ()}
-                    {this.renderMenuIconGR()}
-                    {this.renderMenuIconGH()}
-                    {this.renderMenuIconETH()}
+                    {this.state.menuItems.map(this.renderMenuItem)}
                 </section>
-        </section>
+            </section>
         );
     }
 });
