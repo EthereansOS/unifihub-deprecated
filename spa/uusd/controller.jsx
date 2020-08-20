@@ -178,10 +178,65 @@ var UusdController = function (view) {
         if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
             differences[1] = '0';
         }
-        context['perform' + (differences[0] !== '0' ? 'Redeem' : 'Rebalance')](differences);
+        try {
+            await context['perform' + (differences[0] !== '0' ? 'Redeem' : 'Rebalance')](differences);
+            context.loadEconomicData();
+        } catch(e) {
+            var message = e.message || e;
+            if(message.toLowerCase().indexOf('user denied') === -1) {
+                alert(message);
+            }
+        }
     };
 
-    context.performRedeen = async function performRedeem(differences) {
+    context.performRedeem = async function performRedeem(differences) {
+        var redeemable = parseInt(differences[0]);
+        redeemable /= 2;
+        redeemable = parseInt(window.numberToString(redeemable).split(',').join('').split('.')[0]);
+        var {pairData, reserves} = await context.getBestRedeemablePair();
+        var lowerIndex = reserves.token0InStable < reserves.token1InStable ? '0' : '1';
+        var lower = reserves['token' + lowerIndex + 'InStable'];
+        redeemable = redeemable > lower ? lower : redeemable;
+        var amount = redeemable / reserves['token' + lowerIndex + 'InStable'];
+        var poolAmount = reserves.poolBalance * amount;
+        poolAmount = window.numberToString(poolAmount).split(',').join('').split('.')[0];
+        var token0Value = parseInt(reserves[0]) * amount;
+        token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
+        var token1Value = parseInt(reserves[1]) * amount;
+        token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
+        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
+        token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
+        await window.blockchainCall(window.stableCoin.token.methods.redeem, pairData.index, poolAmount, token0Slippage, token1Slippage);
+    };
+
+    context.getBestRedeemablePair = async function getBestRedeemablePair() {
+        var max = 0;
+        var selectedPairData = context.view.state.pairs[0];
+        var selectedReserves;
+        for(var pairData of context.view.state.pairs) {
+            var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
+            reserves.poolBalance = parseInt(await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address));
+            var totalSupply = parseInt(await window.blockchainCall(pairData.pair.methods.totalSupply));
+            var amount = reserves.poolBalance / totalSupply;
+            reserves.token0 = parseInt(reserves[0]) * amount;
+            reserves.token1 = parseInt(reserves[1]) * amount;
+            reserves.token0 = window.numberToString(reserves.token0).split(',').join('').split('.')[0];
+            reserves.token1 = window.numberToString(reserves.token1).split(',').join('').split('.')[0];
+            reserves.token0InStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves.token0));
+            reserves.token1InStable = parseInt(context.fromTokenToStable(pairData.token1.decimals, reserves.token1));
+            var localMax = reserves.token0InStable > reserves.token1InStable ? reserves.token0InStable : reserves.token1InStable;
+            if(localMax > max) {
+                max = localMax;
+                selectedPairData = pairData;
+                selectedReserves = reserves;
+            }
+        }
+        return {
+            pairData : selectedPairData,
+            reserves : selectedReserves
+        };
     };
 
     context.performRebalance = async function performRebalance(differences) {
