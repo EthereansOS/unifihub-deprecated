@@ -2,20 +2,23 @@ var Explainer = React.createClass({
     requiredScripts: [
         'spa/loader.jsx'
     ],
+    requiredModules: [
+        'spa/dappMenu'
+    ],
     renderExStableCoin() {
-        return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to pull them all", "A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all");
+        return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Uniswap State Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.");
     },
     renderExCrafting() {
-        return this.renderInput("ExCrafting", "assets/img/exp0.png", "a", "InfoButton", "a", "soonButton", "More", "Coming Soon", "A Stable Coin to secure them all", "A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all");
+        return this.renderInput("ExCrafting", "assets/img/exp0.png", "a", "InfoButton", "a", "soonButton", "More", "Coming Soon", "Crafting Programmable Liquidity", "Craft makes it possible to provide liquidity that is programmable with advanced rules. Using Unicorn magic, pools can balance tokens diversely with unprecedented security.");
     },
     renderExIlo() {
-        return this.renderInput("ExIlo", "assets/img/exp4.png", "a", "InfoButton", "a", "soonButton", "More", "Coming Soon", "A Stable Coin to secure them all", "A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all");
+        return this.renderInput("ExIlo", "assets/img/exp4.png", "a", "InfoButton", "a", "soonButton", "More", "Coming Soon", "ILOs Offering Tokens for Liquidity", "The Initial Liquidity Offering (ILO) is a new way for startups to provide that liquidity. By using Craft, ILOs offer total security against Sniper Bots, a new villain in the Unicorn Story.");
     },
     renderExDex() {
-        return this.renderInput("ExDex", "assets/img/exp3.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to secure them all", "A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all");
+        return this.renderInput("ExDex", "assets/img/exp3.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "Swap More Than Just Tokens", "Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.");
     },
     renderExGrimoire() {
-        return this.renderInput("ExGrimoire", "assets/img/exp2.png", "a", "readButton", "a", "gitButton", "Read", "Github", "A Stable Coin to secure them all", "A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all A Stable Coin To rule them all");
+        return this.renderInput("ExGrimoire", "assets/img/exp2.png", "a", "readButton", "a", "gitButton", "Read", "Github", "Unicorn Magic For Dummies", "The Official guide for using Uniswap Unicorn magic. Grimoire, the best selling book of 2020, is prescribed by all the top wizard Universities, and won this years' Booker Prize.");
     },
     renderInput(expFeature, featureIllustration, featureActionA, featureActionAStyle, featureActionB, featureActionBStyle, featureBtnA, featureBtnB, featureTitle, featureDesc) {
         var _this = this;
@@ -42,12 +45,11 @@ var Explainer = React.createClass({
                 <section className="unifiWelcome">
                     <article className="cover">
                         <img src="assets/img/welcome.png"></img>
-                        <header>
-                            <h2>A Decentralized finance on top of Uniswap, doing fantastic things securelly</h2>
-                        </header>
                     </article>
-                    <section className="coverMenu">
-                    </section>
+                    <header>
+                        <h2>A Decentralized finance on top of Uniswap, doing fantastic things securelly</h2>
+                    </header>
+                    <DappMenu/>
                     {this.renderExStableCoin()}
                     {this.renderExCrafting()}
                     {this.renderExIlo()}
@@ -56,7 +58,7 @@ var Explainer = React.createClass({
                     
                     <footer>
                         <section>
-                            
+
                         </section>
                     </footer>
                 </section>

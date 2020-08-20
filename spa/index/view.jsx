@@ -9,7 +9,7 @@ var Index = React.createClass({
     render() {
         return (
             <section className="unifiAll">
-                <Uusd/>
+                <Explainer/>
             </section>
         );
     }

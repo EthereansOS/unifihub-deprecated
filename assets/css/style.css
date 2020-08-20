@@ -22,10 +22,12 @@ section, article, label {display: inline-block;}
 .Intro span {color: #8f00ff;}
 .introLoader {width: 250px; height: 250px; display: inline-block; margin: 100px 0;}
 .unifiWelcome, .unifiAll, .unifiDapp {width: 100%; text-align: center;}
-.cover {max-height: 400px; width: 100%; margin: 0 auto; display: block; overflow: hidden; position: relative; text-align: center;}
+.cover {max-height: 400px; width: 100%; margin: 0 auto; display: block; overflow: hidden; position: relative; text-align: center;border-bottom: 3px solid #bab9b9;}
 .cover > img {width: 200%; display: inline-block;}
-.cover header {position: relative; bottom: 35px; width: 300px; display: inline-block;}
-.cover header h2 {font-size: 15px; font-weight: bolder; color: #291d01;}
+.unifiWelcome header {width: 200px; display: inline-block; padding: 10px; border: 3px solid #bab9b9;background: #e3d2c2; margin-top: -30px; position: relative; z-index: 10000000000000; border-radius: 8px;}
+.unifiWelcome header h2 {font-size: 13px; font-weight: bolder; color: #291d01;}
+.unifiWelcome .MenuOpen {display: none;}
+.unifiWelcome .MenuOpen .MConnect {display: none;}
 
 
 .feature {width: 100%; text-align: center;}
@@ -33,8 +35,9 @@ section, article, label {display: inline-block;}
 .feature .cardinfo figure {width: 90px; display: inline-block; vertical-align: middle; margin-right: 10px;}
 .feature .cardinfo figure img {width: 100%;}
 .feature .cardinfo article {width: 160px; display: inline-block; vertical-align: middle; text-align: left;}
-.coverMenu {margin: 10px auto 10px auto; width: 90%; height: 50px; border: 3px solid #bab9b9;background: #5f5d5e; border-radius: 20px;}
-.featureDescription h3 {font-size: 15px; color: #c7ac97; margin-bottom: 10px;}
+
+
+.featureDescription h3 {font-size: 15px; color: #c7ac97; margin-bottom: 10px; text-shadow:2px 2px 2px #5d5e60;}
 .featureDescription p {font-size: 11px; color: #f1f1f1;}
 .featureActions {width: 100%; margin: 10px 0;}
 .featureActions a {font-size: 11px; font-weight: bold; padding: 3px 5px; text-decoration: none; color: #f1f1f1; border-radius: 5px; display: inline-block; margin: auto 5px; border: 2px solid #5d5e60;}
@@ -52,7 +55,6 @@ section, article, label {display: inline-block;}
 footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; background-color: #272727; display: inline-block;}
 
 .unifiDapp {position: relative;}
-.dappMenu {position: relative; width: 90%; top: 15px; left: 0; height: 50px;}
 .UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 1rem; margin: 50px 10px 50px 10px;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
@@ -69,46 +71,46 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 .UniTierQuantity label input {width: 130px; display: inline-block; height: 30px;}
 
 
-
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
 .RPG .UniBox, .RPG .UniSideBox {background: #c7ac97; border-radius: 20px; color: #000000; border: 7px solid #bab9b9; width: 100%;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
-.RPG .dappMenu {border: 7px solid #bab9b9;background: #c7ac97; border-radius: 100px;}
 .RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #291d01; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
 .RPG .UniTitle h6 {color: #000000;}
 
 @media only screen and (min-width: 640px) {
-    .cover {max-height: 410px; width: 100%;}
+    .cover {max-height: 740px; width: 100%;}
     .UniBox {max-width: 300px;width: 100%; margin: 100px 10px 50px 10px;}
     .cover > img {width: 100%;}
     .feature .cardinfo {width: 540px;}
     .feature .cardinfo figure {width: 150px; margin-right: 50px;}
     .feature .cardinfo article {width: 300px;}
     .featureDescription h3 {font-size: 30px;}
-    .coverMenu {margin: 10px auto 50px auto;}
     .featureDescription p {font-size: 13px;}
     .featureActions a {padding: 4px 7px; font-size: 13px;}
-    .cover header {bottom: 60px; width: 490px;}
-    .cover header h2 {font-size: 23px;}
+    .unifiWelcome header {width: 350px;}
+    .unifiWelcome header h2 {font-size: 18px;}
     footer {margin-top: 70px;}
+    .coverMenu {margin: 50px auto 50px auto; width: 240px; border: 3px solid #bab9b9; border-radius: 8px; text-align: left;}
+    .coverMenu li {width: 200; display: inline-block; position: relative; margin-left: 25px;}
+    .coverMenu li a {width: 100%; display: inline-block; padding: 5px 5px; text-decoration: none;}
+    .coverMenu li a img {width: 35px; height: 35px; margin: 0 7px; vertical-align: middle;}
+    .coverMenu li a span {font-size: 16px; font-weight: bolder; text-shadow:2px 2px 2px #5d5e60; color: #bab9b9; vertical-align: middle;}
+    .coverMenu li .menuArrow {display: none;}
+    .coverMenu li:hover .menuArrow {width: 20px; height: 20px; position: absolute; left: -15px; top: 15px; display: block;}
+    .coverMenu .menuArrow img {width: 20px; height: 20px;}
+    .unifiWelcome .MenuOpen {display: inline-block}
+    .MenuOpen {width: 100%; display: inline-block; text-align: center;}
 
 }
 @media only screen and (min-width: 890px) {
-    .cover {max-height: 740px; width: 100%;}
     .UniBox {max-width: 450px; margin: 150px 10px 50px 10px;}
     .UniTitle label {width: auto;}
     .feature .cardinfo {width: 850px;}
     .feature .cardinfo figure {width: 250px; margin-right: 50px;}
     .feature .cardinfo article {width: 400px;}
     .featureDescription h3 {font-size: 40px;}
-    .coverMenu {margin: 10px auto 80px auto;}
     .featureDescription p {font-size: 18px;}
     .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
-    .cover header {bottom: 95px; width: 800px;}
-    .cover header h2 {font-size: 35px;}
-}
-
-@media only screen and (min-width: 1620px) {
-    .cover {max-height: 740px; width: 1620px;}
-    .coverMenu {width: 1463px;}
+    .unifiWelcome header {width: 500px;}
+    .unifiWelcome header h2 {font-size: 20px;}
 }
