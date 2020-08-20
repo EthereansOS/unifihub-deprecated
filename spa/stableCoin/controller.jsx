@@ -190,25 +190,31 @@ var StableCoinController = function (view) {
     };
 
     context.performRedeem = async function performRedeem(differences) {
-        var redeemable = parseInt(differences[0]);
-        redeemable /= 2;
-        redeemable = parseInt(window.numberToString(redeemable).split(',').join('').split('.')[0]);
+        //redeemable = parseInt(window.numberToString(redeemable).split(',').join('').split('.')[0]);
         var {pairData, reserves} = await context.getBestRedeemablePair();
-        var lowerIndex = reserves.token0InStable < reserves.token1InStable ? '0' : '1';
-        var lower = reserves['token' + lowerIndex + 'InStable'];
-        redeemable = redeemable > lower ? lower : redeemable;
-        var amount0 = redeemable / reserves.token0InStable;
-        var amount1 = redeemable / reserves.token1InStable;
-        var amount = amount0 < amount1 ? amount0 : amount1;
-        var slippage = window.context.slippageAmount;
-        var poolAmount = reserves.poolBalance * amount;
-        poolAmount = window.numberToString(poolAmount).split(',').join('').split('.')[0];
-        var token0Value = parseInt(reserves[0]) * amount;
+        var redeemable = parseInt(differences[0]);
+        var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;
+        redeemable = redeemable > reallyRedeemable ? reallyRedeemable : redeemable;
+
+        var rate0 = reserves.token0InStable / reallyRedeemable;
+        var token0Amount = redeemable * rate0;
+        token0Amount = token0Amount / reserves.token0InStable;
+        var token0Value = parseInt(reserves.token0) * token0Amount;
         token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
-        var token1Value = parseInt(reserves[1]) * amount;
+
+        var rate1 = reserves.token1InStable / reallyRedeemable;
+        var token1Amount = redeemable * rate1;
+        token1Amount = token1Amount / reserves.token1InStable;
+        var token1Value = parseInt(reserves.token1) * token1Amount;
         token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
-        var token0Slippage = window.numberToString(parseInt(token0Value) * slippage).split(',').join('').split('.')[0];
-        var token1Slippage = window.numberToString(parseInt(token1Value) * slippage).split(',').join('').split('.')[0];
+
+        var ratePool0 = parseInt(token0Value) / parseInt(reserves.token0);
+        var ratePool1 = parseInt(token1Value) / parseInt(reserves.token1);
+        var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
+        var poolAmount = reserves.poolBalance * ratePool;
+        poolAmount = window.numberToString(poolAmount).split(',').join('').split('.')[0];
+        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
         token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
         token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
         await window.blockchainCall(window.stableCoin.token.methods.redeem, pairData.index, poolAmount, token0Slippage, token1Slippage);
@@ -241,6 +247,14 @@ var StableCoinController = function (view) {
             reserves : selectedReserves
         };
     };
+
+    context.calculatePrice = function calculatePrice(reserves) {
+        var reserve0 = reserves.token0InStable;
+        var reserve1 = reserves.token1InStable;
+        var first = reserve0 < reserve1 ? reserve0 : reserve1;
+        var second = reserve0 < reserve1 ? reserve1 : reserve0;
+        return first / second;
+    }
 
     context.performRebalance = async function performRebalance(differences) {
         var burnable = parseInt(differences[1]);

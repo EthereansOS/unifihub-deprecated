@@ -106,7 +106,7 @@ var StableCoin = React.createClass({
                     </section>}
                 </section>
                 <section className="UniSideBox">
-                    {this.state && this.state.differences && <section>
+                    {this.state && this.state.pairs && this.state.differences && <section>
                         <h4>Differences</h4>
                         <label>
                             Redeemable:
