@@ -19,7 +19,7 @@ var ReactModuleManager = function() {
         var elementName = undefined
         var reactClass = typeof viewName !== 'string' ? viewName : window[viewName] !== undefined ? window[viewName] : undefined
 
-        if (reactClass !== undefined && reactClass.prototype.constructor.displayName !== undefined) {
+        if (reactClass !== undefined && reactClass.prototype && reactClass.prototype.constructor.displayName !== undefined) {
             elementName = reactClass.prototype.constructor.displayName
             if (reactClass.prototype.oldRender === undefined) {
                 var requireCalled = true;
@@ -247,7 +247,7 @@ var ReactModuleManager = function() {
         var element;
         var involveLoadedModules = true
 
-        if (typeof viewName !== 'string' || window[viewName] === undefined) {
+        if (typeof viewName !== 'string' || window[viewName] === undefined || window[viewName] instanceof HTMLCollection) {
             element = React.createElement2.apply(React, callerArguments)
             involveLoadedModules = typeof viewName !== 'string'
             if (elementName !== undefined) {

@@ -1,4 +1,7 @@
 var DappMenu = React.createClass({
+    requiredModules: [
+        'spa/ethereumWalletProvider'
+    ],
     getDefaultSubscriptions() {
         return {
             'ethereum/ping': () => this.forceUpdate()
@@ -57,6 +60,9 @@ var DappMenu = React.createClass({
             <section className="MenuOpen">
                 <section className="coverMenu">
                     {this.state.menuItems.map(this.renderMenuItem)}
+                </section>
+                <section className="coverMenu">
+                    <EthereumWalletProvider />
                 </section>
             </section>
         );
