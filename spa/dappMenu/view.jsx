@@ -11,10 +11,7 @@ var DappMenu = React.createClass({
         return {
             menuItems: [{
                 title: "Stable Coin",
-                icon: "m4",
-                props: {
-                    onClick: () => this.emit('section/change', 'stableCoin')
-                }
+                icon: "m4"
             }, {
                 title: "Liquidity Crafting",
                 icon: "m2"
@@ -43,6 +40,7 @@ var DappMenu = React.createClass({
         menuItem.id = menuItem.id || ('id' + (i + 1));
         menuItem.props = menuItem.props || {};
         menuItem.props.id = menuItem.props.id || menuItem.id;
+        !menuItem.props.href && (menuItem.props.onClick = menuItem.props.onClick || (() => this.emit('section/change', menuItem.sectionName || menuItem.title.split(' ').join('').firstLetterToLowerCase())));
         menuItem.props.href = menuItem.props.href || "javascript:;";
         menuItem.className = menuItem.className || ("M" + menuItem.title.split(' ').join(''));
         return (

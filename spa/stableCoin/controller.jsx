@@ -186,6 +186,8 @@ var StableCoinController = function (view) {
     context.performRedeem = async function performRedeem(differences) {
         var {pairData, reserves} = await context.getBestRedeemablePair();
         var redeemable = parseInt(differences[0]);
+        var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
+        redeemable = redeemable > balanceOf ? balanceOf : redeemable;
         var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;
         redeemable = redeemable > reallyRedeemable ? reallyRedeemable : redeemable;
 

@@ -17,7 +17,7 @@ var EthereumWalletProvider = React.createClass({
         });
     },
     componentDidMount() {
-        this.setState({
+        window.EthereumProviders && this.setState({
             wallets: window.EthereumProviders.list,
             selected : parseInt(window.localStorage.selectedEthereumProvider)
         }, function() {
