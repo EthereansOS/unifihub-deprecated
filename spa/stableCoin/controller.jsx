@@ -51,7 +51,7 @@ var StableCoinController = function (view) {
         context.view.setState({ token0Approved, token1Approved });
     };
 
-    context.approve = async function approve(pairData, token, originalToken0Value, originalToken1Value) {
+    context.approve = async function approve(pairData, token) {
         context.view.setState({ approving: token, performing: null });
         var errorMessage;
         var state = { approving: null };
@@ -79,8 +79,6 @@ var StableCoinController = function (view) {
     };
 
     context.getStableCoinOutput = function getStableCoinOutput(pairData, token0Value, token1Value) {
-        token0Value = window.toDecimals(token0Value.split(',').join(''), pairData.token0.decimals);
-        token1Value = window.toDecimals(token1Value.split(',').join(''), pairData.token1.decimals);
         token0Value = context.fromTokenToStable(pairData.token0.decimals, token0Value);
         token1Value = context.fromTokenToStable(pairData.token1.decimals, token1Value);
         var result = window.web3.utils.toBN(token0Value).add(window.web3.utils.toBN(token1Value)).toString();
@@ -99,11 +97,9 @@ var StableCoinController = function (view) {
         context.view.setState({ approving: null, performing: true });
         var errorMessage;
         try {
-            token0Value = window.toDecimals(token0Value.split(',').join(''), pairData.token0.decimals);
             if(parseInt(token0Value) <= 0) {
                 throw `You must insert a positive ${pairData.token0.symbol} amount`;
             }
-            token1Value = window.toDecimals(token1Value.split(',').join(''), pairData.token1.decimals);
             if(parseInt(token1Value) <= 0) {
                 throw `You must insert a positive ${pairData.token1.symbol} amount`;
             }
@@ -135,11 +131,9 @@ var StableCoinController = function (view) {
         var errorMessage;
         try {
             var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
-            token0Value = window.toDecimals(token0Value.split(',').join(''), pairData.token0.decimals);
             if(parseInt(token0Value) <= 0) {
                 throw `You must insert a positive ${pairData.token0.symbol} amount`;
             }
-            token1Value = window.toDecimals(token1Value.split(',').join(''), pairData.token1.decimals);
             if(parseInt(token1Value) <= 0) {
                 throw `You must insert a positive ${pairData.token1.symbol} amount`;
             }
@@ -190,7 +184,6 @@ var StableCoinController = function (view) {
     };
 
     context.performRedeem = async function performRedeem(differences) {
-        //redeemable = parseInt(window.numberToString(redeemable).split(',').join('').split('.')[0]);
         var {pairData, reserves} = await context.getBestRedeemablePair();
         var redeemable = parseInt(differences[0]);
         var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;

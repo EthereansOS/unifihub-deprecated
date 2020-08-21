@@ -21,7 +21,9 @@ var StableCoin = React.createClass({
         var _this = this;
         this.setState({ selectedPair: this.state.pairs[e.currentTarget.value], token0Approved: null, token1Approved: null }, function () {
             $(_this.domRoot).children().find('input[data-token="0"]')[0].value = '0.00';
+            $(_this.domRoot).children().find('input[data-token="0"]')[0].dataset.value = '0';
             $(_this.domRoot).children().find('input[data-token="1"]')[0].value = '0.00';
+            $(_this.domRoot).children().find('input[data-token="1"]')[0].dataset.value = '0';
             _this.controller.checkApprove(_this.state.selectedPair);
         });
     },
@@ -31,29 +33,31 @@ var StableCoin = React.createClass({
         var target = e.currentTarget;
         _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
         _this.onTypeTimeout = setTimeout(function () {
+            target.dataset.value = window.toDecimals(target.value, _this.state.selectedPair["token" + target.dataset.token].decimals);
             _this.controller.calculateOtherPair(_this.state.selectedPair, target.dataset.token, target.value, _this.actionSelect.value).then(result => {
-                $(_this.domRoot).children().find('input[data-token="' + (target.dataset.token === "0" ? "1" : "0") + '"]')[0].value = window.formatMoney(window.fromDecimals(result, _this.state.selectedPair["token" + (target.dataset.token === "0" ? "1" : "0")].decimals, true), 6);
+                var otherId = (target.dataset.token === "0" ? "1" : "0");
+                var otherTarget = $(_this.domRoot).children().find('input[data-token="' + otherId + '"]')[0];
+                otherTarget.dataset.value = result;
+                otherTarget.value = window.formatMoney(window.fromDecimals(result, _this.state.selectedPair["token" + otherId].decimals, true), 6);
                 _this.refreshStableCoinOutput();
             });
         }, window.context.typeTimeout);
     },
     refreshStableCoinOutput() {
-        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].value;
-        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].value;
+        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
+        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
         var result = this.controller.getStableCoinOutput(this.state.selectedPair, token0Value, token1Value);
         this.stableCoinOutput.innerHTML = window.formatMoney(window.fromDecimals(result, window.stableCoin.decimals, true), 6);
     },
     doAction(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].value;
-        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].value;
+        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
+        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
         this.controller["perform" + this.actionSelect.value](this.state.selectedPair, token0Value, token1Value);
     },
     approve(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].value;
-        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].value;
-        this.controller.approve(this.state.selectedPair, e.currentTarget.dataset.token, token0Value, token1Value);
+        this.controller.approve(this.state.selectedPair, e.currentTarget.dataset.token);
     },
     rebalance(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
