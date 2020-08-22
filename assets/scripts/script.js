@@ -1255,3 +1255,17 @@ window.resolveImageURL = function resolveImageURL(image, extension) {
     extension.indexOf('.') === 0 && (extension = extension.substring(1));
     return 'assets/img/' + image + '.' + extension;
 };
+
+window.getEthereumPrice = async function getEthereumPrice() {
+    if (window.lastEthereumPrice && window.lastEthereumPrice.requestExpires > new Date().getTime() && window.lastEthereumPrice.price !== 0) {
+        return window.lastEthereumPrice.price;
+    }
+    var price = 0;
+    try {
+        price = (await window.AJAXRequest(window.context.coingeckoEthereumPriceURL))[0].current_price;
+    } catch (e) {}
+    return (window.lastEthereumPrice = {
+        price,
+        requestExpires: new Date().getTime() + window.context.coingeckoEthereumPriceRequestInterval
+    }).price;
+};

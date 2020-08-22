@@ -7,6 +7,8 @@
     "gitHubURL" : "https://github.com/b-u-i-d-l/brand-contest",
     "etherscanURL": "https://etherscan.io/",
     "etherscanURLRopsten": "https://ropsten.etherscan.io/",
+    "coingeckoEthereumPriceURL": "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum",
+    "coingeckoEthereumPriceRequestInterval": 600000,
     "trustwalletImgURLTemplate": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{0}/logo.png",
     "stableCoinAddressRopsten" : "0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A",
     "stableCoinAddress" : "0x04C2d7C0712089a61C52A315FCe8F28a55F34DFa",

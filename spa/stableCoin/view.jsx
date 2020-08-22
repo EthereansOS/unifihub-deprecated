@@ -82,6 +82,10 @@ var StableCoin = React.createClass({
             </section>
         );
     },
+    toggleTotalCoins(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.setState({toggleTotalCoins: this.state && this.state.toggleTotalCoins ? null : true});
+    },
     render() {
         return (
             <section className="unifiDapp">
@@ -134,6 +138,10 @@ var StableCoin = React.createClass({
                     </section>}
                 </section>
                 <section className="UniSideBox">
+                    {this.state && this.state.priceInDollars && <section>
+                        <h4>Price:</h4>
+                        <span>{window.formatMoney(this.state.priceInDollars, 2)} $</span>
+                    </section>}
                     {this.state && this.state.pairs && this.state.differences && <section>
                         <h4>Differences</h4>
                         <label>
@@ -149,6 +157,22 @@ var StableCoin = React.createClass({
                     {this.state && this.state.totalSupply && <section>
                         <h4>Total Supply:</h4>
                         <span>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+                    </section>}
+                    {this.state && this.state.totalCoins && <section>
+                        <h4>Total Coins:</h4>
+                        <a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)}</a>
+                        {this.state.toggleTotalCoins && <ul>
+                            {Object.values(this.state.totalCoins.list).map(it => <li key={it.address}>
+                                <section>
+                                    <span>{window.fromDecimals(it.amount, window.stableCoin.decimals)}</span>
+                                    {'\u00a0'}
+                                    <span>{it.symbol}</span>
+                                </section>
+                            </li>)}
+                        </ul>}
+                    </section>}
+                    {this.state && this.state.totalCoins && <section>
+                        HealthPercentage: {this.state.totalCoins.healthPercentage}%
                     </section>}
                     {this.renderAvailableToMint()}
                 </section>
