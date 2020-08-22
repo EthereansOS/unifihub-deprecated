@@ -6,20 +6,10 @@ p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-in
 h1 {font-size: 30px;}
 figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margin-inline-end: 0px;}
 section, article, label {display: inline-block;}
-@keyframes ldio-0gkg81ar46i {0% { transform: rotate(0deg); }100% { transform: rotate(90deg); }}
-.ldio-0gkg81ar46i > div {position: absolute;width: 200px;height: 200px;top: 0;left: 0; border-radius: 50%;}
-.ldio-0gkg81ar46i div:nth-child(1) { background: #e90c59; border-radius: 50%;}
-.ldio-0gkg81ar46i div:nth-child(2) div {border-radius: 50%;position: absolute;left: -200px;width: 600px;height: 600px;opacity: 0.4;transform-origin: 300px 300px;animation: ldio-0gkg81ar46i linear infinite 3.0303030303030303s;}
-.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(1) {border-radius: 50%;top: -500px;border-radius: 180px;background: #a9f6ff;animation-duration: 1.009090909090909s;}
-.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(2) {border-radius: 50%;top: -520px;border-radius: 190px;background: #00e6ff;animation-duration: 1.5151515151515151s;}
-.ldio-0gkg81ar46i div:nth-child(2) div:nth-child(3) {border-radius: 50%;top: -540px;border-radius: 200px;background: #0be7ff;}
-.loadingio-spinner-fluid-nww6j88yem {border-radius: 50%;width: 200px;height: 200px;display: inline-block;overflow: hidden;background: #ffffff;}
-.ldio-0gkg81ar46i {border-radius: 50%;width: 100%;height: 100%;position: relative;transform: translateZ(0) scale(1);backface-visibility: hidden;transform-origin: 0 0;}
-.ldio-0gkg81ar46i div {border-radius: 50%; box-sizing: content-box; }
-.Intro {width: 100%; height: 100%; display: inline-block; overflow: hidden; text-align: center; background-color: #01182b;}
+.Intro {width: 100%; height: 100%; display: inline-block; overflow: hidden; text-align: center; background-color: #e3d2c2;}
 .Intro h1 {font-weight: normal;}
 .Intro span {color: #8f00ff;}
-.introLoader {width: 250px; height: 250px; display: inline-block; margin: 100px 0;}
+.introLoader {width: 250px; height: 250px; display: inline-block; margin: 100px 0 5px 0;}
 .unifiWelcome, .unifiAll, .unifiDapp {width: 100%; text-align: center;}
 .cover {max-height: 400px; width: 100%; margin: 0 auto; display: block; overflow: hidden; position: relative; text-align: center;border-bottom: 3px solid #bab9b9;}
 .cover > img {width: 200%; display: inline-block;}
@@ -42,16 +32,16 @@ section, article, label {display: inline-block;}
 .featureDescription p {font-size: 11px; color: #f1f1f1;}
 .featureActions {width: 100%; margin: 10px 0;}
 .featureActions a {font-size: 11px; font-weight: bold; padding: 3px 5px; text-decoration: none; color: #f1f1f1; border-radius: 5px; display: inline-block; margin: auto 5px; border: 2px solid #5d5e60;}
-.featureActions .dappButton {border-color: #b21eec;}
-.featureActions .dappButton {background-color: #b21eec;}
+.featureActions .dappButton {border-color: #7e2fe1;}
+.featureActions .dappButton {background-color: #7e2fe1;}
 .featureActions .InfoButton {border-color: #2fd2c1;}
 .featureActions .InfoButton {background-color: #2fd2c1;}
 .featureActions .soonButton {border-color: #5e5f63;}
 .featureActions .soonButton {background-color: #5e5f63;}
-.featureActions .readButton {border-color: #2fd245;}
-.featureActions .readButton {background-color: #2fd245;}
-.featureActions .gitButton {border-color: #e90c59;}
-.featureActions .gitButton {background-color: #e90c59;}
+.featureActions .readButton {border-color: #5549c9;}
+.featureActions .readButton {background-color: #5549c9;}
+.featureActions .gitButton {border-color: #f2a55f;}
+.featureActions .gitButton {background-color: #f2a55f;}
 
 footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; background-color: #272727; display: inline-block;}
 

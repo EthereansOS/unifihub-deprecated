@@ -1,6 +1,6 @@
 var SwapBazar = React.createClass({
     requiredScripts: [
-        'spa/loaderMini.jsx'
+        'spa/loader.jsx'
     ],
     getDefaultSubscriptions() {
         return {

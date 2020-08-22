@@ -1,8 +1,7 @@
 var StableCoin = React.createClass({
     requiredScripts: [
-        'spa/loader.jsx',
         'spa/banner.jsx',
-        'spa/loaderMini.jsx'
+        'spa/loader.jsx'
     ],
     requiredModules: [
         'spa/dappMenu'
