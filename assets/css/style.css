@@ -19,6 +19,7 @@ section, article, label {display: inline-block;}
 .unifiWelcome .MenuOpen .MConnect {display: none;}
 .unifiWelcome .coverConnectMenu, .unifiWelcome .connectOpener, .unifiWelcome .menuOpener  {display: none;}
 .unifiWelcome .menuAll {display: inline-block; width: 100%;}
+.unifiWelcome .maghetto {display: none;}
 
 
 .feature {width: 100%; text-align: center;}
@@ -48,6 +49,8 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 .unifiDapp {position: relative;}
 .unifiDapp .MenuAll {width: 100%; position: fixed; top: 0; left: 0;}
 .unifiDapp .MenuAll .connectOpener, .unifiDapp .MenuAll .menuOpener {padding: 6px 10px; border-radius: 8px; margin-top: 10px;text-decoration: none;}
+.unifiDapp .MenuAll .maghetto {width: 40px; height: 40px; float: left;margin: 5px 10px 0 20px;}
+.unifiDapp .MenuAll .maghetto img {width: 100%; height: 100%;}
 .unifiDapp .MenuAll .menuOpener {float: left; margin-left: 20px;}
 .unifiDapp .MenuAll .menuOpener, .unifiDapp .MenuAll .connectOpener span {font-size: 18px; font-weight: bold;}
 .unifiDapp .MenuAll .connectOpener {float: right; margin-right: 20px; text-decoration: none;}
@@ -68,7 +71,7 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
 .UniTitle h6 {display: inline-block; width: 90%; text-align: center; font-size: 11px; margin: 5px auto;}
 .UniTitle label {display: inline-block; width: 100%;}
-.UniTierQuantity {margin: 5px auto;}
+.UniTierQuantity {margin: 20px auto;}
 .UniTierQuantity h5 {font-size: 20px; font-weight: bold;}
 .UniTierQuantity label {width: 246px; text-align: left;}
 .UniTierQuantity label img {width: 20px; height: 20px; margin: 0 5px; vertical-align: middle; display: inline-block;}

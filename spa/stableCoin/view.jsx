@@ -92,6 +92,7 @@ var StableCoin = React.createClass({
                         <h6>uSD is a Stable Coin based on Uniswap Liquidity Pools <a>More</a> | Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
                     </section>
                 </section>
+                <Loader loaderClass="loaderRegular" loaderImg="assets/img/loader3.gif"/>
                 <section className="UniBox">
                     <section className="UniTitle">
                         <labe>

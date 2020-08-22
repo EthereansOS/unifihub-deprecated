@@ -50,6 +50,7 @@ var DappMenu = React.createClass({
     render() {
         return (
             <section className="MenuAll">
+                <a className="maghetto" href=""><img src="assets/img/maghetto.png"></img></a>
                 <a href="" className="menuOpener">Menu</a>
                 <a href="" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>
                 <section className="MenuOpen">

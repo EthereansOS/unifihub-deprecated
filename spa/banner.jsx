@@ -1,4 +1,4 @@
-var Loader = React.createClass({
+var Banner = React.createClass({
     render() { 
         return (
             <section className="welcomeBanner">
