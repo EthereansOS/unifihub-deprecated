@@ -3,7 +3,6 @@ h1,h4,h3, h5,h6,h2 {margin-block-end: 0;margin-block-start: 0;}
 body {width: 100%; position: relative; margin: 0; font-family: "Myriad Pro";}
 ol,ul, li {margin-block-start: 0; margin-block-end: 0; list-style-type: none; padding-inline-start:0;}
 p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-inline-start: 0px;margin-inline-end: 0px;}
-p, h1, h2, h3, h4, h5, h6, a, label, aside {color: #000000;}
 h1 {font-size: 30px;}
 figure {margin-block-start: 0;margin-block-end: 0;margin-inline-start: 0px;margin-inline-end: 0px;}
 section, article, label {display: inline-block;}
@@ -58,12 +57,22 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 
 .unifiDapp {position: relative;}
 .unifiDapp .MenuAll {width: 100%; position: fixed; top: 0; left: 0;}
-.unifiDapp .MenuAll .menuOpener {float: left; margin-left: 20px; font-size: 18px; padding: 10px; background-color: #5d5e60;}
+.unifiDapp .MenuAll .connectOpener, .unifiDapp .MenuAll .menuOpener {padding: 6px 10px; border-radius: 8px; margin-top: 10px;text-decoration: none;}
+.unifiDapp .MenuAll .menuOpener {float: left; margin-left: 20px;}
+.unifiDapp .MenuAll .menuOpener, .unifiDapp .MenuAll .connectOpener span {font-size: 18px; font-weight: bold;}
+.unifiDapp .MenuAll .connectOpener {float: right; margin-right: 20px; text-decoration: none;}
+.unifiDapp .MenuAll .connectOpener img {width: 25px; height: 25px; vertical-align: middle;}
+.unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
 .unifiDapp .MenuOpen {display: none;}
-.UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 1rem; margin: 50px 10px 50px 10px;}
+.UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
+.StableCoinTitle {width: 100%; margin-top: 100px; text-align: center;}
+.StableCoinTitle .StableCoinTitleIntern {width: 400px; padding: 20px;}
+.StableCoinTitle h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
+.StableCoinTitle h6 {font-size: 14px; text-align: left; line-height: 1.3;}
+.StableCoinTitle img {width: 35px; height: 35px; margin-right: 10px; vertical-align: middle;}
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
@@ -77,15 +86,18 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 
 
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
-.RPG .UniBox {background: #e3d2c2; border-radius: 20px; color: #000000; border: 7px solid #bab9b9; width: 100%;}
-.RPG .UniSideBox {border-radius: 20px; color: #f1f1f1; border: 7px solid #bab9b9; width: 100%;}
+.RPG .UniBox {background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
+.RPG .UniSideBox {border-radius: 20px; color: #f1f1f1; width: 100%; background-color: #5d5e60;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
-.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #291d01; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
-.RPG .UniTitle h6 {color: #000000;}
+.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
+.RPG .UniTitle {color: rgb(195, 197, 203);}
+.RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .StableCoinTitle h2 {color: #f1f1f1;}
+.RPG .StableCoinTitle h6 {color: #f1f1f1;}
 
 @media only screen and (min-width: 640px) {
     .cover {max-height: 740px; width: 100%;}
-    .UniBox {max-width: 300px;width: 100%; margin: 100px 10px 50px 10px;}
+    .UniBox {max-width: 300px;width: 100%; margin: 50px 10px 50px 10px;}
     .cover > img {width: 100%;}
     .feature .cardinfo {width: 540px;}
     .feature .cardinfo figure {width: 150px; margin-right: 50px;}
@@ -96,7 +108,7 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
     .unifiWelcome header {width: 350px;}
     .unifiWelcome header h2 {font-size: 18px;}
     footer {margin-top: 70px;}
-    .coverMenu {margin: 50px auto 50px auto; width: 240px; border: 3px solid #bab9b9; border-radius: 8px; text-align: left;}
+    .coverMenu {margin: 50px auto 50px auto; width: 240px; border: 3px solid #bab9b9; border-radius: 8px; text-align: left; padding: 8px 5px;}
     .coverMenu li {width: 200; display: inline-block; position: relative; margin-left: 25px;}
     .coverMenu li a {width: 100%; display: inline-block; padding: 5px 5px; text-decoration: none;}
     .coverMenu li a img {width: 35px; height: 35px; margin: 0 7px; vertical-align: middle;}
@@ -109,7 +121,7 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 
 }
 @media only screen and (min-width: 890px) {
-    .UniBox {max-width: 450px; margin: 150px 10px 50px 10px;}
+    .UniBox {max-width: 450px; margin: 50px 10px 50px 10px;}
     .UniTitle label {width: auto;}
     .feature .cardinfo {width: 850px;}
     .feature .cardinfo figure {width: 250px; margin-right: 50px;}

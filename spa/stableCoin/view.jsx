@@ -67,6 +67,12 @@ var StableCoin = React.createClass({
         return (
             <section className="unifiDapp">
                 <DappMenu />
+                <section className="StableCoinTitle">
+                    <section className="StableCoinTitleIntern">
+                        <h2><img src="assets/img/m4.png"></img>Uniswap State Dollar</h2>
+                        <h6>uSD is a Stable Coin based on Uniswap Liquidity Pools <a>More</a> | Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                    </section>
+                </section>
                 <section className="UniBox">
                     <section className="UniTitle">
                         <labe>
@@ -85,7 +91,6 @@ var StableCoin = React.createClass({
                                 </option>)}
                             </select>
                         </label>
-                        <h6>You can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools. You can redeem anytime whitelisted Stable Coins by burning uSD.</h6>
                     </section>
                     {this.state && this.state.selectedPair && <section className="UniTierQuantity">
                         <h5>Quantity</h5>

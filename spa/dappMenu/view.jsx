@@ -50,8 +50,8 @@ var DappMenu = React.createClass({
     render() {
         return (
             <section className="MenuAll">
-                <a className="menuOpener">Menu</a>
-                <a className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>
+                <a href="" className="menuOpener">Menu</a>
+                <a href="" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>
                 <section className="MenuOpen">
                     <section className="coverMenu">
                         {this.state.menuItems.map(this.renderMenuItem)}
