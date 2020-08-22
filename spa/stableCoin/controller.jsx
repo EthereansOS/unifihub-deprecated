@@ -158,7 +158,7 @@ var StableCoinController = function (view) {
             var supplyInPercentage = window.numberToString(parseInt(totalSupply) * amount).split(',').join('').split('.')[0];
             var balance = await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address);
             if (parseInt(supplyInPercentage) > parseInt(balance)) {
-                return alert(window.stableCoin.symbol + " has insufficient balance to perform this operation");
+                throw window.stableCoin.symbol + " has insufficient balance in pool to perform this operation";
             }
             var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
             var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
@@ -175,7 +175,7 @@ var StableCoinController = function (view) {
         context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
     };
 
-    context.rebalanceByCredit = async function rebalanceByCredit(differences) {
+    context.rebalanceByCredit = async function rebalanceByCredit() {
         try {
             var differences = await context.loadDifferences();
             var { pairData, reserves } = await context.getBestRebalanceByCreditPair();
@@ -256,7 +256,7 @@ var StableCoinController = function (view) {
             if(parseInt(amount) > balanceOf) {
                 throw `You don't have enough ${window.stableCoin.symbol} to perform this operation`;
             }
-            window.blockchainCall(window.stableCoin.token.methods.rebalanceByDebt, amount);
+            await window.blockchainCall(window.stableCoin.token.methods.rebalanceByDebt, amount);
             context.loadEconomicData();
         } catch (e) {
             var message = e.message || e;

@@ -145,7 +145,6 @@ var StableCoin = React.createClass({
                             Debt:
                                 <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
                         </label>
-                        {(this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <a href="javascript:;" onClick={this.rebalance}>Rebalance</a>}
                     </section>}
                     {this.state && this.state.totalSupply && <section>
                         <h4>Total Supply:</h4>
