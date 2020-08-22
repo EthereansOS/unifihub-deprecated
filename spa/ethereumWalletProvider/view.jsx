@@ -25,7 +25,8 @@ var EthereumWalletProvider = React.createClass({
         })
     },
     render() {
-        return (<section>
+        return (
+        <section>
             <h3>Choose Your Ethereum Connection Provider:</h3>
             <section>
                 <ul>

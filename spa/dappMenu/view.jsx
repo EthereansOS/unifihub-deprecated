@@ -27,12 +27,6 @@ var DappMenu = React.createClass({
             }, {
                 title: "Github",
                 icon: "m3"
-            }, {
-                title: "Connect",
-                icon: "m6",
-                props: {
-                    onClick: () => window.getAddress()
-                }
             }]
         };
     },
@@ -55,12 +49,16 @@ var DappMenu = React.createClass({
     },
     render() {
         return (
-            <section className="MenuOpen">
-                <section className="coverMenu">
-                    {this.state.menuItems.map(this.renderMenuItem)}
-                </section>
-                <section className="coverMenu">
-                    <EthereumWalletProvider />
+            <section className="MenuAll">
+                <a className="menuOpener">Menu</a>
+                <a className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>
+                <section className="MenuOpen">
+                    <section className="coverMenu">
+                        {this.state.menuItems.map(this.renderMenuItem)}
+                    </section>
+                    <section className="coverConnectMenu">
+                        <EthereumWalletProvider />
+                    </section>
                 </section>
             </section>
         );

@@ -28,6 +28,8 @@ section, article, label {display: inline-block;}
 .unifiWelcome header h2 {font-size: 13px; font-weight: bolder; color: #291d01;}
 .unifiWelcome .MenuOpen {display: none;}
 .unifiWelcome .MenuOpen .MConnect {display: none;}
+.unifiWelcome .coverConnectMenu, .unifiWelcome .connectOpener, .unifiWelcome .menuOpener  {display: none;}
+.unifiWelcome .menuAll {display: inline-block; width: 100%;}
 
 
 .feature {width: 100%; text-align: center;}
@@ -55,6 +57,9 @@ section, article, label {display: inline-block;}
 footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; background-color: #272727; display: inline-block;}
 
 .unifiDapp {position: relative;}
+.unifiDapp .MenuAll {width: 100%; position: fixed; top: 0; left: 0;}
+.unifiDapp .MenuAll .menuOpener {float: left; margin-left: 20px; font-size: 18px; padding: 10px; background-color: #5d5e60;}
+.unifiDapp .MenuOpen {display: none;}
 .UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 1rem; margin: 50px 10px 50px 10px;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
@@ -72,7 +77,8 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 
 
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
-.RPG .UniBox, .RPG .UniSideBox {background: #c7ac97; border-radius: 20px; color: #000000; border: 7px solid #bab9b9; width: 100%;}
+.RPG .UniBox {background: #e3d2c2; border-radius: 20px; color: #000000; border: 7px solid #bab9b9; width: 100%;}
+.RPG .UniSideBox {border-radius: 20px; color: #f1f1f1; border: 7px solid #bab9b9; width: 100%;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
 .RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #291d01; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
 .RPG .UniTitle h6 {color: #000000;}
