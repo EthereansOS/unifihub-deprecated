@@ -8,6 +8,12 @@ var StableCoinController = function (view) {
     };
 
     context.loadEconomicData = async function loadEconomicData() {
+        context.view.setState({ differences : await context.loadDifferences() });
+        context.view.setState({ totalSupply: await window.blockchainCall(window.stableCoin.token.methods.totalSupply) });
+        context.view.setState({ availableToMint: await window.blockchainCall(window.stableCoin.token.methods.availableToMint) });
+    };
+
+    context.loadDifferences = async function loadDifferences() {
         var differences = await window.blockchainCall(window.stableCoin.token.methods.differences);
         if(parseInt(differences[0]) < (10**parseInt(window.stableCoin.decimals))) {
             differences[0] = '0';
@@ -15,9 +21,8 @@ var StableCoinController = function (view) {
         if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
             differences[1] = '0';
         }
-        context.view.setState({differences});
-        context.view.setState({totalSupply : await window.blockchainCall(window.stableCoin.token.methods.totalSupply)});
-    };
+        return differences;
+    }
 
     context.loadPairs = async function loadPairs() {
         context.view.setState({ pairs: null, token0Approved: null, token1Approved: null });
@@ -60,7 +65,7 @@ var StableCoinController = function (view) {
             state['token' + token + 'Approved'] = true;
         } catch (e) {
             var message = e.message || e;
-            if(message.toLowerCase().indexOf('user denied') === -1) {
+            if (message.toLowerCase().indexOf('user denied') === -1) {
                 errorMessage = message;
             }
         }
@@ -97,20 +102,26 @@ var StableCoinController = function (view) {
         context.view.setState({ approving: null, performing: true });
         var errorMessage;
         try {
-            if(parseInt(token0Value) <= 0) {
+            if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
                 throw `You must insert a positive ${pairData.token0.symbol} amount`;
             }
-            if(parseInt(token1Value) <= 0) {
+            if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
                 throw `You must insert a positive ${pairData.token1.symbol} amount`;
             }
             var myBalance = await window.blockchainCall(pairData.token0.token.methods.balanceOf, window.walletAddress);
-            if(parseInt(token0Value) > parseInt(myBalance)) {
+            if (parseInt(token0Value) > parseInt(myBalance)) {
                 throw `You have insufficient ${pairData.token0.symbol}`;
             }
             myBalance = await window.blockchainCall(pairData.token1.token.methods.balanceOf, window.walletAddress);
-            if(parseInt(token1Value) > parseInt(myBalance)) {
+            if (parseInt(token1Value) > parseInt(myBalance)) {
                 throw `You have insufficient ${pairData.token1.symbol}`;
             }
+            var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
+            var availableToMint = parseInt(await window.blockchainCall(window.stableCoin.token.methods.availableToMint));
+            if (availableToMint < parseInt(stableCoinOutput)) {
+                throw `Cannot mint ${window.fromDecimals(stableCoinOutput, window.stableCoin.decimals)} ${window.stableCoin.symbol}`;
+            }
+
             var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
             var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
             token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
@@ -119,7 +130,7 @@ var StableCoinController = function (view) {
             context.loadEconomicData();
         } catch (e) {
             var message = e.message || e;
-            if(message.toLowerCase().indexOf('user denied') === -1) {
+            if (message.toLowerCase().indexOf('user denied') === -1) {
                 errorMessage = message;
             }
         }
@@ -131,14 +142,14 @@ var StableCoinController = function (view) {
         var errorMessage;
         try {
             var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
-            if(parseInt(token0Value) <= 0) {
+            if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
                 throw `You must insert a positive ${pairData.token0.symbol} amount`;
             }
-            if(parseInt(token1Value) <= 0) {
+            if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
                 throw `You must insert a positive ${pairData.token1.symbol} amount`;
             }
             var myBalance = await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress);
-            if(parseInt(stableCoinOutput) > parseInt(myBalance)) {
+            if (parseInt(stableCoinOutput) > parseInt(myBalance)) {
                 throw `You have insufficient ${window.stableCoin.symbol}`;
             }
             var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
@@ -157,69 +168,59 @@ var StableCoinController = function (view) {
             context.loadEconomicData();
         } catch (e) {
             var message = e.message || e;
-            if(message.toLowerCase().indexOf('user denied') === -1) {
+            if (message.toLowerCase().indexOf('user denied') === -1) {
                 errorMessage = message;
             }
         }
         context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
     };
 
-    context.rebalance = async function rebalance() {
-        var differences = await window.blockchainCall(window.stableCoin.token.methods.differences);
-        if(parseInt(differences[0]) < (10**parseInt(window.stableCoin.decimals))) {
-            differences[0] = '0';
-        }
-        if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
-            differences[1] = '0';
-        }
+    context.rebalanceByCredit = async function rebalanceByCredit(differences) {
         try {
-            await context['perform' + (differences[0] !== '0' ? 'Redeem' : 'Rebalance')](differences);
+            var differences = await context.loadDifferences();
+            var { pairData, reserves } = await context.getBestRebalanceByCreditPair();
+            var redeemable = parseInt(differences[0]);
+            var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
+            redeemable = redeemable > balanceOf ? balanceOf : redeemable;
+            var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;
+            redeemable = redeemable > reallyRedeemable ? reallyRedeemable : redeemable;
+
+            var rate0 = reserves.token0InStable / reallyRedeemable;
+            var token0Amount = redeemable * rate0;
+            token0Amount = token0Amount / reserves.token0InStable;
+            var token0Value = parseInt(reserves.token0) * token0Amount;
+            token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
+
+            var rate1 = reserves.token1InStable / reallyRedeemable;
+            var token1Amount = redeemable * rate1;
+            token1Amount = token1Amount / reserves.token1InStable;
+            var token1Value = parseInt(reserves.token1) * token1Amount;
+            token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
+
+            var ratePool0 = parseInt(token0Value) / parseInt(reserves.token0);
+            var ratePool1 = parseInt(token1Value) / parseInt(reserves.token1);
+            var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
+            var poolAmount = reserves.poolBalance * ratePool;
+            poolAmount = window.numberToString(poolAmount).split(',').join('').split('.')[0];
+            var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+            var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+            token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
+            token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
+            await window.blockchainCall(window.stableCoin.token.methods.rebalanceByCredit, pairData.index, poolAmount, token0Slippage, token1Slippage);
             context.loadEconomicData();
-        } catch(e) {
+        } catch (e) {
             var message = e.message || e;
-            if(message.toLowerCase().indexOf('user denied') === -1) {
+            if (message.toLowerCase().indexOf('user denied') === -1) {
                 alert(message);
             }
         }
     };
 
-    context.performRedeem = async function performRedeem(differences) {
-        var {pairData, reserves} = await context.getBestRedeemablePair();
-        var redeemable = parseInt(differences[0]);
-        var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
-        redeemable = redeemable > balanceOf ? balanceOf : redeemable;
-        var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;
-        redeemable = redeemable > reallyRedeemable ? reallyRedeemable : redeemable;
-
-        var rate0 = reserves.token0InStable / reallyRedeemable;
-        var token0Amount = redeemable * rate0;
-        token0Amount = token0Amount / reserves.token0InStable;
-        var token0Value = parseInt(reserves.token0) * token0Amount;
-        token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
-
-        var rate1 = reserves.token1InStable / reallyRedeemable;
-        var token1Amount = redeemable * rate1;
-        token1Amount = token1Amount / reserves.token1InStable;
-        var token1Value = parseInt(reserves.token1) * token1Amount;
-        token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
-
-        var ratePool0 = parseInt(token0Value) / parseInt(reserves.token0);
-        var ratePool1 = parseInt(token1Value) / parseInt(reserves.token1);
-        var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
-        var poolAmount = reserves.poolBalance * ratePool;
-        poolAmount = window.numberToString(poolAmount).split(',').join('').split('.')[0];
-        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-        token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
-        token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
-        await window.blockchainCall(window.stableCoin.token.methods.redeem, pairData.index, poolAmount, token0Slippage, token1Slippage);
-    };
-
-    context.getBestRedeemablePair = async function getBestRedeemablePair() {
+    context.getBestRebalanceByCreditPair = async function getBestRebalanceByCreditPair() {
         var max = 0;
         var selectedPairData = context.view.state.pairs[0];
         var selectedReserves;
-        for(var pairData of context.view.state.pairs) {
+        for (var pairData of context.view.state.pairs) {
             var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
             reserves.poolBalance = parseInt(await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address));
             var totalSupply = parseInt(await window.blockchainCall(pairData.pair.methods.totalSupply));
@@ -231,33 +232,42 @@ var StableCoinController = function (view) {
             reserves.token0InStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves.token0));
             reserves.token1InStable = parseInt(context.fromTokenToStable(pairData.token1.decimals, reserves.token1));
             var localMax = reserves.token0InStable > reserves.token1InStable ? reserves.token0InStable : reserves.token1InStable;
-            if(localMax > max) {
+            if (localMax > max) {
                 max = localMax;
                 selectedPairData = pairData;
                 selectedReserves = reserves;
             }
         }
         return {
-            pairData : selectedPairData,
-            reserves : selectedReserves
+            pairData: selectedPairData,
+            reserves: selectedReserves
         };
     };
 
-    context.calculatePrice = function calculatePrice(reserves) {
-        var reserve0 = reserves.token0InStable;
-        var reserve1 = reserves.token1InStable;
-        var first = reserve0 < reserve1 ? reserve0 : reserve1;
-        var second = reserve0 < reserve1 ? reserve1 : reserve0;
-        return first / second;
-    }
-
-    context.performRebalance = async function performRebalance(differences) {
-        var burnable = parseInt(differences[1]);
-        var available = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
-        burnable = available >= burnable ? burnable : burnable - available;
-        if(burnable < 10**parseInt(window.stableCoin.decimals)) {
-            return alert("You must have at least 1 " + window.stableCoin.symbol + " to perform this action");
+    context.rebalanceByDebt = async function rebalanceByDebt(amount) {
+        try {
+            amount = window.toDecimals(amount.split(',').join(''), window.stableCoin.decimals);
+            var differences = await context.loadDifferences();
+            var debt = parseInt(differences[1]);
+            if(parseInt(amount) > debt) {
+                throw `Inserted amount is greater than the debt`;
+            }
+            var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
+            if(parseInt(amount) > balanceOf) {
+                throw `You don't have enough ${window.stableCoin.symbol} to perform this operation`;
+            }
+            window.blockchainCall(window.stableCoin.token.methods.rebalanceByDebt, amount);
+            context.loadEconomicData();
+        } catch (e) {
+            var message = e.message || e;
+            if (message.toLowerCase().indexOf('user denied') === -1) {
+                alert(message);
+            }
         }
-        window.blockchainCall(window.stableCoin.token.methods.rebalance);
+    };
+
+    context.calculateRebalanceByDebtReward = async function calculateRebalanceByDebtReward(amount) {
+        amount = window.toDecimals(amount.split(',').join(''), window.stableCoin.decimals);
+        return await window.blockchainCall(window.stableCoin.token.methods.calculateRebalanceByDebtReward, amount);
     };
 };

@@ -74,12 +74,14 @@ contract StableCoin is ERC20, IStableCoin {
 
     function availableToMint() public override view returns (uint256) {
 
-            uint256 mintable
+        uint256 mintable
          = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
-        for (uint256 i = 0; i < _timeWindows.length; i++) {
-            if (block.number < _timeWindows[i]) {
-                mintable = _mintables[i];
-                break;
+        if(_timeWindows.length > 0 && block.number < _timeWindows[_timeWindows.length - 1]) {
+            for (uint256 i = 0; i < _timeWindows.length; i++) {
+                if (block.number < _timeWindows[i]) {
+                    mintable = _mintables[i];
+                    break;
+                }
             }
         }
         uint256 minted = totalSupply();
@@ -123,7 +125,7 @@ contract StableCoin is ERC20, IStableCoin {
         public
         override
         view
-        returns (uint256 redeemable, uint256 burnable)
+        returns (uint256 credit, uint256 debt)
     {
         uint256 totalSupply = totalSupply();
         uint256 effectiveAmount = 0;
@@ -131,15 +133,15 @@ contract StableCoin is ERC20, IStableCoin {
             (uint256 amount0, uint256 amount1) = _getPairAmount(i);
             effectiveAmount += (amount0 + amount1);
         }
-        redeemable = effectiveAmount > totalSupply
+        credit = effectiveAmount > totalSupply
             ? effectiveAmount - totalSupply
             : 0;
-        burnable = totalSupply > effectiveAmount
+        debt = totalSupply > effectiveAmount
             ? totalSupply - effectiveAmount
             : 0;
     }
 
-    function calculateRebalanceReward(uint256 burnt)
+    function calculateRebalanceByDebtReward(uint256 burnt)
         public
         override
         view
@@ -149,10 +151,9 @@ contract StableCoin is ERC20, IStableCoin {
         path[0] = address(this);
         path[1] = IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getToken();
         reward = IUniswapV2Router(UNISWAP_V2_ROUTER).getAmountsOut(
-            10**decimals(),
+            burnt,
             path
         )[1];
-        reward = reward * (burnt / (10**decimals()));
         reward =
             (reward * _rebalanceRewardMultiplier[0]) /
             _rebalanceRewardMultiplier[1];
@@ -187,7 +188,7 @@ contract StableCoin is ERC20, IStableCoin {
             )
                 .getBool(
                 _toStateHolderKey(
-                    "authorizedStableCoin",
+                    "stablecoin.authorized",
                     _toString(address(this))
                 )
             ),
@@ -241,7 +242,7 @@ contract StableCoin is ERC20, IStableCoin {
         );
     }
 
-    function redeem(
+    function rebalanceByCredit(
         uint256 pairIndex,
         uint256 pairAmount,
         uint256 amount0,
@@ -254,11 +255,11 @@ contract StableCoin is ERC20, IStableCoin {
                 IMVDProxy(IDoubleProxy(_doubleProxy).proxy())
                     .getStateHolderAddress()
             )
-                .getUint256("stablecoin.redeem.block.interval"),
+                .getUint256("stablecoin.rebalancebycredit.block.interval"),
             "Unauthorized action!"
         );
         _lastRedeemBlock = block.number;
-        (uint256 redeemable, ) = differences();
+        (uint256 credit, ) = differences();
         (address token0, address token1, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
         (uint256 removed0, uint256 removed1) = IUniswapV2Router(
@@ -276,21 +277,19 @@ contract StableCoin is ERC20, IStableCoin {
         redeemed =
             fromTokenToStable(token0, removed0) +
             fromTokenToStable(token1, removed1);
-        require(redeemed <= redeemable, "Cannot redeem given pair amount");
+        require(redeemed <= credit, "Cannot redeem given pair amount");
     }
 
-    function rebalance() public override {
-        (, uint256 burnable) = differences();
-        uint256 available = balanceOf(msg.sender);
-        burnable = available >= burnable ? burnable : burnable - available;
-        require(burnable >= 10**decimals(), "Insufficient amount to burn");
-        _burn(msg.sender, burnable);
+    function rebalanceByDebt(uint256 amount) public override returns(uint256 reward) {
+        (, uint256 debt) = differences();
+        require(amount <= debt, "Cannot Burn this amount");
+        _burn(msg.sender, amount);
         IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).submit(
-            "mintNewVotingTokens",
+            "mintNewVotingTokensForStableCoin",
             abi.encode(
                 address(0),
                 0,
-                calculateRebalanceReward(burnable),
+                reward = calculateRebalanceByDebtReward(amount),
                 msg.sender
             )
         );

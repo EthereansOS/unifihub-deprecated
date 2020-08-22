@@ -2,24 +2,24 @@
 
 pragma solidity 0.7.0;
 
-contract MintNewVotingTokensFunctionality {
+contract MintNewVotingTokensForStableCoinFunctionality {
 
     function onStart(address, address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address authorizedStableCoin = 0x04C2d7C0712089a61C52A315FCe8F28a55F34DFa;
-        stateHolder.setBool(_toStateHolderKey("authorizedStableCoin", _toString(authorizedStableCoin)), true);
+        address stablecoinauthorized = 0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A;
+        stateHolder.setBool(_toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized)), true);
     }
 
     function onStop(address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address authorizedStableCoin = 0x04C2d7C0712089a61C52A315FCe8F28a55F34DFa;
-        stateHolder.clear(_toStateHolderKey("authorizedStableCoin", _toString(authorizedStableCoin)));
+        address stablecoinauthorized = 0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A;
+        stateHolder.clear(_toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized)));
     }
 
-    function mintNewVotingTokens(address sender, uint256, uint256 amountToMint, address receiver) public {
+    function mintNewVotingTokensForStableCoin(address sender, uint256, uint256 amountToMint, address receiver) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
 
-        require(IStateHolder(proxy.getStateHolderAddress()).getBool(_toStateHolderKey("authorizedStableCoin", _toString(sender))), "Unauthorized action!");
+        require(IStateHolder(proxy.getStateHolderAddress()).getBool(_toStateHolderKey("stablecoin.authorized", _toString(sender))), "Unauthorized action!");
 
         IERC20 token = IERC20(proxy.getToken());
         uint256 proxyBalanceOf = token.balanceOf(address(proxy));

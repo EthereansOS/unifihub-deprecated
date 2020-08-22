@@ -51,17 +51,37 @@ var StableCoin = React.createClass({
     },
     doAction(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        if (e.currentTarget.className.toLowerCase().indexOf("disabled") !== -1) {
+            return;
+        }
         var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
         var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
         this.controller["perform" + this.actionSelect.value](this.state.selectedPair, token0Value, token1Value);
     },
     approve(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        if (e.currentTarget.className.toLowerCase().indexOf("disabled") !== -1) {
+            return;
+        }
         this.controller.approve(this.state.selectedPair, e.currentTarget.dataset.token);
     },
     rebalance(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.controller.rebalance();
+    },
+    renderAvailableToMint() {
+        if(!this.state || !this.state.availableToMint) {
+            return;
+        }
+        if (parseInt(this.state.availableToMint) + parseInt(this.state.totalSupply) === 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) {
+            return;
+        }
+        return (
+            <section>
+                <h4>Still available to Mint:</h4>
+                <span>{window.fromDecimals(this.state.availableToMint, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+            </section>
+        );
     },
     render() {
         return (
@@ -98,19 +118,18 @@ var StableCoin = React.createClass({
                             <input data-token="0" onChange={this.onType} />
                             <img src={this.state.selectedPair.token0.logo} />
                             <p>{this.state.selectedPair.token0.symbol}</p>
-                            {(!this.state.token0Approved && (this.state.approving === undefined || this.state.approving === null) && !this.state.performing) && <a href="javascript:;" onClick={this.approve} data-token="0">Approve</a>}
-                            {this.state.approving === '0' && <LoaderMini />}
                         </label>
                         <h6>And</h6>
                         <label className="UniDisactiveQuantityTier">
                             <input data-token="1" onChange={this.onType} />
                             <img src={this.state.selectedPair.token1.logo} />
                             <p>{this.state.selectedPair.token1.symbol}</p>
-                            {(!this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && !this.state.performing) && <a href="javascript:;" onClick={this.approve} data-token="1">Approve</a>}
-                            {this.state.approving === '1' && <LoaderMini />}
                         </label>
-                        <h5>for <b ref={ref => this.stableCoinOutput = ref}></b>{'\u00a0'}{window.stableCoin.symbol}</h5>
-                        {this.state.token0Approved && this.state.token1Approved && !this.state.performing && <a href="javascript:;" onClick={this.doAction}>GO</a>}
+                        <h5>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h5>
+                        {(!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "Disabled" : ""}>Approve {this.state.selectedPair.token0.symbol}</a>}
+                        {this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
+                        {this.state.approving !== undefined && this.state.approving !== null && <LoaderMini />}
+                        {!this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "Disabled" : ""}>GO</a>}
                         {this.state.performing && <LoaderMini />}
                     </section>}
                 </section>
@@ -118,19 +137,21 @@ var StableCoin = React.createClass({
                     {this.state && this.state.pairs && this.state.differences && <section>
                         <h4>Differences</h4>
                         <label>
-                            Redeemable:
-                                <span>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)}</span>
+                            Credit:
+                                <span>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
                         </label>
+                        {'\u00a0'}
                         <label>
-                            Burnable:
-                                <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)}</span>
+                            Debt:
+                                <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
                         </label>
                         {(this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <a href="javascript:;" onClick={this.rebalance}>Rebalance</a>}
                     </section>}
                     {this.state && this.state.totalSupply && <section>
                         <h4>Total Supply:</h4>
-                        <span>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)}</span>
+                        <span>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
                     </section>}
+                    {this.renderAvailableToMint()}
                 </section>
             </section>
         );

@@ -32,7 +32,7 @@ interface IStableCoin {
 
     function differences() external view returns (uint256, uint256);
 
-    function calculateRebalanceReward(uint256 burnt)
+    function calculateRebalanceByDebtReward(uint256 burnt)
         external
         view
         returns (uint256);
@@ -57,14 +57,14 @@ interface IStableCoin {
         uint256 amount1
     ) external returns (uint256, uint256);
 
-    function redeem(
+    function rebalanceByCredit(
         uint256 pairIndex,
         uint256 pairAmount,
         uint256 amount0,
         uint256 amount1
     ) external returns (uint256);
 
-    function rebalance() external;
+    function rebalanceByDebt(uint256 amount) external returns(uint256);
 }
 
 interface IDoubleProxy {
