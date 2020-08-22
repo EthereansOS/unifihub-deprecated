@@ -4,7 +4,8 @@ var DappMenu = React.createClass({
     ],
     getDefaultSubscriptions() {
         return {
-            'ethereum/ping': () => this.forceUpdate()
+            'ethereum/ping': () => this.forceUpdate(),
+            'toggle/connect' : connect => this.setState({connect})
         }
     },
     getInitialState() {
@@ -47,20 +48,27 @@ var DappMenu = React.createClass({
             </li>
         );
     },
+    toggle(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var type = e.currentTarget.dataset.type;
+        var state = {};
+        state[type] = !(this.state && this.state[type])
+        this.setState(state);
+    },
     render() {
         return (
             <section className="MenuAll">
                 <a className="maghetto" href=""><img src="assets/img/maghetto.png"></img></a>
-                <a href="" className="menuOpener">Menu</a>
-                <a href="" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>
-                <section className="MenuOpen">
+                <a href="javascript:;" onClick={this.toggle} data-type="menu" className="menuOpener">Menu</a>
+                {!window.walletAddress && <a href="javascript:;" onClick={this.toggle} data-type="connect" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>}
+                <section className="MenuOpen" style={{"display" : this.props.show ? "inline-block" : this.state && this.state.menu ? "inline-block" : "none"}}>
                     <section className="coverMenu">
                         {this.state.menuItems.map(this.renderMenuItem)}
                     </section>
-                    <section className="coverConnectMenu">
-                        <EthereumWalletProvider />
-                    </section>
                 </section>
+                {!window.walletAddress && this.state && this.state.connect && <section className="coverConnectMenu">
+                    <EthereumWalletProvider />
+                </section>}
             </section>
         );
     }

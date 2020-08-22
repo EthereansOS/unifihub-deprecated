@@ -1,5 +1,4 @@
 var Loader = React.createClass({
-
     /* renderLoader01() {
          return this.renderInput("assets/img/loader1.gif", "loaderMini");
      },
@@ -24,8 +23,6 @@ var Loader = React.createClass({
      renderLoader4() {
          return this.renderInput("assets/img/loader4.gif", "loaderRegular");
      },*/
-
-
     render() {
         return (
             <img className={this.props.loaderClass} src={this.props.loaderImg}></img>

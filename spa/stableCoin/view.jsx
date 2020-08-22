@@ -96,8 +96,8 @@ var StableCoin = React.createClass({
                         <h6>uSD is a Stable Coin based on Uniswap Liquidity Pools <a>More</a> | Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
                     </section>
                 </section>
-                <Loader loaderClass="loaderRegular" loaderImg="assets/img/loader3.gif"/>
-                <section className="UniBox">
+                {!this.state || !this.state.selectedPair && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")}/>}
+                {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
                         <labe>
                             <select ref={ref => this.actionSelect = ref}>
@@ -116,7 +116,7 @@ var StableCoin = React.createClass({
                             </select>
                         </label>
                     </section>
-                    {this.state && this.state.selectedPair && <section className="UniTierQuantity">
+                    <section className="UniTierQuantity">
                         <h5>Quantity</h5>
                         <label className="UniActiveQuantityTier">
                             <input data-token="0" onChange={this.onType} />
@@ -135,9 +135,9 @@ var StableCoin = React.createClass({
                         {this.state.approving !== undefined && this.state.approving !== null && <LoaderMini />}
                         {!this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "Disabled" : ""}>GO</a>}
                         {this.state.performing && <LoaderMini />}
-                    </section>}
-                </section>
-                <section className="UniSideBox">
+                    </section>
+                </section>}
+                {this.state && this.state.selectedPair && <section className="UniSideBox">
                     {this.state && this.state.priceInDollars && <section>
                         <h4>Price:</h4>
                         <span>{window.formatMoney(this.state.priceInDollars, 2)} $</span>
@@ -175,7 +175,7 @@ var StableCoin = React.createClass({
                         HealthPercentage: {this.state.totalCoins.healthPercentage}%
                     </section>}
                     {this.renderAvailableToMint()}
-                </section>
+                </section>}
             </section>
         );
     }

@@ -18,7 +18,6 @@ function Boot() {
     ReactModuleLoader.load({
         modules: ['spa/' + pathName],
         callback : function() {
-            
             ReactDOM.render(React.createElement(window[pathName.firstLetterToUpperCase()], props), document.body, callback);
         }
     });

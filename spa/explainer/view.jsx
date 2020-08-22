@@ -48,7 +48,7 @@ var Explainer = React.createClass({
                 <header>
                     <h2>A Decentralized finance on top of Uniswap, doing fantastic things securelly</h2>
                 </header>
-                <DappMenu />
+                <DappMenu show={true}/>
                 {this.renderExStableCoin()}
                 {this.renderExCrafting()}
                 {this.renderExIlo()}

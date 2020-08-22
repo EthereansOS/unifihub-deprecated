@@ -27,7 +27,7 @@ var StableCoinController = function (view) {
     }
 
     context.loadPairs = async function loadPairs() {
-        context.view.setState({ pairs: null, token0Approved: null, token1Approved: null });
+        context.view.setState({ pairs: null, token0Approved: null, token1Approved: null, selectedPair : null });
         var pairs = [];
         for (var pairAddress of await window.blockchainCall(window.stableCoin.token.methods.allowedPairs)) {
             var pair = window.newContract(window.context.UniswapV2PairAbi, pairAddress);
