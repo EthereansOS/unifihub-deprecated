@@ -92,8 +92,11 @@ var StableCoin = React.createClass({
                 <DappMenu />
                 <section className="StableCoinTitle">
                     <section className="StableCoinTitleIntern">
-                        <h2><img src="assets/img/m4.png"></img>Uniswap State Dollar</h2>
-                        <h6>uSD is a Stable Coin based on Uniswap Liquidity Pools <a>More</a> | Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                        <img src="assets/img/m4.png"></img>
+                        <article>
+                            <h2>Uniswap State Dollar</h2>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                        </article>
                     </section>
                 </section>
                 {!this.state || !this.state.selectedPair && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")}/>}
@@ -117,51 +120,39 @@ var StableCoin = React.createClass({
                         </label>
                     </section>
                     <section className="UniTierQuantity">
-                        <h5>Quantity</h5>
                         <label className="UniActiveQuantityTier">
                             <input data-token="0" onChange={this.onType} />
                             <img src={this.state.selectedPair.token0.logo} />
                             <p>{this.state.selectedPair.token0.symbol}</p>
+                            <h6><a href="">Max</a> Balance: 100,000,000.566</h6>
                         </label>
-                        <h6>And</h6>
+                        <h5>And</h5>
                         <label className="UniDisactiveQuantityTier">
                             <input data-token="1" onChange={this.onType} />
                             <img src={this.state.selectedPair.token1.logo} />
                             <p>{this.state.selectedPair.token1.symbol}</p>
+                            <h6><a href="">Max</a> Balance: 500,000.566</h6>
                         </label>
-                        <h5>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h5>
-                        {(!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "Disabled" : ""}>Approve {this.state.selectedPair.token0.symbol}</a>}
-                        {this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
-                        {this.state.approving !== undefined && this.state.approving !== null && <LoaderMini />}
-                        {!this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "Disabled" : ""}>GO</a>}
-                        {this.state.performing && <LoaderMini />}
+                        <h2>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
+                        {(!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedPair.token0.symbol}</a>}
+                        {this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
+                        {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")}/>}
+                        {!this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "StableITBTN Disabled" : "StableITBTN"}>GO</a>}
+                        {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")}/>}
                     </section>
                 </section>}
                 {this.state && this.state.selectedPair && <section className="UniSideBox">
-                    {this.state && this.state.priceInDollars && <section>
-                        <h4>Price:</h4>
-                        <span>{window.formatMoney(this.state.priceInDollars, 2)} $</span>
+                    {this.state && this.state.priceInDollars && <section className="SideStandard">
+                        <h4>1 uSD: <b>${window.formatMoney(this.state.priceInDollars, 2)}</b></h4>
                     </section>}
-                    {this.state && this.state.pairs && this.state.differences && <section>
-                        <h4>Differences</h4>
-                        <label>
-                            Credit:
-                                <span>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
-                        </label>
-                        {'\u00a0'}
-                        <label>
-                            Debt:
-                                <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
-                        </label>
+                    {this.state && this.state.totalSupply && <section className="SideStandard">
+                        <h5>Supply:</h5>
+                        <h6>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>
                     </section>}
-                    {this.state && this.state.totalSupply && <section>
-                        <h4>Total Supply:</h4>
-                        <span>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
-                    </section>}
-                    {this.state && this.state.totalCoins && <section>
-                        <h4>Total Coins:</h4>
-                        <a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)}</a>
-                        {this.state.toggleTotalCoins && <ul>
+                    {this.state && this.state.totalCoins && <section className="SideStandard">
+                        <h5>Collateral:</h5>
+                        <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)} S.C.</a></h6>
+                        {this.state.toggleTotalCoins && <ul className="SideStableList">
                             {Object.values(this.state.totalCoins.list).map(it => <li key={it.address}>
                                 <section>
                                     <span>{window.fromDecimals(it.amount, window.stableCoin.decimals)}</span>
@@ -171,10 +162,26 @@ var StableCoin = React.createClass({
                             </li>)}
                         </ul>}
                     </section>}
-                    {this.state && this.state.totalCoins && <section>
-                        HealthPercentage: {this.state.totalCoins.healthPercentage}%
+                    {this.state && this.state.totalCoins && <section className="SideStandard">
+                        <h4>Health:</h4> 
+                        <section className="SideHealthHelp">
+                            <section className="SideHealth"><aside className={this.state.totalCoins.healthPercentage}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
+                        </section>
                     </section>}
                     {this.renderAvailableToMint()}
+                    {this.state && this.state.pairs && this.state.differences && <section className="SideDiff">
+                        <h4>Differences</h4>
+                        <label>
+                            DFO Credit:
+                                <span>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+                        </label>
+                        {'\u00a0'}
+                        <label>
+                            DFO Debt:
+                                <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+                        </label>
+                    </section>}
+                    <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsable DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
             </section>
         );

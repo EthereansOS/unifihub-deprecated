@@ -320,6 +320,15 @@ var StableCoinController = function (view) {
         totalSupply > amount && (percentage *= -1);
         totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         context.view.setState({totalCoins});
+
+        var totalSupply = parseInt(context.view.state.totalSupply);
+        var amount = parseInt(totalCoins.amount);
+        var first = totalSupply < amount ? totalSupply : amount;
+        var second = totalSupply > amount ? totalSupply : amount;
+        var percentage = (first / second) * 100;
+        totalSupply > amount && (percentage *= -1);
+        totalCoins.regularPercentage = window.numberToString(percentage).split(',').join('').split('.')[0];
+        context.view.setState({totalCoins});
     };
 
     context.calculatePriceInDollars = async function calculatePriceInDollars() {

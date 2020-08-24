@@ -15,11 +15,17 @@ section, article, label {display: inline-block;}
 .cover > img {width: 200%; display: inline-block;}
 .unifiWelcome header {width: 200px; display: inline-block; padding: 10px; border: 3px solid #bab9b9;background: #e3d2c2; margin-top: -30px; position: relative; z-index: 10000000000000; border-radius: 8px;}
 .unifiWelcome header h2 {font-size: 13px; font-weight: bolder; color: #291d01;}
-.unifiWelcome .MenuOpen {display: none;}
+.unifiWelcome .MenuOpen {display: none !important;}
 .unifiWelcome .MenuOpen .MConnect {display: none;}
 .unifiWelcome .coverConnectMenu, .unifiWelcome .connectOpener, .unifiWelcome .menuOpener  {display: none;}
 .unifiWelcome .menuAll {display: inline-block; width: 100%;}
 .unifiWelcome .maghetto {display: none;}
+.expMoreandMore {width: 100%; text-align: center; padding: 50px 0;}
+.expMoreandMore h5 {font-size: 25px; color: #c7ac97;}
+.expMoreandMore h5 img {width: 40px; height: 40px; vertical-align: middle;}
+
+.loaderRegular {margin: 30px auto; width: 100px; height: 100px; padding: 30px; border-radius: 8px;}
+.loaderMini {width: 30px; height: 30px; vertical-align: middle; margin: 0 10px; display: inline-block;}
 
 
 .feature {width: 100%; text-align: center;}
@@ -44,7 +50,12 @@ section, article, label {display: inline-block;}
 .featureActions .gitButton {border-color: #f2a55f;}
 .featureActions .gitButton {background-color: #f2a55f;}
 
-footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; background-color: #272727; display: inline-block;}
+footer {width: 100%; padding: 50px 0;background-color: #272727; display: inline-block;}
+footer h5 {font-size: 18px; font-weight: bold; color: #c7ac97; font-weight: normal;}
+footer .welcomeLinks {display: inline-block; text-align: center; width: 95%; vertical-align: top;}
+footer .welcomeLinks a {font-size: 15px; font-weight: bold; background-color: #c7ac97; color: #f1f1f1; padding: 6px 9px; text-decoration: none; border-radius: 4px; margin: 5px; display: inline-block;}
+footer p {width: 95%; vertical-align: top; color: #adadad; font-size: 13px;}
+footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 
 .unifiDapp {position: relative;}
 .unifiDapp .MenuAll {width: 100%; position: fixed; top: 0; left: 0;}
@@ -56,37 +67,69 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
 .unifiDapp .MenuAll .connectOpener {float: right; margin-right: 20px; text-decoration: none;}
 .unifiDapp .MenuAll .connectOpener img {width: 25px; height: 25px; vertical-align: middle;}
 .unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
-.unifiDapp .MenuOpen {display: none;}
-.UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;}
+.unifiDapp .MenuOpen {text-align: left; position: absolute; left: 90px; top: 50px; z-index: 99999999999999;}
+.unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;}
+.UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;vertical-align: top;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
 .StableCoinTitle {width: 100%; margin-top: 100px; text-align: center;}
-.StableCoinTitle .StableCoinTitleIntern {width: 400px; padding: 20px;}
+.StableCoinTitle .StableCoinTitleIntern {display: none;}
 .StableCoinTitle h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
-.StableCoinTitle h6 {font-size: 14px; text-align: left; line-height: 1.3;}
-.StableCoinTitle img {width: 35px; height: 35px; margin-right: 10px; vertical-align: middle;}
+.StableCoinTitle h6 {font-size: 15px; text-align: left; line-height: 1.4; font-weight: normal;}
+.UniActiveQuantityTier h6, .UniDisactiveQuantityTier h6 {font-size: 12px; margin: 0 0 0 10px;}
+.UniActiveQuantityTier h6 a, .UniDisactiveQuantityTier h6 a {padding: 2px 4px; font-size: 10px; text-decoration: none;}
+.UniSideBox .SideStandard {width: 100%; display: inline-block; margin: 0px 0px 10px 0px;}
+.UniSideBox .SideStandard h4 {font-size: 20px; font-weight: normal;}
+.UniSideBox .SideStandard h5 {font-size: 16px; font-weight: normal; margin: 0px 0px 5px 0px;}
+.UniSideBox .SideStandard h6 {font-size: 18px; font-weight: normal;}
+.UniSideBox .SideDiff {display: none;}
+.UniSideBox .SideStableList {display: inline-block; margin: 5px auto;}
+.UniSideBox .SideStableList li {margin: 2px auto;}
+.UniSideBox .SideStableList li span {font-size: 14px; font-weight: bold;}
+.UniSideBox .SideHealthHelp {width: 100%; text-align: left; margin: 6px auto;}
+.UniSideBox .SideHealth {display: inline-block; width: 100%; background-color: #1a1a1a; text-align: left; font-weight: bold; padding: 4px 0; font-size: 14px;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}
+.UniSideBox .SideHealth aside {text-align: center; width: 50%;display: inline-block;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}
+.Disclamerone {font-size: 12px;}
+.StableITBTN, .approveBTN {font-size: 15px; font-weight: bold; padding: 12px 18px; display: inline-block; color: #f1f1f1; text-decoration: none; border-radius: 6px; margin: 15px 5px;}
+.approveBTN {background-color: #5549c9; color: #f1f1f1;}
+.StableITBTN {background-color: #b030df; color: #f1f1f1;}
+.UniTierQuantity .Disabled {background-color: #444444;}
+
+
+
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
 .UniTitle h6 {display: inline-block; width: 90%; text-align: center; font-size: 11px; margin: 5px auto;}
 .UniTitle label {display: inline-block; width: 100%;}
 .UniTierQuantity {margin: 20px auto;}
-.UniTierQuantity h5 {font-size: 20px; font-weight: bold;}
+.UniTierQuantity h5 {font-size: 20px; font-weight: bold; display: inline-block; margin: 8px 0; width: 100%;}
+.UniTierQuantity h2 {font-size-adjust: 22px; margin: 20px;}
 .UniTierQuantity label {width: 246px; text-align: left;}
 .UniTierQuantity label img {width: 20px; height: 20px; margin: 0 5px; vertical-align: middle; display: inline-block;}
 .UniTierQuantity label input {width: 130px; display: inline-block; height: 30px;}
 
 
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
-.RPG .UniBox {background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
-.RPG .UniSideBox {border-radius: 20px; color: #f1f1f1; width: 100%; background-color: #5d5e60;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .UniBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
+.RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
 .RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
 .RPG .UniTitle {color: rgb(195, 197, 203);}
 .RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-.RPG .StableCoinTitle h2 {color: #f1f1f1;}
-.RPG .StableCoinTitle h6 {color: #f1f1f1;}
+.RPG .unifiDapp .MenuOpen .coverMenu {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .StableCoinTitleIntern {background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .StableCoinTitle h2 {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
+.RPG .StableCoinTitle h6 {color: #bab9b9;}
+.RPG .StableCoinTitle h6 a {color: #c7ac97;}
+.RPG .UniSideBox .SideStandard h6 a {color: #bab9b9;}
+.RPG .UniSideBox .SideStableList li span {color: #f1f1f1;}
+.RPG .UniSideBox .SideHealth aside {background-color: #128b03; border:none;}
+.RPG .loaderRegular {background-color: #e3d2c2;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .Disclamerone a {color: #bab9b9; text-decoration: underline;}
+.RPG .UniActiveQuantityTier h6, .RPG .UniDisactiveQuantityTier h6 {color: #adadad;}
+.RPG .UniActiveQuantityTier h6 a, .RPG .UniDisactiveQuantityTier h6 a {background-color: #000000; color: #ffffff; border-radius: 5px; margin-right: 5px;}
 
 @media only screen and (min-width: 640px) {
     .cover {max-height: 740px; width: 100%;}
@@ -100,7 +143,6 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
     .featureActions a {padding: 4px 7px; font-size: 13px;}
     .unifiWelcome header {width: 350px;}
     .unifiWelcome header h2 {font-size: 18px;}
-    footer {margin-top: 70px;}
     .coverMenu {margin: 50px auto 50px auto; width: 240px; border: 3px solid #bab9b9; border-radius: 8px; text-align: left; padding: 8px 5px;}
     .coverMenu li {width: 200; display: inline-block; position: relative; margin-left: 25px;}
     .coverMenu li a {width: 100%; display: inline-block; padding: 5px 5px; text-decoration: none;}
@@ -109,8 +151,12 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
     .coverMenu li .menuArrow {display: none;}
     .coverMenu li:hover .menuArrow {width: 20px; height: 20px; position: absolute; left: -15px; top: 15px; display: block;}
     .coverMenu .menuArrow img {width: 20px; height: 20px;}
-    .unifiWelcome .MenuOpen {display: inline-block}
+    .unifiWelcome .MenuOpen {display: inline-block !important;}
     .MenuOpen {width: 100%; display: inline-block; text-align: center;}
+    .StableCoinTitle .StableCoinTitleIntern {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
+    .StableCoinTitleIntern article {width: 480px; display: inline-block; vertical-align: middle;}
+    .StableCoinTitle img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
+    footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
 
 }
 @media only screen and (min-width: 890px) {
@@ -124,4 +170,9 @@ footer {width: 100%; height: 300px; padding: 20px 0; margin-top: 30px; backgroun
     .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
     .unifiWelcome header {width: 500px;}
     .unifiWelcome header h2 {font-size: 20px;}
+    .StableCoinTitle .StableCoinTitleIntern {width: 740px;}
+    .StableCoinTitleIntern article {width: 590px;}
+    .StableCoinTitle img {width: 100px; height: 100px;}
+    footer .welcomeLinks, footer p {width: 500px;}
+    
 }

@@ -54,9 +54,24 @@ var Explainer = React.createClass({
                 {this.renderExIlo()}
                 {this.renderExDex()}
                 {this.renderExGrimoire()}
+                <section className="expMoreandMore">
+                    <h5><img src="assets/img/farmer.png"></img>And more to come...</h5>
+                </section>
                 <footer>
                     <section>
-
+                        <h5>A <a target="_blank" href="https://dfohub.com">dfohub</a> R&D project, Made with ❤️ for Ethereans</h5>
+                        <section className="welcomeLinks">
+                            <a target="_blank" href="https://github.com/b-u-i-d-l/unifi">Github</a>
+                            <a target="_blank" href="https://dapp.dfohub.com/?addr=0xbC8E0616A61137E1905adb858963f781934A44eD">DFO Info</a>
+                            <a target="_blank" href="https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c">UniFi Stake</a>
+                            <a target="_blank" href="https://discord.gg/gtYHrN9">Discord</a>
+                            <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a>
+                            <a target="_blank" href="https://twitter.com/dfohub">Twitter</a>
+                            <a target="_blank" href="https://uniswap.info/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Uniswap</a>
+                            <a target="_blank" href="https://defipulse.io">DeFi Pulse</a>
+                            <a target="_blank" href="https://etherscan.io/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Etherscan</a>
+                        </section>
+                        <p><b>Use it at your own risk!</b> This is an R&D project in it's early stage [Beta]. Before to use UniFi related functions be sure to read the documentation and Smart Contracts code. All of the Functions of UniFi work on top of Uniswap, Before use them be sure to read how Uniswap work: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
                     </section>
                 </footer>
             </section>
