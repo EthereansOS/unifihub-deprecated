@@ -165,7 +165,7 @@ var StableCoin = React.createClass({
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4> 
                         <section className="SideHealthHelp">
-                            <section className="SideHealth"><aside className={this.state.totalCoins.healthPercentage}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
+                            <section className="SideHealth"><aside style={{"width":this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
                         </section>
                     </section>}
                     {this.renderAvailableToMint()}

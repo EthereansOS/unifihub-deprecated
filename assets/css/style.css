@@ -87,16 +87,14 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniSideBox .SideStableList {display: inline-block; margin: 5px auto;}
 .UniSideBox .SideStableList li {margin: 2px auto;}
 .UniSideBox .SideStableList li span {font-size: 14px; font-weight: bold;}
-.UniSideBox .SideHealthHelp {width: 100%; text-align: left; margin: 6px auto;}
+.UniSideBox .SideHealthHelp {width: 95%; text-align: left; margin: 6px auto;}
 .UniSideBox .SideHealth {display: inline-block; width: 100%; background-color: #1a1a1a; text-align: left; font-weight: bold; padding: 4px 0; font-size: 14px;border-radius: 5px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;}
-.UniSideBox .SideHealth aside {text-align: center; width: 50%;display: inline-block;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}
+.UniSideBox .SideHealth aside {text-align: center; display: inline-block;border-radius: 3px;box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;transition: width .4s ease-in-out;}
 .Disclamerone {font-size: 12px;}
 .StableITBTN, .approveBTN {font-size: 15px; font-weight: bold; padding: 12px 18px; display: inline-block; color: #f1f1f1; text-decoration: none; border-radius: 6px; margin: 15px 5px;}
 .approveBTN {background-color: #5549c9; color: #f1f1f1;}
 .StableITBTN {background-color: #b030df; color: #f1f1f1;}
 .UniTierQuantity .Disabled {background-color: #444444;}
-
-
 
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
