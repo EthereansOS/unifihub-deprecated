@@ -54,6 +54,7 @@ var DappMenu = React.createClass({
     toggle(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
+        var oldTarget = e.currentTarget;
         var toggleWork = function toggleWork(type) {
             var state = {};
             state[type] = !(_this.state && _this.state[type]);
@@ -61,7 +62,7 @@ var DappMenu = React.createClass({
             _this.setState(state, function() {
                 _this.state[type] && _this[type] && !_this[type].onblur && (_this[type].onblur = function(e) {
                     e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-                    e.relatedTarget && e.relatedTarget.click();
+                    e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
                     //toggleWork(type);
                 }) && _this[type].focus();
             });
