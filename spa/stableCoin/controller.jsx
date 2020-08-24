@@ -21,7 +21,7 @@ var StableCoinController = function (view) {
             differences[0] = '0';
         }
         if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
-            differences[1] = '5000000000000000000';
+            differences[1] = '0';
         }
         return differences;
     }
@@ -327,7 +327,6 @@ var StableCoinController = function (view) {
         var first = totalSupply < amount ? totalSupply : amount;
         var second = totalSupply > amount ? totalSupply : amount;
         var percentage = (first / second) * 100;
-        totalSupply > amount && (percentage *= -1);
         totalCoins.regularPercentage = window.numberToString(percentage).split(',').join('').split('.')[0];
         totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         context.view.setState({totalCoins});

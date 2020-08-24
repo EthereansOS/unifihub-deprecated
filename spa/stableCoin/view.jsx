@@ -177,6 +177,7 @@ var StableCoin = React.createClass({
                         <h5>Supply:</h5>
                         <h6>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>
                     </section>}
+                    {this.renderAvailableToMint()}
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h5>Collateral:</h5>
                         <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)} S.C.</a></h6>
@@ -190,16 +191,15 @@ var StableCoin = React.createClass({
                             </li>)}
                         </ul>}
                     </section>}
-                    {this.state && this.state.totalCoins && <section className="SideStandard">
+                    {window.walletAddress && this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4>
                         <section className="SideHealthHelp">
-                            <section className="SideHealth"><aside style={{"width":this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
+                            <section className="SideHealth"><aside style={{"width": this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
                         </section>
                     </section>}
-                    {this.renderAvailableToMint()}
-                    {this.state && this.state.pairs && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
+                    {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
                         <h4>Rebalance</h4>
-                        {this.state.differences[0] !== '0' && <section className="SideRebelanceBro SideCredit">
+                        {parseInt(this.state.totalCoins.regularPercentage) < 97 && <section className="SideRebelanceBro SideCredit">
                             <label>
                                 <h5>DFO Credit:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
@@ -208,7 +208,7 @@ var StableCoin = React.createClass({
                                 <a href="javascript:;" onClick={this.controller.rebalanceByCredit} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}
-                        {this.state.differences[1] !== '0' && <section className="SideRebelanceBro SideDebit">
+                        {parseInt(this.state.totalCoins.regularPercentage) > 101 && <section className="SideRebelanceBro SideDebit">
                             <label>
                                 <h5>DFO Debt:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>

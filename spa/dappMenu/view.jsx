@@ -54,6 +54,7 @@ var DappMenu = React.createClass({
     toggle(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
+        var oldTarget = e.currentTarget;
         var toggleWork = function toggleWork(type) {
             var state = {};
             state[type] = !(_this.state && _this.state[type]);
@@ -61,7 +62,7 @@ var DappMenu = React.createClass({
             _this.setState(state, function() {
                 _this.state[type] && _this[type] && !_this[type].onblur && (_this[type].onblur = function(e) {
                     e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-                    e.relatedTarget && e.relatedTarget.click();
+                    e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
                     //toggleWork(type);
                 }) && _this[type].focus();
             });
@@ -74,6 +75,7 @@ var DappMenu = React.createClass({
                 <a className="maghetto" href=""><img src="assets/img/maghetto.png"></img></a>
                 <a href="javascript:;" onClick={this.toggle} data-type="menu" className="menuOpener">Menu</a>
                 {!window.walletAddress && <a href="javascript:;" onClick={this.toggle} data-type="connect" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>}
+                {window.walletAddress && <a href="javascript:;" className="connectOpener"><img src={window.makeBlockie(window.walletAddress)}/><span>{window.shortenWord(window.walletAddress, 12)}</span></a>}
                 <section className="MenuOpen" style={{"display" : this.props.show ? "inline-block" : this.state && this.state.menu ? "inline-block" : "none"}}>
                     <section ref={ref => this.menu = ref} className="coverMenu" tabIndex="-1">
                         {this.state.menuItems.map(this.renderMenuItem)}
