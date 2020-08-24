@@ -103,6 +103,17 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.controller.rebalanceByDebt(this.rebalanceByDebtInput.value);
     },
+    rebalanceByDebtInputChange(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var _this = this;
+        var target = e.currentTarget;
+        _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
+        _this.onTypeTimeout = setTimeout(function () {
+            _this.controller.calculateRebalanceByDebtReward(target.value).then(function(result) {
+                _this.debtReward.innerHTML = window.fromDecimals(result, window.dfo.decimals);
+            });
+        }, window.context.typeTimeout);
+    },
     render() {
         return (
             <section className="unifiDapp">
@@ -203,13 +214,22 @@ var StableCoin = React.createClass({
                                 <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
                             </label>
                             {window.walletAddress && <section>
+                                <br/>
+                                <br/>
                                 <label>
                                     <span>Amount:</span>
                                     {'\u00a0'}
-                                    <input ref={ref => this.rebalanceByDebtInput = ref}/>
+                                    <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref}/>
                                     {'\u00a0'}
                                     <span>{window.stableCoin.symbol}</span>
                                 </label>
+                                <section>
+                                    <span>You Will Receive:</span>
+                                    {'\u00a0'}
+                                    <span ref={ref => this.debtReward = ref}></span>
+                                    {'\u00a0'}
+                                    <span>{window.dfo.symbol}</span>
+                                </section>
                                 <a href="javascript:;" onClick={this.rebalanceByDebt} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}

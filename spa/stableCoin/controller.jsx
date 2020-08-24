@@ -21,7 +21,7 @@ var StableCoinController = function (view) {
             differences[0] = '0';
         }
         if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
-            differences[1] = '0';
+            differences[1] = '5000000000000000000';
         }
         return differences;
     }
