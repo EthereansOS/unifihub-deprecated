@@ -55,15 +55,15 @@ abstract contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-     function init(string memory name, string memory symbol) internal {
+    function init(string memory name, string memory symbol) internal {
         require(
             keccak256(bytes(_symbol)) == keccak256(""),
             "Init already Called!"
         );
-         _name = name;
-         _symbol = symbol;
-         _decimals = 18;
-     }
+        _name = name;
+        _symbol = symbol;
+        _decimals = 18;
+    }
 
     /**
      * @dev Returns the name of the token.
@@ -275,7 +275,8 @@ abstract contract ERC20 is Context, IERC20 {
         emit Transfer(sender, recipient, amount);
     }
 
-    /** @dev Creates `amount` tokens and assigns them to `account`, increasing
+    /**
+     * @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
      *
      * Emits a {Transfer} event with `from` set to the zero address.

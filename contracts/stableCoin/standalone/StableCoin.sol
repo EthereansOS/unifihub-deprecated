@@ -21,6 +21,9 @@ contract StableCoin is ERC20, IStableCoin {
 
     uint256 private _lastRedeemBlock;
 
+    /**
+     Stablecoin constructor function.
+     */
     constructor(
         string memory name,
         string memory symbol,
@@ -44,6 +47,10 @@ contract StableCoin is ERC20, IStableCoin {
         );
     }
 
+    /**
+     * Initialize the StableCoin.
+     * @inheritdoc IStableCoin
+     */
     function init(
         string memory name,
         string memory symbol,
@@ -253,7 +260,7 @@ contract StableCoin is ERC20, IStableCoin {
     ) public override _forAllowedPair(pairIndex) returns (uint256 redeemed) {
         require(
             block.number >=
-            _lastRedeemBlock + 
+            _lastRedeemBlock +
             IStateHolder(
                 IMVDProxy(IDoubleProxy(_doubleProxy).proxy())
                     .getStateHolderAddress()

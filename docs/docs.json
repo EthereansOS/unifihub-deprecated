@@ -1,0 +1,132 @@
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IDoubleProxy =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IMVDFunctionalitiesManager =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IMVDProxy =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IStableCoin =======
+Developer Documentation
+{
+  "details": "Define the interface for the usD",
+  "kind": "dev",
+  "methods":
+  {
+    "allowedPairs()":
+    {
+      "details": "Get the list of allowed Uniswap pairs",
+      "returns":
+      {
+        "_0": "List of allowed Uniswap pairs"
+      }
+    },
+    "availableToMint()":
+    {
+      "details": "Get the amount of available mintable token"
+    },
+    "calculateRebalanceByDebtReward(uint256)":
+    {
+      "details": "@param burnt amount of of uSD burnt"
+    },
+    "differences()":
+    {
+      "details": "GET"
+    },
+    "doubleProxy()":
+    {
+      "details": "Get the address for the doubleProxy smart contract"
+    },
+    "fromTokenToStable(address,uint256)":
+    {
+      "details": "Convert from one of the pooled token to uSD",
+      "params":
+      {
+        "amount": "Of token to be converted",
+        "tokenAddress": "Address of the token to convert"
+      },
+      "returns":
+      {
+        "_0": "Amount of uSD tokens"
+      }
+    },
+    "init(string,string,address,address[],uint256[],uint256[],uint256[])":
+    {
+      "details": "Constructor signature",
+      "params":
+      {
+        "allowedPairs": "list of Uniswap Pairs to be set as whitelisted source tokens",
+        "doubleProxy": "address for the DoubleProxy",
+        "mintables": "max amount of mintables inside a timeWindow",
+        "name": "name of the StableCoin ERC20 token",
+        "rebalanceRewardMultiplier": "multiplier used to compute how many unifi tokens to mint during uSD rebalance",
+        "symbol": "ticker for the StableCoin ERC20 token",
+        "timeWindows": "time windows inside which some time-delimited operations can be performed"
+      }
+    },
+    "setAllowedPairs(address[])":
+    {
+      "details": "Set the whitelisted Uniswap pairs",
+      "params":
+      {
+        "newAllowedPairs": "list of Uniswap pairs to be whitelisted"
+      }
+    },
+    "setDoubleProxy(address)":
+    {
+      "details": "Set a new DoubleProxy",
+      "params":
+      {
+        "newDoubleProxy": "new DoubleProxy to set"
+      }
+    },
+    "tierData()":
+    {
+      "details": "Get all tiers of data of the carried context"
+    }
+  },
+  "title": "Interface for the \"uSD\" AKA \"uniswap State Dollar\", Unifi stablecoin.",
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IStateHolder =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IUniswapV2Pair =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "title": "Interface",
+  "version": 1
+}
+
+======= ../contracts/stableCoin/standalone/IStableCoin.sol:IUniswapV2Router =======
+Developer Documentation
+{
+  "kind": "dev",
+  "methods": {},
+  "version": 1
+}
