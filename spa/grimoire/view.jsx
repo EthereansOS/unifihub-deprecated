@@ -1,6 +1,7 @@
 var Grimoire = React.createClass({
     requiredScripts: [
-        'spa/loader.jsx'
+        'spa/loader.jsx',
+        'spa/grimoire/grimuSD.jsx'
     ],
     
     render() {
@@ -24,10 +25,12 @@ var Grimoire = React.createClass({
                             <a href=""><img src="assets/img/m2.png"></img><b>Crafting:</b> Programmable Liquidity</a>
                             <a href=""><img src="assets/img/m5.png"></img><b>ILO:</b> Initial Liquidity Offering</a>
                             <a href=""><img src="assets/img/m1.png"></img><b>Bazaar:</b> Uniswap Advanced Listing</a>
+                            <a href=""><img src="assets/img/maghetto.png"></img><b>UniFi Strategy:</b> Token and WP</a>
                         </ul>
                     </section>
 
                 </section>
+                <GrimuSD />
             </section>
         );
     }
