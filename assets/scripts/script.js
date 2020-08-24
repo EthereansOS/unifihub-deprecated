@@ -75,7 +75,6 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
     return new Promise(function(ok, ko) {
         setTimeout(async function() {
             try {
-
                 var web3Provider = !isNaN(millis) || !millis ? window.context.infuraNode : millis;
                 var update = false;
                 if (!window.networkId || window.networkId !== await window.web3.eth.net.getId()) {
@@ -89,6 +88,9 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     if (network === undefined || network === null) {
                         return alert('This network is actually not supported!');
                     }
+                    window.ethereum && window.ethereum.autoRefreshOnNetworkChange && (window.ethereum.autoRefreshOnNetworkChange = false);
+                    window.ethereum && window.ethereum.on && window.ethereum.on('networkChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
+                    window.ethereum && window.ethereum.on && window.ethereum.on('accountsChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
                     window.DFOHub(window.web3);
                     window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
                     window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
@@ -100,6 +102,7 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address, window.wethToken.options.address);
                     update = true;
                 }
+                delete window.walletAddress;
                 try {
                     window.walletAddress = (await window.web3.eth.getAccounts())[0];
                 } catch (e) {}

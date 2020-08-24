@@ -147,6 +147,9 @@ contract StableCoin is ERC20, IStableCoin {
         view
         returns (uint256 reward)
     {
+        if(burnt == 0) {
+            return 0;
+        }
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getToken();
@@ -281,6 +284,7 @@ contract StableCoin is ERC20, IStableCoin {
     }
 
     function rebalanceByDebt(uint256 amount) public override returns(uint256 reward) {
+        require(amount > 0, "You must insert a positive value");
         (, uint256 debt) = differences();
         require(amount <= debt, "Cannot Burn this amount");
         _burn(msg.sender, amount);

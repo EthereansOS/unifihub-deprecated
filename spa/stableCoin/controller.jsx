@@ -21,7 +21,7 @@ var StableCoinController = function (view) {
             differences[0] = '0';
         }
         if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
-            differences[1] = '0';
+            differences[1] = '5000000000000000000';
         }
         return differences;
     }
@@ -47,7 +47,14 @@ var StableCoinController = function (view) {
         });
     };
 
+    context.getBalance = async function getBalance(selectedPair) {
+        selectedPair.token0.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token0.token.methods.balanceOf, window.walletAddress);
+        selectedPair.token1.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token1.token.methods.balanceOf, window.walletAddress);
+        context.view.setState(selectedPair);
+    };
+
     context.checkApprove = async function checkApprove(pairData) {
+        context.getBalance(pairData);
         var token0Approved = null;
         var token1Approved = null;
         context.view.setState({ token0Approved, token1Approved });
@@ -250,6 +257,9 @@ var StableCoinController = function (view) {
     context.rebalanceByDebt = async function rebalanceByDebt(amount) {
         try {
             amount = window.toDecimals(amount.split(',').join(''), window.stableCoin.decimals);
+            if(isNaN(parseInt(amount)) || parseInt(amount) <= 0) {
+                throw `Inserted amount must be a positive number`;
+            }
             var differences = await context.loadDifferences();
             var debt = parseInt(differences[1]);
             if(parseInt(amount) > debt) {
@@ -318,16 +328,8 @@ var StableCoinController = function (view) {
         var second = totalSupply > amount ? totalSupply : amount;
         var percentage = (first / second) * 100;
         totalSupply > amount && (percentage *= -1);
-        totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
-        context.view.setState({totalCoins});
-
-        var totalSupply = parseInt(context.view.state.totalSupply);
-        var amount = parseInt(totalCoins.amount);
-        var first = totalSupply < amount ? totalSupply : amount;
-        var second = totalSupply > amount ? totalSupply : amount;
-        var percentage = (first / second) * 100;
-        totalSupply > amount && (percentage *= -1);
         totalCoins.regularPercentage = window.numberToString(percentage).split(',').join('').split('.')[0];
+        totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         context.view.setState({totalCoins});
     };
 
