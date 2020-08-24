@@ -130,14 +130,14 @@ var StableCoin = React.createClass({
                 {!this.state || !this.state.selectedPair && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
-                        <labe>
+                        <label>
                             <select ref={ref => this.actionSelect = ref}>
                                 <option value="Mint">Mint</option>
                                 <option value="Burn">Burn</option>
                             </select>
                             <img className="UniStableManage" src={window.stableCoin.logo}></img>
                             <p><b>{window.stableCoin.symbol}</b></p>
-                        </labe>
+                        </label>
                         <label>
                             <p> by</p>
                             <select onChange={this.onPairChange}>

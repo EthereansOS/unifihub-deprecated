@@ -35,8 +35,8 @@ var StableCoinController = function (view) {
                 index: pairs.length,
                 address: pairAddress,
                 pair: pair,
-                token0: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token0), window.wethToken.options.address),
-                token1: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token1), window.wethToken.options.address)
+                token0: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token0)),
+                token1: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token1))
             };
             pairData.name = pairData.token0.symbol + ' / ' + pairData.token1.symbol;
             pairs.push(pairData);
