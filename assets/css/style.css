@@ -73,10 +73,10 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
-.StableCoinTitle {width: 100%; margin-top: 100px; text-align: center;}
-.StableCoinTitle .StableCoinTitleIntern {display: none;}
-.StableCoinTitle h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
-.StableCoinTitle h6 {font-size: 15px; text-align: left; line-height: 1.4; font-weight: normal;}
+.StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 100px; text-align: center;}
+.StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {display: none;}
+.StableCoinTitle h2, .grimoireWelcome h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
+.StableCoinTitle h6, .grimoireWelcome h6 {font-size: 15px; text-align: left; line-height: 1.4; font-weight: normal;}
 .UniActiveQuantityTier h6, .UniDisactiveQuantityTier h6 {font-size: 12px; margin: 0 0 0 10px;}
 .UniActiveQuantityTier h6 a, .UniDisactiveQuantityTier h6 a {padding: 2px 4px; font-size: 10px; text-decoration: none;}
 .UniSideBox .SideStandard {width: 100%; display: inline-block; margin: 0px 0px 10px 0px;}
@@ -117,10 +117,10 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .UniTitle {color: rgb(195, 197, 203);}
 .RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .unifiDapp .MenuOpen .coverMenu {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-.RPG .StableCoinTitleIntern {background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-.RPG .StableCoinTitle h2 {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
-.RPG .StableCoinTitle h6 {color: #bab9b9;}
-.RPG .StableCoinTitle h6 a {color: #c7ac97;}
+.RPG .StableCoinTitleIntern, .RPG .grimoireWelcomeIntern {background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .StableCoinTitle h2, .RPG .grimoireWelcome h2 {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
+.RPG .StableCoinTitle h6, .RPG .grimoireWelcome h6 {color: #bab9b9;}
+.RPG .StableCoinTitle h6 a, .RPG .grimoireWelcome h6 a {color: #c7ac97;}
 .RPG .UniSideBox .SideStandard h6 a {color: #bab9b9;}
 .RPG .UniSideBox .SideStableList li span {color: #f1f1f1;}
 .RPG .UniSideBox .SideHealth aside {background-color: #128b03; border:none;}
@@ -151,9 +151,9 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .coverMenu .menuArrow img {width: 20px; height: 20px;}
     .unifiWelcome .MenuOpen {display: inline-block !important;}
     .MenuOpen {width: 100%; display: inline-block; text-align: center;}
-    .StableCoinTitle .StableCoinTitleIntern {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
-    .StableCoinTitleIntern article {width: 480px; display: inline-block; vertical-align: middle;}
-    .StableCoinTitle img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
+    .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
+    .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
 
 }
@@ -168,9 +168,9 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
     .unifiWelcome header {width: 500px;}
     .unifiWelcome header h2 {font-size: 20px;}
-    .StableCoinTitle .StableCoinTitleIntern {width: 740px;}
-    .StableCoinTitleIntern article {width: 590px;}
-    .StableCoinTitle img {width: 100px; height: 100px;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 740px;}
+    .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 590px;}
+    .StableCoinTitle img, .grimoireWelcome img {width: 100px; height: 100px;}
     footer .welcomeLinks, footer p {width: 500px;}
     
 }
