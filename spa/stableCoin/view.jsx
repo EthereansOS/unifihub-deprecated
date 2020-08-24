@@ -198,37 +198,31 @@ var StableCoin = React.createClass({
                     </section>}
                     {this.renderAvailableToMint()}
                     {this.state && this.state.pairs && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
-                        <h4>Differences</h4>
-                        {this.state.differences[0] !== '0' && <section>
+                        <h4>Rebalance</h4>
+                        {this.state.differences[0] !== '0' && <section className="SideRebelanceBro SideCredit">
                             <label>
-                                DFO Credit:
-                                <span>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+                                <h5>DFO Credit:</h5>
+                                <h6><b>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
                             </label>
                             {window.walletAddress && <section>
                                 <a href="javascript:;" onClick={this.controller.rebalanceByCredit} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}
-                        {this.state.differences[1] !== '0' && <section>
+                        {this.state.differences[1] !== '0' && <section className="SideRebelanceBro SideDebit">
                             <label>
-                                DFO Debt:
-                                <span>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
+                                <h5>DFO Debt:</h5>
+                                <h6><b>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
                             </label>
-                            {window.walletAddress && <section>
-                                <br/>
-                                <br/>
+                            {window.walletAddress && <section className="RebalanceEmergency">
                                 <label>
-                                    <span>Amount:</span>
-                                    {'\u00a0'}
+                                    <span>&#128293;</span>
                                     <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref}/>
-                                    {'\u00a0'}
                                     <span>{window.stableCoin.symbol}</span>
                                 </label>
-                                <section>
-                                    <span>You Will Receive:</span>
-                                    {'\u00a0'}
+                                <section className="RebalanceEmergencyRew">
+                                    <span>Reward: </span>
                                     <span ref={ref => this.debtReward = ref}></span>
-                                    {'\u00a0'}
-                                    <span>{window.dfo.symbol}</span>
+                                    <span> {window.dfo.symbol}</span>
                                 </section>
                                 <a href="javascript:;" onClick={this.rebalanceByDebt} className="StableITBTN">Rebalance</a>
                             </section>}

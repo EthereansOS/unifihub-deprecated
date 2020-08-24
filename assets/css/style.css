@@ -94,6 +94,18 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .approveBTN {background-color: #5549c9; color: #f1f1f1;}
 .StableITBTN {background-color: #b030df; color: #f1f1f1;}
 .UniTierQuantity .Disabled {background-color: #444444;}
+.SideRebelanceBro {margin: 10px auto;}
+.SideRebelanceBro label {width: 100%;}
+.SideRebelanceBro label h5 {font-size: 14px; width: 100%; font-weight: normal;}
+.SideRebelanceBro label h6 {font-size: 16px; width: 100%; color: #a5012d;}
+.SideCredit label h6 {color: #2fd2c1;}
+.SideDebit label h6 {color: #a5012d;}
+.SideDebit .StableITBTN {background-color:  #a5012d;}
+.SideCredit .StableITBTN {background-color:  #2fd2c1;}
+.RebalanceEmergency label {width: 100%; text-align: center; margin: 10px auto;}
+.RebalanceEmergency {width: 100%; margin: 5px auto;}
+.RebalanceEmergency label span {display: inline-block; margin: 0 5px; font-size: 15px;}
+.RebalanceEmergencyRew {width: 100%; display: inline-block;}
 
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
@@ -105,14 +117,14 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniTierQuantity h2 {font-size-adjust: 22px; margin: 20px;}
 .UniTierQuantity label {width: 246px; text-align: left;}
 .UniTierQuantity label img {width: 20px; height: 20px; margin: 0 5px; vertical-align: middle; display: inline-block;}
-.UniTierQuantity label input {width: 130px; display: inline-block; height: 30px;}
+.UniTierQuantity label input, .RebalanceEmergency label input {width: 130px; display: inline-block; height: 30px;}
 
 
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
 .RPG .UniBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
-.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
+.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
 .RPG .UniTitle {color: rgb(195, 197, 203);}
 .RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .unifiDapp .MenuOpen .coverMenu {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
