@@ -2,6 +2,9 @@ var DappMenu = React.createClass({
     requiredModules: [
         'spa/ethereumWalletProvider'
     ],
+    requiredScripts: [
+        'assets/plugins/ethereumProviders/ethereumProviders.js'
+    ],
     getDefaultSubscriptions() {
         return {
             'ethereum/ping': () => this.forceUpdate(),

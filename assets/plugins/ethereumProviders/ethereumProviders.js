@@ -19,6 +19,7 @@ var EthereumProviders = function EthereumProviders() {
             if (!wallet) {
                 return;
             }
+            window.localStorage.removeItem("selectedEthereumProvider");
             return new Promise(function(ok, ko) {
                 try {
                     wallet.script = wallet.script || "assets/plugins/ethereumProviders/" + wallet.name.split(' ').join('').firstLetterToLowerCase() + ".js";
@@ -30,6 +31,7 @@ var EthereumProviders = function EthereumProviders() {
                                 var provider = await window[wallet.scriptName].retrieveProvider();
                                 delete window.networkId;
                                 await window.onEthereumUpdate(provider);
+                                provider && !wallet.reconnectionNotSupported && window.localStorage.setItem("selectedEthereumProvider", window.EthereumProviders.list.indexOf(wallet) + '');
                                 return ok();
                             } catch (e) {
                                 return ko(e);
@@ -43,3 +45,4 @@ var EthereumProviders = function EthereumProviders() {
         }
     }
 }();
+(typeof window.localStorage.selectedEthereumProvider).toLowerCase() !== "undefined" && window.EthereumProviders.activate(window.EthereumProviders.list[window.localStorage.selectedEthereumProvider]);

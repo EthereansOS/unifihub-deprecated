@@ -106,6 +106,7 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                 try {
                     window.walletAddress = (await window.web3.eth.getAccounts())[0];
                 } catch (e) {}
+                !window.walletAddress && window.localStorage.removeItem("selectedEthereumProvider");
                 update && $.publish('ethereum/update');
                 $.publish('ethereum/ping');
                 return ok(window.web3);
