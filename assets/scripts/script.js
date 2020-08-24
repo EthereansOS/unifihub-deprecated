@@ -88,6 +88,9 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     if (network === undefined || network === null) {
                         return alert('This network is actually not supported!');
                     }
+                    window.ethereum && window.ethereum.autoRefreshOnNetworkChange && (window.ethereum.autoRefreshOnNetworkChange = false);
+                    window.ethereum && window.ethereum.on && window.ethereum.on('networkChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
+                    window.ethereum && window.ethereum.on && window.ethereum.on('accountsChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
                     window.DFOHub(window.web3);
                     window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
                     window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
