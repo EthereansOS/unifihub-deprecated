@@ -69,6 +69,8 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
 .unifiDapp .MenuOpen {text-align: left; position: absolute; left: 90px; top: 50px; z-index: 99999999999999;}
 .unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;}
+.ethereumWalletProvider {text-align: left; position: absolute; right: 90px; top: 50px; z-index: 99999999999999;}
+
 .UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;vertical-align: top;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
