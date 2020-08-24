@@ -191,7 +191,7 @@ var StableCoin = React.createClass({
                             </li>)}
                         </ul>}
                     </section>}
-                    {window.walletAddress && this.state && this.state.totalCoins && <section className="SideStandard">
+                    {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4>
                         <section className="SideHealthHelp">
                             <section className="SideHealth"><aside style={{"width": this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
