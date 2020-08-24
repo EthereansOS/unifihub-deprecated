@@ -59,10 +59,10 @@ var DappMenu = React.createClass({
             state[type] = !(_this.state && _this.state[type]);
             _this[type] && delete _this[type].onblur;
             _this.setState(state, function() {
-                _this.state[type] && _this[type] && (_this[type].onblur = function(e) {
+                _this.state[type] && _this[type] && !_this[type].onblur && (_this[type].onblur = function(e) {
                     e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                     e.relatedTarget && e.relatedTarget.click();
-                    toggleWork(type);
+                    //toggleWork(type);
                 }) && _this[type].focus();
             });
         };
@@ -80,7 +80,7 @@ var DappMenu = React.createClass({
                     </section>
                 </section>
                 {!window.walletAddress && this.state && this.state.connect && <section ref={ref => this.connect = ref} tabIndex="-1" className="coverConnectMenu">
-                    <EthereumWalletProvider />
+                    <EthereumWalletProvider className="coverMenu" />
                 </section>}
             </section>
         );

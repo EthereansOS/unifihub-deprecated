@@ -21,7 +21,7 @@ var EthereumWalletProvider = React.createClass({
     },
     render() {
         return (
-            <section className="coverMenu">
+            <section className={this.props.className}>
                 <section>
                     {this.state && this.state.wallets.map((it, i) => {
                         return !it.disabled && <li key={it.name}>
