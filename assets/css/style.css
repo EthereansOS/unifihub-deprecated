@@ -68,7 +68,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .unifiDapp .MenuAll .connectOpener img {width: 25px; height: 25px; vertical-align: middle;}
 .unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
 .unifiDapp .MenuOpen {text-align: left; position: absolute; left: 90px; top: 50px; z-index: 99999999999999;}
-.unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;}
+.unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;outline: -webkit-focus-ring-color auto 0px;}
 .ethereumWalletProvider {text-align: left; position: absolute; right: 20px; top: 0px; z-index: 99999999999999;}
 
 .UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;vertical-align: top;}
@@ -76,6 +76,9 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
 .StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 100px; text-align: center;}
+.grimoireBoxAll {width: 100%; margin-top: 25px; text-align: center;}
+.grimoireBox {width: 95%; margin-bottom: 18px;}
+
 .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {display: none;}
 .StableCoinTitle h2, .grimoireWelcome h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
 .StableCoinTitle h6, .grimoireWelcome h6 {font-size: 15px; text-align: left; line-height: 1.4; font-weight: normal;}
@@ -168,7 +171,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .coverMenu .menuArrow img {width: 20px; height: 20px;}
     .unifiWelcome .MenuOpen {display: inline-block !important;}
     .MenuOpen {width: 100%; display: inline-block; text-align: center;}
-    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
     .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
@@ -185,7 +188,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
     .unifiWelcome header {width: 500px;}
     .unifiWelcome header h2 {font-size: 20px;}
-    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 740px;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 740px;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 590px;}
     .StableCoinTitle img, .grimoireWelcome img {width: 100px; height: 100px;}
     footer .welcomeLinks, footer p {width: 500px;}

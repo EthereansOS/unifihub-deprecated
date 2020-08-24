@@ -11,12 +11,20 @@ var Grimoire = React.createClass({
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/m0.png"></img>
                         <article>
-                            <h2>Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                            <h2>The Grimoire</h2>
+                            <h6><b>The comprehensive giude to use the Uniswap Magic</b> <br></br>Here, you can find every info needed to understand UniFi and to integrate your dapp with this protocol.</h6>
                         </article>
                     </section>
                 </section>
-                <section className="grimoireIndex">
+                <section className="grimoireBoxAll">
+                    <section className="grimoireBox">
+                        <ul className="grimoireIndex">
+                            <a>Stable Coin: Uniswap State Dollar</a>
+                            <a>Crafting: Programmable Liquidity</a>
+                            <a>ILO: Initial Liquidity Offering</a>
+                            <a>Bazaar: Uniswap Advanced Listing</a>
+                        </ul>
+                    </section>
 
                 </section>
             </section>
