@@ -106,6 +106,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RebalanceEmergency {width: 100%; margin: 5px auto;}
 .RebalanceEmergency label span {display: inline-block; margin: 0 5px; font-size: 15px;}
 .RebalanceEmergencyRew {width: 100%; display: inline-block;}
+.coverConnectMenu:focus {border: none; outline: -webkit-focus-ring-color auto 0px;} 
 
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
@@ -139,6 +140,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .Disclamerone a {color: #bab9b9; text-decoration: underline;}
 .RPG .UniActiveQuantityTier h6, .RPG .UniDisactiveQuantityTier h6 {color: #adadad;}
 .RPG .UniActiveQuantityTier h6 a, .RPG .UniDisactiveQuantityTier h6 a {background-color: #000000; color: #ffffff; border-radius: 5px; margin-right: 5px;}
+.RPG .coverConnectMenu .ethereumWalletProvider {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 
 @media only screen and (min-width: 640px) {
     .cover {max-height: 740px; width: 100%;}
