@@ -19,10 +19,11 @@ var Grimoire = React.createClass({
                 <section className="grimoireBoxAll">
                     <section className="grimoireBox">
                         <ul className="grimoireIndex">
-                            <a>Stable Coin: Uniswap State Dollar</a>
-                            <a>Crafting: Programmable Liquidity</a>
-                            <a>ILO: Initial Liquidity Offering</a>
-                            <a>Bazaar: Uniswap Advanced Listing</a>
+                            <h2>Index</h2>
+                            <a href=""><img src="assets/img/m4.png"></img><b>Stable Coin:</b> Uniswap State Dollar</a>
+                            <a href=""><img src="assets/img/m2.png"></img><b>Crafting:</b> Programmable Liquidity</a>
+                            <a href=""><img src="assets/img/m5.png"></img><b>ILO:</b> Initial Liquidity Offering</a>
+                            <a href=""><img src="assets/img/m1.png"></img><b>Bazaar:</b> Uniswap Advanced Listing</a>
                         </ul>
                     </section>
 

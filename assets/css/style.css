@@ -77,7 +77,11 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
 .StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 100px; text-align: center;}
 .grimoireBoxAll {width: 100%; margin-top: 25px; text-align: center;}
-.grimoireBox {width: 95%; margin-bottom: 18px;}
+.grimoireBox {width: 95%; margin-bottom: 18px; text-align: center;}
+.grimoireIndex {width: 95%; margin-left: 4%; text-align: left;}
+.grimoireIndex a {width: 100%; padding: 20px 0; display: inline-block; font-size: 18px; vertical-align: middle;}
+.grimoireIndex h2 {font-size: 30px; margin-bottom: 20px;}
+.grimoireIndex a img {width: 30px;height: 30px; margin-right: 6px; vertical-align: middle;}
 
 .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {display: none;}
 .StableCoinTitle h2, .grimoireWelcome h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
@@ -127,7 +131,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 
 
 .Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
-.RPG .UniBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
+.RPG .UniBox, .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
 .RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
@@ -147,6 +151,8 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .UniActiveQuantityTier h6 a, .RPG .UniDisactiveQuantityTier h6 a {background-color: #000000; color: #ffffff; border-radius: 5px; margin-right: 5px;}
 .RPG .coverConnectMenu .ethereumWalletProvider {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .ethereumWalletProvider a {color: #bab9b9;}
+.RPG .grimoireIndex h2 {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
+.RPG .grimoireIndex a {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
 
 
 @media only screen and (min-width: 640px) {
@@ -175,6 +181,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
     .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
+    .grimoireIndex {width: 350px;}
 
 }
 @media only screen and (min-width: 890px) {
@@ -192,5 +199,6 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 590px;}
     .StableCoinTitle img, .grimoireWelcome img {width: 100px; height: 100px;}
     footer .welcomeLinks, footer p {width: 500px;}
+    .grimoireIndex {width: 450px;}
     
 }
