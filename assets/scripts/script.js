@@ -75,7 +75,6 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
     return new Promise(function(ok, ko) {
         setTimeout(async function() {
             try {
-
                 var web3Provider = !isNaN(millis) || !millis ? window.context.infuraNode : millis;
                 var update = false;
                 if (!window.networkId || window.networkId !== await window.web3.eth.net.getId()) {
@@ -100,6 +99,7 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address, window.wethToken.options.address);
                     update = true;
                 }
+                delete window.walletAddress;
                 try {
                     window.walletAddress = (await window.web3.eth.getAccounts())[0];
                 } catch (e) {}

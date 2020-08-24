@@ -50,10 +50,20 @@ var DappMenu = React.createClass({
     },
     toggle(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        var type = e.currentTarget.dataset.type;
-        var state = {};
-        state[type] = !(this.state && this.state[type])
-        this.setState(state);
+        var _this = this;
+        var toggleWork = function toggleWork(type) {
+            var state = {};
+            state[type] = !(_this.state && _this.state[type]);
+            _this[type] && delete _this[type].onblur;
+            _this.setState(state, function() {
+                _this.state[type] && _this[type] && (_this[type].onblur = function(e) {
+                    e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+                    e.relatedTarget && e.relatedTarget.click();
+                    toggleWork(type);
+                }) && _this[type].focus();
+            });
+        };
+        toggleWork(e.currentTarget.dataset.type);
     },
     render() {
         return (
@@ -62,11 +72,11 @@ var DappMenu = React.createClass({
                 <a href="javascript:;" onClick={this.toggle} data-type="menu" className="menuOpener">Menu</a>
                 {!window.walletAddress && <a href="javascript:;" onClick={this.toggle} data-type="connect" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>}
                 <section className="MenuOpen" style={{"display" : this.props.show ? "inline-block" : this.state && this.state.menu ? "inline-block" : "none"}}>
-                    <section className="coverMenu">
+                    <section ref={ref => this.menu = ref} className="coverMenu" tabIndex="-1">
                         {this.state.menuItems.map(this.renderMenuItem)}
                     </section>
                 </section>
-                {!window.walletAddress && this.state && this.state.connect && <section className="coverConnectMenu">
+                {!window.walletAddress && this.state && this.state.connect && <section ref={ref => this.connect = ref} tabIndex="-1" className="coverConnectMenu">
                     <EthereumWalletProvider />
                 </section>}
             </section>
