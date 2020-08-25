@@ -2,6 +2,9 @@
 
 pragma solidity 0.7.0;
 
+/**
+ * @title Mint Voting Tokens (unifi) by burning Stable Coin (uSD) // DOCUMENT
+ */
 contract MintNewVotingTokensForStableCoinFunctionality {
     function onStart(address, address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());

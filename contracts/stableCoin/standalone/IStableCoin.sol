@@ -13,7 +13,7 @@ interface IStableCoin {
      * @param name name of the StableCoin ERC20 token
      * @param symbol ticker for the StableCoin ERC20 token
      * @param doubleProxy address for the DoubleProxy
-     * @param allowedPairs list of Uniswap Pairs to be set as whitelisted source tokens
+     * @param allowedPairs array of Uniswap Pairs to be set as whitelisted source tokens
      * @param rebalanceRewardMultiplier multiplier used to compute how many unifi tokens to mint during uSD rebalance
      * @param timeWindows time windows inside which some time-delimited operations can be performed
      * @param mintables max amount of mintables inside a timeWindow
@@ -48,7 +48,7 @@ interface IStableCoin {
     function doubleProxy() external view returns (address);
 
     /**
-     * @return List of allowed Uniswap pairs
+     * @return Array of allowed Uniswap pairs
      */
     function allowedPairs() external view returns (address[] memory);
 
@@ -79,7 +79,7 @@ interface IStableCoin {
     // |--------------------------------------------------------------------------------|
 
     /**
-     * @dev
+     * @dev // DOCUMENT
      * @param burnt amount of of uSD burnt
      */
     function calculateRebalanceByDebtReward(uint256 burnt) external view returns (uint256);
@@ -96,7 +96,14 @@ interface IStableCoin {
         returns (uint256);
 
     /**
-     * @dev
+     * Mint logic of the StableCoin.
+     * @dev Mint the uSD token
+     * @param pairIndex
+     * @param amount0
+     * @param amount1
+     * @param amount0min
+     * @param amount1min
+     * @return Amount of freshly minted uSD token
      */
     function mint(
         uint256 pairIndex,
@@ -107,7 +114,7 @@ interface IStableCoin {
     ) external returns (uint256);
 
     /**
-     * @dev
+     * @dev // DOCUMENT
      */
     function burn(
         uint256 pairIndex,
@@ -117,7 +124,7 @@ interface IStableCoin {
     ) external returns (uint256, uint256);
 
     /**
-     * @dev
+     * @dev // DOCUMENT
      */
     function rebalanceByCredit(
         uint256 pairIndex,
@@ -127,19 +134,21 @@ interface IStableCoin {
     ) external returns (uint256);
 
     /**
-     * @dev
+     * @dev // DOCUMENT
      */
     function rebalanceByDebt(uint256 amount) external returns (uint256);
 }
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 interface IDoubleProxy {
     function proxy() external view returns (address);
 }
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 interface IMVDProxy {
     function getToken() external view returns (address);
 
@@ -157,12 +166,14 @@ interface IMVDProxy {
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 interface IMVDFunctionalitiesManager {
     function isAuthorizedFunctionality(address functionality) external view returns (bool);
 }
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 interface IStateHolder {
     function getBool(string calldata varName) external view returns (bool);
 
@@ -171,6 +182,7 @@ interface IStateHolder {
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 interface IUniswapV2Router {
     function getAmountsOut(uint256 amountIn, address[] calldata path)
         external
@@ -207,20 +219,27 @@ interface IUniswapV2Router {
 
 // --------------------------------------------------------------------------------------
 
+// DOCUMENT
 /**
  * @title Interface
  */
 interface IUniswapV2Pair {
+    // DOCUMENT
     function decimals() external pure returns (uint8);
 
+    // DOCUMENT
     function totalSupply() external view returns (uint256);
 
+    // DOCUMENT
     function token0() external view returns (address);
 
+    // DOCUMENT
     function token1() external view returns (address);
 
+    // DOCUMENT
     function balanceOf(address account) external view returns (uint256);
 
+    // DOCUMENT
     function getReserves()
         external
         view

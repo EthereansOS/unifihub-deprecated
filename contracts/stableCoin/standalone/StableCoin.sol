@@ -5,7 +5,16 @@ pragma solidity ^0.7.0;
 import "./ERC20.sol";
 import "./IStableCoin.sol";
 
+
+/**
+ * @title StableCoin
+ * @dev Cotntract for the "uSD" Stable Coin. It's an ERC20 token extended with the IStableCoin
+ *  interface.
+ */
 contract StableCoin is ERC20, IStableCoin {
+    // |--------------------------------------------------------------------------------|
+    // | ----- ATTRIBUTES ----- |
+    // |--------------------------------------------------------------------------------|
     address
         private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
@@ -21,8 +30,11 @@ contract StableCoin is ERC20, IStableCoin {
 
     uint256 private _lastRedeemBlock;
 
+    // |--------------------------------------------------------------------------------|
+    // | ----- CONSTRUCTOR ----- |
+    // |--------------------------------------------------------------------------------|
     /**
-     Stablecoin constructor function.
+     * @dev Contract constructor. See StableCoin.init() docs.
      */
     constructor(
         string memory name,
@@ -33,7 +45,7 @@ contract StableCoin is ERC20, IStableCoin {
         uint256[] memory timeWindows,
         uint256[] memory mintables
     ) {
-        if (doubleProxy == address(0)) {
+        if (doubleProxy == address(0)) { // DOCUMENT
             return;
         }
         init(
@@ -70,6 +82,13 @@ contract StableCoin is ERC20, IStableCoin {
         _mintables = mintables;
     }
 
+    // |--------------------------------------------------------------------------------|
+    // | ----- GETTERS ----- |
+    // |--------------------------------------------------------------------------------|
+
+    /**
+     * @inheritdoc IStableCoin
+     */
     function tierData()
         public
         override
@@ -79,6 +98,9 @@ contract StableCoin is ERC20, IStableCoin {
         return (_timeWindows, _mintables);
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function availableToMint() public override view returns (uint256) {
 
         uint256 mintable
@@ -95,30 +117,16 @@ contract StableCoin is ERC20, IStableCoin {
         return minted >= mintable ? 0 : mintable - minted;
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function doubleProxy() public override view returns (address) {
         return _doubleProxy;
     }
 
-    function setDoubleProxy(address newDoubleProxy)
-        public
-        override
-        _byCommunity
-    {
-        _doubleProxy = newDoubleProxy;
-    }
-
-    function allowedPairs() public override view returns (address[] memory) {
-        return _allowedPairs;
-    }
-
-    function setAllowedPairs(address[] memory newAllowedPairs)
-        public
-        override
-        _byCommunity
-    {
-        _allowedPairs = newAllowedPairs;
-    }
-
+    /**
+     * @inheritdoc IStableCoin
+     */
     function rebalanceRewardMultiplier()
         public
         override
@@ -128,6 +136,42 @@ contract StableCoin is ERC20, IStableCoin {
         return _rebalanceRewardMultiplier;
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
+    function allowedPairs() public override view returns (address[] memory) {
+        return _allowedPairs;
+    }
+
+    // |--------------------------------------------------------------------------------|
+    // | ----- SETTERS ----- |
+    // |--------------------------------------------------------------------------------|
+
+    /**
+     * @inheritdoc IStableCoin
+     */
+    function setDoubleProxy(address newDoubleProxy)
+        public
+        override
+        _byCommunity
+    {
+        _doubleProxy = newDoubleProxy;
+    }
+
+    /**
+     * @inheritdoc IStableCoin
+     */
+    function setAllowedPairs(address[] memory newAllowedPairs)
+        public
+        override
+        _byCommunity
+    {
+        _allowedPairs = newAllowedPairs;
+    }
+
+    /**
+     * @inheritdoc IStableCoin
+     */
     function differences()
         public
         override
@@ -148,6 +192,9 @@ contract StableCoin is ERC20, IStableCoin {
             : 0;
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function calculateRebalanceByDebtReward(uint256 burnt)
         public
         override
@@ -169,6 +216,9 @@ contract StableCoin is ERC20, IStableCoin {
             _rebalanceRewardMultiplier[1];
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function fromTokenToStable(address tokenAddress, uint256 amount)
         public
         override
@@ -184,6 +234,9 @@ contract StableCoin is ERC20, IStableCoin {
         return result * 10**remainingDecimals;
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function mint(
         uint256 pairIndex,
         uint256 amount0,
@@ -222,6 +275,9 @@ contract StableCoin is ERC20, IStableCoin {
         _mint(msg.sender, minted);
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function burn(
         uint256 pairIndex,
         uint256 pairAmount,
@@ -252,6 +308,9 @@ contract StableCoin is ERC20, IStableCoin {
         );
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function rebalanceByCredit(
         uint256 pairIndex,
         uint256 pairAmount,
@@ -290,6 +349,9 @@ contract StableCoin is ERC20, IStableCoin {
         require(redeemed <= credit, "Cannot redeem given pair amount");
     }
 
+    /**
+     * @inheritdoc IStableCoin
+     */
     function rebalanceByDebt(uint256 amount) public override returns(uint256 reward) {
         require(amount > 0, "You must insert a positive value");
         (, uint256 debt) = differences();
@@ -306,6 +368,9 @@ contract StableCoin is ERC20, IStableCoin {
         );
     }
 
+    /**
+     * // DOCUMENT
+     */
     modifier _byCommunity() {
         require(
             IMVDFunctionalitiesManager(
@@ -318,6 +383,9 @@ contract StableCoin is ERC20, IStableCoin {
         _;
     }
 
+    /**
+     * // DOCUMENT
+     */
     modifier _forAllowedPair(uint256 pairIndex) {
         require(
             pairIndex >= 0 && pairIndex < _allowedPairs.length,
@@ -326,6 +394,9 @@ contract StableCoin is ERC20, IStableCoin {
         _;
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _getPairData(uint256 pairIndex)
         private
         view
@@ -342,6 +413,9 @@ contract StableCoin is ERC20, IStableCoin {
         token1 = pair.token1();
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _transferTokensAndCheckAllowance(
         address tokenAddress,
         uint256 value
@@ -350,6 +424,9 @@ contract StableCoin is ERC20, IStableCoin {
         _checkAllowance(tokenAddress, value);
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _checkAllowance(address tokenAddress, uint256 value) private {
         IERC20 token = IERC20(tokenAddress);
         if (token.allowance(address(this), UNISWAP_V2_ROUTER) <= value) {
@@ -360,6 +437,9 @@ contract StableCoin is ERC20, IStableCoin {
         }
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _createPoolToken(
         address firstToken,
         address secondToken,
@@ -402,6 +482,9 @@ contract StableCoin is ERC20, IStableCoin {
         }
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _getPairAmount(uint256 i)
         private
         view
@@ -422,6 +505,9 @@ contract StableCoin is ERC20, IStableCoin {
         );
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _toStateHolderKey(string memory a, string memory b)
         private
         pure
@@ -430,6 +516,9 @@ contract StableCoin is ERC20, IStableCoin {
         return _toLowerCase(string(abi.encodePacked(a, "_", b)));
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _toString(address _addr) private pure returns (string memory) {
         bytes32 value = bytes32(uint256(_addr));
         bytes memory alphabet = "0123456789abcdef";
@@ -444,6 +533,9 @@ contract StableCoin is ERC20, IStableCoin {
         return string(str);
     }
 
+    /**
+     * // DOCUMENT
+     */
     function _toLowerCase(string memory str)
         private
         pure
