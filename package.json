@@ -1,0 +1,12 @@
+{
+  "name": "unifi",
+  "version": "0.5.0",
+  "main": "index.html",
+  "repository": "git@github.com:b-u-i-d-l/unifi.git",
+  "author": "BUIDL <buidlers@dfohub.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.1.0",
+    "prettier-plugin-solidity": "^1.0.0-alpha.56"
+  }
+}

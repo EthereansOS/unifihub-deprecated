@@ -31,6 +31,7 @@ contract MintNewVotingTokensForStableCoinFunctionality {
     ) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
 
+        // NOTE: Use DFO Protocol to check for authorization
         require(
             IStateHolder(proxy.getStateHolderAddress()).getBool(
                 _toStateHolderKey("stablecoin.authorized", _toString(sender))
@@ -82,6 +83,8 @@ contract MintNewVotingTokensForStableCoinFunctionality {
     }
 }
 
+// --------------------------------------------------------------------------------------
+
 interface IMVDProxy {
     function getToken() external view returns (address);
 
@@ -102,9 +105,13 @@ interface IMVDProxy {
     ) external;
 }
 
+// --------------------------------------------------------------------------------------
+
 interface IMVDFunctionalitiesManager {
     function isAuthorizedFunctionality(address functionality) external view returns (bool);
 }
+
+// --------------------------------------------------------------------------------------
 
 interface IStateHolder {
     function clear(string calldata varName)
@@ -115,6 +122,8 @@ interface IStateHolder {
 
     function getBool(string calldata varName) external view returns (bool);
 }
+
+// --------------------------------------------------------------------------------------
 
 interface IERC20 {
     function mint(uint256 amount) external;
