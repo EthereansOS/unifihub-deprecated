@@ -109,10 +109,14 @@ var StableCoin = React.createClass({
         var target = e.currentTarget;
         _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
         _this.onTypeTimeout = setTimeout(function () {
-            _this.controller.calculateRebalanceByDebtReward(target.value).then(function(result) {
+            _this.controller.calculateRebalanceByDebtReward(target.value).then(function (result) {
                 _this.debtReward.innerHTML = window.fromDecimals(result, window.dfo.decimals);
             });
         }, window.context.typeTimeout);
+    },
+    toggleGrimoire(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
     render() {
         return (
@@ -194,7 +198,7 @@ var StableCoin = React.createClass({
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4>
                         <section className="SideHealthHelp">
-                            <section className="SideHealth"><aside style={{"width": this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
+                            <section className="SideHealth"><aside style={{ "width": this.state.totalCoins.healthPercentage + "%" }}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
                         </section>
                     </section>}
                     {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
@@ -216,7 +220,7 @@ var StableCoin = React.createClass({
                             {window.walletAddress && <section className="RebalanceEmergency">
                                 <label>
                                     <span>&#128293;</span>
-                                    <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref}/>
+                                    <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref} />
                                     <span>{window.stableCoin.symbol}</span>
                                 </label>
                                 <section className="RebalanceEmergencyRew">
@@ -230,6 +234,15 @@ var StableCoin = React.createClass({
                     </section>}
                     <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsable DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
+                <section>
+                    <section>
+                        <a href="javascript:;" onClick={this.toggleGrimoire}>
+                            {this.state && this.state.grimoire && <span>X</span>}
+                            {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
+                        </a>
+                    </section>
+                    {this.state && this.state.grimoire && <span>Grimoire Tag goes Here</span>}
+                </section>
             </section>
         );
     }

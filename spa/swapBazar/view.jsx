@@ -61,6 +61,10 @@ var SwapBazar = React.createClass({
             }
         });
     },
+    toggleGrimoire(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.setState({ grimoire: !(this.state && this.state.grimoire) });
+    },
     render() {
         return (<section>
             {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && <section>
@@ -84,6 +88,15 @@ var SwapBazar = React.createClass({
                 <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
                 <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Pool</a>
             </section>}
+            <section>
+                <section>
+                    <a href="javascript:;" onClick={this.toggleGrimoire}>
+                        {this.state && this.state.grimoire && <span>X</span>}
+                        {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
+                    </a>
+                </section>
+                {this.state && this.state.grimoire && <span>Grimoire Tag goes Here</span>}
+            </section>
         </section>);
     }
 });
