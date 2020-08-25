@@ -127,7 +127,7 @@ var StableCoin = React.createClass({
                         </article>
                     </section>
                 </section>
-                {!this.state || !this.state.selectedPair && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+                {(!this.state || !this.state.selectedPair) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
                         <label>
