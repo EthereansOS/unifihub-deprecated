@@ -180,7 +180,7 @@ var StableCoin = React.createClass({
                     {this.renderAvailableToMint()}
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h5>Collateral:</h5>
-                        <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)} S.C.</a></h6>
+                        <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.balanceOf, window.stableCoin.decimals)} S.C.</a></h6>
                         {this.state.toggleTotalCoins && <ul className="SideStableList">
                             {Object.values(this.state.totalCoins.list).map(it => <li key={it.address}>
                                 <section>
@@ -199,7 +199,7 @@ var StableCoin = React.createClass({
                     </section>}
                     {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
                         <h4>Rebalance</h4>
-                        {parseInt(this.state.totalCoins.regularPercentage) < 97 && <section className="SideRebelanceBro SideCredit">
+                        {parseInt(this.state.totalCoins.regularPercentage) > 103 && <section className="SideRebelanceBro SideCredit">
                             <label>
                                 <h5>DFO Credit:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
@@ -208,7 +208,7 @@ var StableCoin = React.createClass({
                                 <a href="javascript:;" onClick={this.controller.rebalanceByCredit} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}
-                        {parseInt(this.state.totalCoins.regularPercentage) > 101 && <section className="SideRebelanceBro SideDebit">
+                        {parseInt(this.state.totalCoins.regularPercentage) < 97 && <section className="SideRebelanceBro SideDebit">
                             <label>
                                 <h5>DFO Debt:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
