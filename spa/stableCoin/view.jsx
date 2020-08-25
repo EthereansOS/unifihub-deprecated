@@ -1,7 +1,8 @@
 var StableCoin = React.createClass({
     requiredScripts: [
         'spa/banner.jsx',
-        'spa/loader.jsx'
+        'spa/loader.jsx',
+        'spa/grimoire/grimuSD.jsx'
     ],
     requiredModules: [
         'spa/dappMenu'
@@ -241,7 +242,7 @@ var StableCoin = React.createClass({
                             {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
                         </a>
                     </section>
-                    {this.state && this.state.grimoire && <span>Grimoire Tag goes Here</span>}
+                    {this.state && this.state.grimoire && <GrimuSD/>}
                 </section>
             </section>
         );

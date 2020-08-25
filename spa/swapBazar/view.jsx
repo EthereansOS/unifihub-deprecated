@@ -1,7 +1,8 @@
 var SwapBazar = React.createClass({
     requiredScripts: [
         'spa/loader.jsx',
-        'spa/swapBazar/uniswapTokenPicker.jsx'
+        'spa/swapBazar/uniswapTokenPicker.jsx',
+        'spa/grimoire/grimBazar.jsx'
     ],
     getDefaultSubscriptions() {
         return {
@@ -95,7 +96,7 @@ var SwapBazar = React.createClass({
                         {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
                     </a>
                 </section>
-                {this.state && this.state.grimoire && <span>Grimoire Tag goes Here</span>}
+                {this.state && this.state.grimoire && <GrimBazar/>}
             </section>
         </section>);
     }
