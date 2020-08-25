@@ -2,7 +2,10 @@ var UniswapTokenPicker = React.createClass({
     onSectionChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var key = e.currentTarget.dataset.key;
-        this.setState({ key, selected: null });
+        var _this = this;
+        this.setState({ key, selected: null }, function() {
+            _this.props.onChange && setTimeout(() => _this.props.onChange(null));
+        });
     },
     close(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -54,16 +57,6 @@ var UniswapTokenPicker = React.createClass({
             {!selected && <a href="javascript:;" onClick={this.open}>Select token...</a>}
         </section>);
     },
-    /*componentDidUpdate() {
-        var address;
-        try {
-            address = this.props.tokensList[this.state.key][this.state.selected].address;
-        } catch (e) { }
-        var _this = this;
-        this.props.exceptFor && address === this.props.exceptFor && this.setState({ selected: null }, function () {
-            _this.props.onChange && setTimeout(() => _this.props.onChange(null));
-        });
-    },*/
     render() {
         return (<section>
             {this.state && this.state.opened && this.renderOpened()}

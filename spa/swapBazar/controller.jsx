@@ -11,12 +11,11 @@ var SwapBazarController = function (view) {
     context.newDfoDeployedEvent = "DFODeployed(address_indexed,address_indexed,address,address)";
 
     context.loadData = async function loadData() {
-        var uniswapTokens = await context.loadUniswapTokens();
         context.view.setState({
             tokensList: {
-                "Programmable Equities" : uniswapTokens,
-                "Uniswap Tokens" : uniswapTokens,
-                Indexes: uniswapTokens
+                "Programmable Equities" : (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens,
+                "Uniswap Tokens" : (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens,
+                Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens
             }
         });
     };
