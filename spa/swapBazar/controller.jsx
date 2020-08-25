@@ -11,16 +11,20 @@ var SwapBazarController = function (view) {
     context.newDfoDeployedEvent = "DFODeployed(address_indexed,address_indexed,address,address)";
 
     context.loadData = async function loadData() {
-        context.view.setState({
-            tokensList: {
-                "Programmable Equities" : (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens,
-                "Uniswap Tokens" : (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens,
-                Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens
-            }
-        });
+        try {
+            context.view.setState({
+                tokensList: {
+                    "Programmable Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens,
+                    "Tokens": (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens,
+                    Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens
+                }
+            });
+        } catch (e) {
+            context.loadDataOnChain();
+        }
     };
 
-    context.loadData2 = async function loadData2() {
+    context.loadDataOnChain = async function loadDataOnChain() {
         await window.loadEthereumStuff();
         var dfoHub = await window.loadDFO(window.getNetworkElement("dfoAddress"));
         context.dfoHubAddresses = dfoHub.options.allAddresses;
@@ -50,8 +54,8 @@ var SwapBazarController = function (view) {
         await context.recursiveLoadPair(indexes);
 
         var tokensList = {
-            "Programmable Equities" : programmableEquities,
-            "Uniswap Tokens" : uniswapTokens,
+            "Programmable Equities": programmableEquities,
+            "Tokens": uniswapTokens,
             Indexes: Object.values(indexes)
         };
 
@@ -77,25 +81,25 @@ var SwapBazarController = function (view) {
         except = except || [];
         var uniwapTokens = [];
         var tokens = (await window.AJAXRequest(window.context.uniwsapOfficialTokensList)).tokens;
-        for(var token of tokens) {
-            if(window.networkId !== token.chainId) {
+        for (var token of tokens) {
+            if (window.networkId !== token.chainId) {
                 continue;
             }
             uniwapTokens.push({
-                key : window.web3.utils.toChecksumAddress(token.address),
-                address : window.web3.utils.toChecksumAddress(token.address),
-                name : token.name,
-                symbol : token.symbol,
-                decimals : window.numberToString(token.decimals),
-                logo : token.icon
+                key: window.web3.utils.toChecksumAddress(token.address),
+                address: window.web3.utils.toChecksumAddress(token.address),
+                name: token.name,
+                symbol: token.symbol,
+                decimals: window.numberToString(token.decimals),
+                logo: token.icon
             });
         }
         return uniwapTokens;
     };
 
     context.contains = function contains(list, address) {
-        for(var element of list) {
-            if(window.web3.utils.toChecksumAddress(element.address) === window.web3.utils.toChecksumAddress(address)) {
+        for (var element of list) {
+            if (window.web3.utils.toChecksumAddress(element.address) === window.web3.utils.toChecksumAddress(address)) {
                 return true;
             }
         }
