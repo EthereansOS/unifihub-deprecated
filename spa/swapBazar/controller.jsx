@@ -21,6 +21,7 @@ var SwapBazarController = function (view) {
     };
 
     context.loadData2 = async function loadData2() {
+        await window.loadEthereumStuff();
         var dfoHub = await window.loadDFO(window.getNetworkElement("dfoAddress"));
         context.dfoHubAddresses = dfoHub.options.allAddresses;
         context.list = {

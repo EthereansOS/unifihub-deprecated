@@ -3,6 +3,7 @@ var StableCoinController = function (view) {
     context.view = view;
 
     context.loadData = async function loadData() {
+        await window.loadEthereumStuff();
         context.loadPairs();
         context.loadEconomicData();
     };

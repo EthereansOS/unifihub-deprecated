@@ -18,23 +18,32 @@ var UniswapTokenPicker = React.createClass({
     onClick(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
-        this.setState({ opened: null, selected: parseInt(e.currentTarget.dataset.index) }, function () {
+        this.setState({ opened: null, key : this.getKey(), selected: parseInt(e.currentTarget.dataset.index) }, function () {
             _this.props.onChange && setTimeout(() => _this.props.onChange(_this.props.tokensList[_this.state.key][_this.state.selected]));
         });
     },
+    getKey() {
+        var key = null;
+        try {
+            key = (this.state && this.state.key) || Object.keys(this.props.tokensList)[0];
+        } catch(e) {
+        }
+        return key;
+    },
     renderOpened() {
         var _this = this;
+        var thisKey = this.getKey();
         return (<section>
             <section>
                 <a href="javascript:;" onClick={this.close}>X</a>
             </section>
             <section>
-                {this.props.tokensList && Object.keys(this.props.tokensList).map(key => <li key={key} className={(this.state && this.state.key) === key ? "Selected" : undefined}>
+                {this.props.tokensList && Object.keys(this.props.tokensList).map(key => <li key={key} className={thisKey === key ? "Selected" : undefined}>
                     <a href="javascript;" data-key={key} onClick={_this.onSectionChange}>{key}</a>
                 </li>)}
             </section>
-            {this.state && this.state.key && <section>
-                {this.props.tokensList[this.state.key].map((it, i) => <li key={it.address} className={this.state.selected === i ? "Selected" : undefined}>
+            {thisKey && <section>
+                {this.props.tokensList[thisKey].map((it, i) => <li key={it.address} className={this.state.selected === i ? "Selected" : undefined}>
                     {this.renderInput(it, this.onClick, i)}
                 </li>)}
             </section>}
