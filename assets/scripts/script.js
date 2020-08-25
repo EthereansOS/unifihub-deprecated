@@ -29,16 +29,33 @@ window.loadDFO = async function loadDFO(address, allAddresses) {
     var votingToken = window.voidEthereumAddress;
 
     try {
-        votingToken = (await window.blockchainCall(dfo.methods.getDelegates))[0];
-    } catch (e) {}
+        var delegates = await window.web3.eth.call({
+            to: element.dFO.options.address,
+            data: element.dFO.methods.getDelegates().encodeABI()
+        });
+        try {
+            delegates = window.web3.eth.abi.decodeParameter("address[]", delegates);
+        } catch (e) {
+            delegates = window.web3.eth.abi.decodeParameters(["address", "address", "address", "address", "address", "address"], delegates);
+        }
+        votingToken = delegates[0];
+    } catch (e) {
+        votingToken = undefined;
+    }
 
-    if (votingToken === window.voidEthereumAddress) {
+    if (!votingToken || votingToken === window.voidEthereumAddress) {
         try {
             votingToken = await window.blockchainCall(dfo.methods.getToken);
         } catch (e) {}
     }
 
-    if (votingToken === window.voidEthereumAddress) {
+    try {
+        await window.blockchainCall(window.newContract(window.context.votingTokenAbi, votingToken).methods.name);
+    } catch (e) {
+        votingToken = undefined;
+    }
+
+    if (!votingToken || votingToken === window.voidEthereumAddress) {
         var logs = await window.getLogs({
             address,
             topics: [
@@ -92,14 +109,6 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                     window.ethereum && window.ethereum.on && window.ethereum.on('networkChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
                     window.ethereum && window.ethereum.on && window.ethereum.on('accountsChanged', () => window.onEthereumUpdate(window.web3.currentProvider));
                     window.DFOHub(window.web3);
-                    window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
-                    window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
-                    window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
-                    window.uniswapV2Router = window.newContract(window.context.UniswapV2RouterAbi, window.context.uniswapV2RouterAddress);
-                    window.wethToken = window.newContract(window.context.votingTokenAbi, window.wethAddress = window.web3.utils.toChecksumAddress(await window.blockchainCall(window.uniswapV2Router.methods.WETH)));
-                    window.uniswapV2Factory = window.newContract(window.context.UniswapV2FactoryAbi, window.context.uniswapV2FactoryAddress);
-                    window.stableCoin = await window.loadTokenInfos(stableCoin.options.address, window.wethToken.options.address, window.context.StableCoinAbi);
-                    window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address, window.wethToken.options.address);
                     update = true;
                 }
                 delete window.walletAddress;
@@ -115,6 +124,17 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
             }
         }, !isNaN(millis) ? millis : 550);
     });
+};
+
+window.loadEthereumStuff = async function loadEthereumStuff() {
+    window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
+    window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
+    window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
+    window.uniswapV2Router = window.newContract(window.context.UniswapV2RouterAbi, window.context.uniswapV2RouterAddress);
+    window.wethToken = window.newContract(window.context.votingTokenAbi, window.wethAddress = window.web3.utils.toChecksumAddress(await window.blockchainCall(window.uniswapV2Router.methods.WETH)));
+    window.uniswapV2Factory = window.newContract(window.context.UniswapV2FactoryAbi, window.context.uniswapV2FactoryAddress);
+    window.stableCoin = await window.loadTokenInfos(stableCoin.options.address, window.context.StableCoinAbi);
+    window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address);
 };
 
 window.getNetworkElement = function getNetworkElement(element) {
@@ -1200,22 +1220,21 @@ window.eliminateFloatingFinalZeroes = function eliminateFloatingFinalZeroes(valu
     return split[1].length === 0 ? split[0] : split.join(decSeparator);
 };
 
-window.loadTokenInfos = async function loadTokenInfos(addresses, wethAddress, abi) {
-    wethAddress = wethAddress || await window.blockchainCall(window.newContract(window.context.uniSwapV2RouterAbi, window.context.uniSwapV2RouterAddress).methods.WETH);
-    wethAddress = window.web3.utils.toChecksumAddress(wethAddress);
+window.loadTokenInfos = async function loadTokenInfos(addresses, abi, noLogo) {
     var single = (typeof addresses).toLowerCase() === 'string';
     addresses = single ? [addresses] : addresses;
     var tokens = [];
+    window.tokenInfosCache = window.tokenInfosCache || {};
     for (var address of addresses) {
         address = window.web3.utils.toChecksumAddress(address);
         var token = window.newContract(abi || window.context.votingTokenAbi, address);
-        tokens.push({
+        tokens.push(window.tokenInfosCache[address] = window.tokenInfosCache[address] || {
             address,
             token,
-            name: address === wethAddress ? 'Ethereum' : await window.blockchainCall(token.methods.name),
-            symbol: address === wethAddress ? 'ETH' : await window.blockchainCall(token.methods.symbol),
-            decimals: address === wethAddress ? '18' : await window.blockchainCall(token.methods.decimals),
-            logo: await window.loadLogo(address === wethAddress ? window.voidEthereumAddress : address)
+            name: address === window.wethAddress ? 'Ethereum' : await window.blockchainCall(token.methods.name),
+            symbol: address === window.wethAddress ? 'ETH' : await window.blockchainCall(token.methods.symbol),
+            decimals: address === window.wethAddress ? '18' : await window.blockchainCall(token.methods.decimals),
+            logo: noLogo ? undefined : await window.loadLogo(address === window.wethAddress ? window.voidEthereumAddress : address)
         });
     }
     return single ? tokens[0] : tokens;
@@ -1272,4 +1291,50 @@ window.getEthereumPrice = async function getEthereumPrice() {
         price,
         requestExpires: new Date().getTime() + window.context.coingeckoEthereumPriceRequestInterval
     }).price;
+};
+
+window.loadUniswapPairs = async function loadUniswapPairs(token, indexes) {
+    window.pairCreatedTopic = window.pairCreatedTopic || window.web3.utils.sha3('PairCreated(address,address,address,uint256)');
+    var address = window.web3.utils.toChecksumAddress(token.address);
+    if (address === window.voidEthereumAddress) {
+        address = window.wethAddress;
+    }
+    var myToken = window.web3.eth.abi.encodeParameter('address', address);
+    var logs = await window.getLogs({
+        address: window.context.uniSwapV2FactoryAddress,
+        fromBlock: '0',
+        topics: [
+            window.pairCreatedTopic, [myToken]
+        ]
+    });
+    logs.push(...(await window.getLogs({
+        address: window.context.uniSwapV2FactoryAddress,
+        fromBlock: '0',
+        topics: [
+            window.pairCreatedTopic, [],
+            [myToken]
+        ]
+    })));
+    var uniswapPairs = [];
+    var alreadyAdded = {};
+    for (var log of logs) {
+        for (var topic of log.topics) {
+            if (topic === window.pairCreatedTopic || topic.toLowerCase() === myToken.toLowerCase()) {
+                continue;
+            }
+            var pairTokenAddress = window.web3.utils.toChecksumAddress(window.web3.eth.abi.decodeParameters(['address', 'uint256'], log.data)[0]);
+            if (alreadyAdded[pairTokenAddress]) {
+                continue;
+            }
+            alreadyAdded[pairTokenAddress] = true;
+            var pairToken = await window.loadTokenInfos(pairTokenAddress, window.context.UniswapV2PairAbi, true);
+            var token0 = window.web3.utils.toChecksumAddress(await window.blockchainCall(pairToken.token.methods.token0));
+            var token1 = window.web3.utils.toChecksumAddress(await window.blockchainCall(pairToken.token.methods.token1));
+            pairToken.token0 = token0 === address ? token : await window.loadTokenInfos(token0, undefined, true);
+            pairToken.token1 = token1 === address ? token : await window.loadTokenInfos(token1, undefined, true);
+            pairToken.key = `${token0}_${token1}-${token1}_${token0}`;
+            uniswapPairs.push(indexes[pairToken.key] = pairToken);
+        }
+    }
+    return uniswapPairs;
 };
