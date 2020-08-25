@@ -7,7 +7,7 @@ import "./IStableCoin.sol";
 
 /**
  * @title StableCoin
- * @dev Cotntract for the "uSD" Stable Coin. It's an ERC20 token extended with the IStableCoin
+ * @dev Contract for the "uSD" Stable Coin. It's an ERC20 token extended with the IStableCoin
  *  interface.
  */
 contract StableCoin is ERC20, IStableCoin {
@@ -203,13 +203,17 @@ contract StableCoin is ERC20, IStableCoin {
 
     /**
      * @inheritdoc IStableCoin
+     *
+     * @dev Minting first check tha DFO auth protocol are respected, secondly it sends the tokens
+     * to a Uniswap Pool (_createPoolToken)
+     *
      */
     function mint(
         uint256 pairIndex,
-        uint256 amount0,
-        uint256 amount1,
-        uint256 amount0Min,
-        uint256 amount1Min
+        uint256 amountA,
+        uint256 amountB,
+        uint256 amountAMin,
+        uint256 amountBMin
     ) public override _forAllowedPair(pairIndex) returns (uint256 minted) {
         // NOTE: Use DFO protocol to check for authorization
         require(
@@ -217,19 +221,19 @@ contract StableCoin is ERC20, IStableCoin {
                 .getBool(_toStateHolderKey("stablecoin.authorized", _toString(address(this)))),
             "Unauthorized action!"
         );
-        (address token0, address token1, ) = _getPairData(pairIndex);
-        _transferTokensAndCheckAllowance(token0, amount0);
-        _transferTokensAndCheckAllowance(token1, amount1);
+        (address tokenA, address tokenB, ) = _getPairData(pairIndex);
+        _transferTokensAndCheckAllowance(tokenA, amountA);
+        _transferTokensAndCheckAllowance(tokenB, amountB);
         (uint256 firstAmount, uint256 secondAmount, ) = _createPoolToken(
-            token0,
-            token1,
-            amount0,
-            amount1,
-            amount0Min,
-            amount1Min
+            tokenA,
+            tokenB,
+            amountA,
+            amountB,
+            amountAMin,
+            amountBMin
         );
-        minted = fromTokenToStable(token0, firstAmount) + fromTokenToStable(token1, secondAmount);
-        require(minted <= availableToMint(), "Minting amount is greater than availability");
+        minted = fromTokenToStable(tokenA, firstAmount) + fromTokenToStable(tokenB, secondAmount);
+        require(minted <= availableToMint(), "Minting amount is greater than availability!");
         _mint(msg.sender, minted);
     }
 
@@ -239,23 +243,23 @@ contract StableCoin is ERC20, IStableCoin {
     function burn(
         uint256 pairIndex,
         uint256 pairAmount,
-        uint256 amount0,
-        uint256 amount1
-    ) public override _forAllowedPair(pairIndex) returns (uint256 removed0, uint256 removed1) {
-        (address token0, address token1, address pairAddress) = _getPairData(pairIndex);
+        uint256 amountAMin,
+        uint256 amountBMin
+    ) public override _forAllowedPair(pairIndex) returns (uint256 removedA, uint256 removedB) {
+        (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
-        (removed0, removed1) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
-            token0,
-            token1,
+        (removedA, removedB) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
+            tokenA,
+            tokenB,
             pairAmount,
-            amount0,
-            amount1,
+            amountAMin,
+            amountBMin,
             msg.sender,
             block.timestamp + 1000
         );
         _burn(
             msg.sender,
-            fromTokenToStable(token0, removed0) + fromTokenToStable(token1, removed1)
+            fromTokenToStable(tokenA, removedA) + fromTokenToStable(tokenB, removedB)
         );
     }
 
@@ -371,7 +375,6 @@ contract StableCoin is ERC20, IStableCoin {
 
     /**
      * @dev Use the Uniswap Protocol to add liquidity to a pool.
-     * @inheritdoc IStableCoin
      */
     function _createPoolToken(
         address firstToken,

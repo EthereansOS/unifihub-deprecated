@@ -29,7 +29,7 @@ interface IStableCoin {
     ) external;
 
     // |------------------------------------------------------------------------------------------|
-    // | ----- GETTTERS -----
+    // | ----- GETTERS ----- |
     // |------------------------------------------------------------------------------------------|
 
     /**
@@ -61,7 +61,7 @@ interface IStableCoin {
     function rebalanceRewardMultiplier() external view returns (uint256[] memory);
 
     // |------------------------------------------------------------------------------------------|
-    // | ----- SETTTERS -----
+    // | ----- SETTERS ----- |
     // |------------------------------------------------------------------------------------------|
 
     /**
@@ -75,19 +75,28 @@ interface IStableCoin {
     function setAllowedPairs(address[] calldata newAllowedPairs) external;
 
     // |------------------------------------------------------------------------------------------|
-    // | ----- CORE FUNCTIONS -----
+    // | ----- CORE FUNCTIONS ----- |
     // |------------------------------------------------------------------------------------------|
 
     /**
      * @dev // DOCUMENT
+     *
+     * =====
+     *
      * @param burnt amount of of uSD burnt
      */
     function calculateRebalanceByDebtReward(uint256 burnt) external view returns (uint256);
 
     /**
      * @dev Convert from one of the allowed whitelisted tokens to uSD
+     *
+     * =====
+     *
      * @param tokenAddress Address of the token to convert
      * @param amount Amount of Unifi token to be converted
+     *
+     * =====
+     *
      * @return Amount of uSD tokens
      */
     function fromTokenToStable(address tokenAddress, uint256 amount)
@@ -98,30 +107,51 @@ interface IStableCoin {
     /**
      * Mint logic of the StableCoin.
      * @dev Mint the uSD token
-     * @param pairIndex
-     * @param amount0
-     * @param amount1
-     * @param amount0min
-     * @param amount1min
+     *
+     * =====
+     *
+     * @param pairIndex Index of the pair inside the allowedPairs array
+     * @param amountA The amount of tokenA to add as liquidity if the B/A price is <=
+     *  amountBDesired/amountADesired (A depreciates).
+     * @param amountB The amount of tokenB to add as liquidity if the A/B price is <=
+     *  amountADesired/amountBDesired (B depreciates).
+     * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
+     * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts. Must be <= amountBDesired.
+     *
+     * =====
+     *
      * @return Amount of freshly minted uSD token
      */
     function mint(
         uint256 pairIndex,
-        uint256 amount0,
-        uint256 amount1,
-        uint256 amount0Min,
-        uint256 amount1Min
+        uint256 amountA,
+        uint256 amountB,
+        uint256 amountAMin,
+        uint256 amountBMin
     ) external returns (uint256);
 
     /**
-     * @dev // DOCUMENT
+     * Mint logic of the StableCoin.
+     * @dev Mint the uSD token
+     *
+     * =====
+     *
+     * @param pairIndex Index of the pair inside the allowedPairs array
+     * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
+     * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
+     *
+     * =====
+     *
+     * @return amountA The amount of tokenA received
+     * @return amountB The amount of tokenB received
+     *
      */
     function burn(
         uint256 pairIndex,
         uint256 pairAmount,
-        uint256 amount0,
-        uint256 amount1
-    ) external returns (uint256, uint256);
+        uint256 amountAMin,
+        uint256 amountBMin
+    ) external returns (uint256 amountA, uint256 amountB);
 
     /**
      * @dev // DOCUMENT
@@ -211,14 +241,16 @@ interface IUniswapV2Router {
      * @param tokenA A pool token
      * @param tokenB A pool token
      * @param liquidity The amount of liquidity tokens to remove
-     * @param amountAmin The minimum amount of tokenA that must be received for the transaction not to revert
+     * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
      * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
      * @param to Recipient of the underlying assets
      * @param deadline Unix timestamp after which the transaction will revert
-     * @returns {
-     *    "amountA": The amount of tokenA received
-     *    "amountB": The amount of tokenB received
-     * }
+     *
+     * =====
+     *
+     * @return amountA The amount of tokenA received
+     * @return amountB The amount of tokenB received
+     *
      */
     function removeLiquidity(
         address tokenA,
@@ -250,15 +282,17 @@ interface IUniswapV2Router {
      *  amountBDesired/amountADesired (A depreciates).
      * @param amountBDesired The amount of tokenB to add as liquidity if the A/B price is <=
      *  amountADesired/amountBDesired (B depreciates).
-     * @param amountAmin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
+     * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
      * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts. Must be <= amountBDesired.
      * @param to Recipient of the underlying assets
      * @param deadline Unix timestamp after which the transaction will revert
-     * @returns {
-     *    "amountA": The amount of tokenA sent to the pool
-     *    "amountB": The amount of tokenB sent to the pool
-     *    "liquidity": The amount of liquidity tokens minted.
-     * }
+     *
+     * =====
+     *
+     * @return amountA The amount of tokenA sent to the pool
+     * @return amountB The amount of tokenB sent to the pool
+     * @return liquidity The amount of liquidity tokens minted
+     *
      */
     function addLiquidity(
         address tokenA,
