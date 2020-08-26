@@ -3,7 +3,7 @@ var UniswapTokenPicker = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var key = e.currentTarget.dataset.key;
         var _this = this;
-        this.setState({ key, selected: null }, function() {
+        this.setState({ key, selected: null }, function () {
             _this.props.onChange && setTimeout(() => _this.props.onChange(null));
         });
     },
@@ -15,19 +15,19 @@ var UniswapTokenPicker = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
         var oldTarget = e.currentTarget;
-        this.setState({ opened: true }, function() {
+        this.setState({ opened: true }, function () {
             _this.opened && (_this.opened.onblur = _this.opened.onblur || function onblur(e) {
                 e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                 e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
                 e.relatedTarget && e.relatedTarget !== oldTarget && _this.opened && _this.opened.focus();
-                (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({opened: null});
+                (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({ opened: null });
             }) && _this.opened.focus();
         });
     },
     onClick(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
-        this.setState({ opened: null, key : this.getKey(), selected: parseInt(e.currentTarget.dataset.index) }, function () {
+        this.setState({ opened: null, key: this.getKey(), selected: parseInt(e.currentTarget.dataset.index) }, function () {
             _this.props.onChange && setTimeout(() => _this.props.onChange(_this.props.tokensList[_this.state.key][_this.state.selected]));
         });
     },
@@ -35,7 +35,7 @@ var UniswapTokenPicker = React.createClass({
         var key = null;
         try {
             key = (this.state && this.state.key) || Object.keys(this.props.tokensList)[0];
-        } catch(e) {
+        } catch (e) {
         }
         return key;
     },
@@ -52,15 +52,20 @@ var UniswapTokenPicker = React.createClass({
                 </li>)}
             </section>
             {thisKey && <section>
-                {this.props.tokensList[thisKey].map((it, i) => <li key={it.address} className={this.state.selected === i ? "Selected" : undefined}>
-                    {this.renderInput(it, this.onClick, i)}
-                </li>)}
+                {this.props.tokensList[thisKey].map((it, i) => {
+                    if (!it) {
+                        return;
+                    }
+                    return (<li key={it.address} className={this.state.selected === i ? "Selected" : undefined}>
+                        {this.renderInput(it, this.onClick, i)}
+                    </li>);
+                })}
             </section>}
         </section>);
     },
     renderInput(it, onClick, i) {
         return (<a href="javascript;" data-index={i} onClick={onClick}>
-            <img src={it.logo} />
+            <img src={it.logo || it.logoURI || "assets/img/default-logo.png"} />
             <span>{it.symbol}</span>
         </a>);
     },

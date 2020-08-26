@@ -11,12 +11,13 @@ var SwapBazarController = function (view) {
     context.newDfoDeployedEvent = "DFODeployed(address_indexed,address_indexed,address,address)";
 
     context.loadData = async function loadData() {
+        await window.loadEthereumStuff();
         try {
             context.view.setState({
                 tokensList: {
-                    "Programmable Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens,
-                    "Tokens": (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens,
-                    Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens
+                    "Programmable Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens.map(it => it.chainId === window.networkId && it),
+                    "Tokens": (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens.map(it => it.chainId === window.networkId && it),
+                    Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens.map(it => it.chainId === window.networkId && it)
                 }
             });
         } catch (e) {
@@ -25,7 +26,6 @@ var SwapBazarController = function (view) {
     };
 
     context.loadDataOnChain = async function loadDataOnChain() {
-        await window.loadEthereumStuff();
         var dfoHub = await window.loadDFO(window.getNetworkElement("dfoAddress"));
         context.dfoHubAddresses = dfoHub.options.allAddresses;
         context.list = {
@@ -151,5 +151,15 @@ var SwapBazarController = function (view) {
 
     context.getLatestSearchBlock = function getLatestSearchBlock() {
         return (context.list && Object.keys(context.list).length > 0 && Math.max(...Object.keys(context.list).map(it => parseInt(it.split('_')[0])))) || window.getNetworkElement('deploySearchStart');
+    };
+
+    context.calculatePriceInDollars = async function calculatePriceInDollars(token) {
+        var ethereumPrice = await window.getEthereumPrice();
+        try {
+            var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, window.toDecimals('1', token.decimals), [token.address, window.wethAddress]))[1], 18, true);
+            priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
+            return priceInDollars;
+        } catch (e) {
+        }
     };
 };

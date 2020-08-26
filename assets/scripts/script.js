@@ -127,14 +127,17 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
 };
 
 window.loadEthereumStuff = async function loadEthereumStuff() {
-    window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
-    window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
-    window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
     window.uniswapV2Router = window.newContract(window.context.UniswapV2RouterAbi, window.context.uniswapV2RouterAddress);
     window.wethToken = window.newContract(window.context.votingTokenAbi, window.wethAddress = window.web3.utils.toChecksumAddress(await window.blockchainCall(window.uniswapV2Router.methods.WETH)));
     window.uniswapV2Factory = window.newContract(window.context.UniswapV2FactoryAbi, window.context.uniswapV2FactoryAddress);
-    window.stableCoin = await window.loadTokenInfos(window.stableCoin.options.address, window.context.StableCoinAbi);
-    window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address);
+    try {
+        window.stableCoin = window.newContract(window.context.StableCoinAbi, window.getNetworkElement("stableCoinAddress"));
+        window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
+        window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
+        window.stableCoin = await window.loadTokenInfos(window.stableCoin.options.address, window.context.StableCoinAbi);
+        window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address);
+    } catch(e) {
+    }
 };
 
 window.getNetworkElement = function getNetworkElement(element) {

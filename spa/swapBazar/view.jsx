@@ -30,13 +30,17 @@ var SwapBazar = React.createClass({
         this.setState({ uniswap: null });
     },
     onToken(token, tokenName) {
+        var otherTokenPrice = (tokenName === 'input' ? 'output' : 'input') + 'Price';
         var otherTokenName = (tokenName === 'input' ? 'output' : 'input') + 'Token';
         var otherToken = this.state && this.state[otherTokenName];
+        var tokenPrice = tokenName + 'Price';
         tokenName += "Token";
         var state = {};
         state[tokenName] = token;
+        state[tokenPrice] = null;
         if (token && otherToken && otherToken.address === token.address) {
             state[otherTokenName] = null;
+            state[otherTokenPrice] = null;
             this[otherTokenName].setState({ key: null, selected: null });
         }
         var _this = this;
@@ -44,6 +48,14 @@ var SwapBazar = React.createClass({
             if ((!_this.state.inputToken || !_this.state.outputToken) && _this.state.uniswap) {
                 _this.setState({ uniswap: null });
             }
+            if(!token) {
+                return;
+            }
+            _this.controller.calculatePriceInDollars(token).then(function(priceInDollars) {
+                var state = {};
+                state[tokenPrice] = priceInDollars;
+                _this.setState(state);
+            });
         });
     },
     toggleGrimoire(e) {
@@ -82,10 +94,12 @@ var SwapBazar = React.createClass({
                     <h5>Input</h5>
                     <label className="UniActiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.inputToken = ref} tokensList={this.state.tokensList} onChange={inputToken => this.onToken(inputToken, "input")} />
+                        {this.state && this.state.inputPrice && <span>{window.formatMoney(this.state.inputPrice, 2)}$</span>}
                     </label>
                     <h5>Output</h5>
                     <label className="UniDisactiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.outputToken = ref} tokensList={this.state.tokensList} onChange={outputToken => this.onToken(outputToken, "output")} />
+                        {this.state && this.state.outputPrice && <span>{window.formatMoney(this.state.outputPrice, 2)}$</span>}
                     </label>
                 </section>
                 <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
