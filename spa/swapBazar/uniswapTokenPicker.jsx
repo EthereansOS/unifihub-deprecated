@@ -13,7 +13,16 @@ var UniswapTokenPicker = React.createClass({
     },
     open(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
-        this.setState({ opened: true });
+        var _this = this;
+        var oldTarget = e.currentTarget;
+        this.setState({ opened: true }, function() {
+            _this.opened && (_this.opened.onblur = _this.opened.onblur || function onblur(e) {
+                e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+                e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
+                e.relatedTarget && e.relatedTarget !== oldTarget && _this.opened && _this.opened.focus();
+                (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({opened: null});
+            }) && _this.opened.focus();
+        });
     },
     onClick(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -33,7 +42,7 @@ var UniswapTokenPicker = React.createClass({
     renderOpened() {
         var _this = this;
         var thisKey = this.getKey();
-        return (<section>
+        return (<section tabIndex="-1" ref={ref => this.opened = ref}>
             <section>
                 <a href="javascript:;" onClick={this.close}>X</a>
             </section>
