@@ -22,8 +22,64 @@ var SwapBazarController = function (view) {
                 }
             });
         } catch (e) {
-            context.loadDataOnChain();
+            await context.loadDataOnChain();
         }
+        context.readAddressBarParams();
+    };
+
+    context.readAddressBarParams = async function readAddressBarParams() {
+        var token0 = window.addressBarParams.inputCurrency;
+        var token1 = window.addressBarParams.outputCurrency;
+        var uniswap = window.addressBarParams.action;
+        delete window.addressBarParams.token0;
+        delete window.addressBarParams.token1;
+        delete window.addressBarParams.action;
+        if(!token0 && !token1) {
+            return;
+        }
+        token0 && (token0 = window.web3.utils.toChecksumAddress(token0));
+        token1 && (token1 = window.web3.utils.toChecksumAddress(token1));
+        token1 === token0 && (token1 = undefined);
+        uniswap = token1 ? uniswap : undefined;
+        var selection = function selection(tokenAddress) {
+            if(!tokenAddress) {
+                return;
+            }
+            var keys = Object.keys(context.view.state.tokensList);
+            for(var key of keys) {
+                var tokens = context.view.state.tokensList[key];
+                for(var selected = 0; selected < tokens.length; selected++) {
+                    if(window.web3.utils.toChecksumAddress(tokens[selected].address) === tokenAddress) {
+                        return {
+                            key,
+                            selected,
+                            token: tokens[selected]
+                        }
+                    }
+                }
+            }
+        };
+        var setState = async function setState(tokenName, tokenAddress) {
+            if(!tokenAddress) {
+                return;
+            }
+            var find = selection(tokenAddress);
+            if(!find) {
+                return;
+            }
+            var tokenPrice = tokenName + "Price";
+            tokenName += "Token";
+            var state = {};
+            state[tokenName] = find.token;
+            state[tokenPrice] = await context.calculatePriceInDollars(state[tokenName]);
+            delete find.token;
+            context.view.setState(state, function() {
+                context.view[tokenName] && context.view[tokenName].setState(find);
+            });
+        };
+        await setState("input", token0);
+        await setState("output", token1);
+        uniswap && context.view.setState({uniswap});
     };
 
     context.loadDataOnChain = async function loadDataOnChain() {
