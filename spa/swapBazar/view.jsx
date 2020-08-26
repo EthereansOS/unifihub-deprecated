@@ -93,7 +93,7 @@ var SwapBazar = React.createClass({
             </section>
             {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && 
             <section className="ArrivaUniswapQuelloVero">
-                <a href="javascript:;" onClick={this.closeUniswap}>X</a>
+                <a className="SeneVaUniswap" href="javascript:;" onClick={this.closeUniswap}>X</a>
                 <iframe src={this.renderUniswapLink()}></iframe>
                 <section ref={ref => this.uniswapLoader = ref} className="ArrivaUniswap">
                     <img src="assets/img/loader2.gif"></img>
