@@ -10,7 +10,7 @@ var GrimBazar = React.createClass({
                 <section className="grimoireWelcome">
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/m1.png"></img>
-                        <article>
+                        <article id="grimBaz">
                             <h2>The Grimoire - Bazar</h2>
                             <h6><b>Ancient black magic is unleashing the true power of the Unicorn.</b> Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.</h6>
                         </article>

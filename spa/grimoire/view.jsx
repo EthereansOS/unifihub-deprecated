@@ -25,9 +25,9 @@ var Grimoire = React.createClass({
                         <ul className="grimoireIndex">
                             <h2>Index</h2>
                             <a href="#grimuSD"><img src="assets/img/m4.png"></img><b>Stable Coin:</b> Uniswap State Dollar</a>
-                            <a href=""><img src="assets/img/m2.png"></img><b>Crafting and ILO:</b> Programmable Liquidity</a>
-                            <a href=""><img src="assets/img/m1.png"></img><b>Bazaar:</b> Uniswap Advanced Listing</a>
-                            <a href=""><img src="assets/img/maghetto.png"></img><b>UniFi Strategy:</b> Token and WP</a>
+                            <a href="#grimCraft"><img src="assets/img/m2.png"></img><b>Crafting and ILO:</b> Programmable Liquidity</a>
+                            <a href="#grimBaz"><img src="assets/img/m1.png"></img><b>Bazaar:</b> Uniswap Advanced Listing</a>
+                            <a href="#grimUniFi"><img src="assets/img/maghetto.png"></img><b>UniFi Strategy:</b> Token and WP</a>
                         </ul>
                     </section>
 

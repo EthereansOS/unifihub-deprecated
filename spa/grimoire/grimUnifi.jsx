@@ -10,7 +10,7 @@ var GrimUnifi = React.createClass({
                 <section className="grimoireWelcome">
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/maghetto.png"></img>
-                        <article>
+                        <article id="grimUniFi">
                             <h2>The Grimoire - UniFi DFO and UniFi Token</h2>
                             <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">Launch Dapp</a> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.</h6>
                         </article>
