@@ -10,5 +10,12 @@
     "prettier-plugin-solidity": "^1.0.0-alpha.56",
     "solc": "^0.7.0",
     "solidity-docgen": "^0.5.4"
+  },
+  "scripts": {
+    "docs": "yarn docs:clean && yarn docs:docgen && yarn docs:mkdocs",
+    "docs:clean": "rm -r docs/{md-build,build}",
+    "docs:docgen": "cd docs && solidity-docgen -i ../contracts -o md-build -t solidity-docgen-templates && cp ../*.md md-build && mv md-build/stableCoin/standalone/* md-build/stableCoin && rm -r md-build/stableCoin/standalone/",
+    "docs:mkdocs:build": "cd docs && mkdocs build",
+    "docs:mkdocs:serve": "yarn docs:docgen && cd docs && mkdocs serve"
   }
 }

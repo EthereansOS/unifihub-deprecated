@@ -4,11 +4,17 @@ pragma solidity ^0.6.0;
 
 import "./ERC20.sol";
 import "./IStableCoin.sol";
+import "./IMWDFunctionalitiesManager.sol";
+import "./IMWDProxy.sol";
+import "./IDoubleProxy.sol";
+import "./IStateHolder.sol";
+import "./IUniswapV2Pair.sol";
+import "./IUniswapV2Router.sol";
 
 /**
  * @title StableCoin
- * @dev Contract for the "uSD" Stable Coin. It's an ERC20 token extended with the IStableCoin
- *  interface.
+ * @dev Contract for the "uSD" Stable Coin.
+ * It's an ERC20 token extended with the IStableCoin interface and DFO protocol magic.
  */
 contract StableCoin is ERC20, IStableCoin {
     // |------------------------------------------------------------------------------------------|

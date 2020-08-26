@@ -3,7 +3,8 @@
 pragma solidity ^0.6.0;
 
 /**
- * @title Mint Voting Tokens (unifi) by burning Stable Coin (uSD) // DOCUMENT
+ * @title Mint Voting Tokens ($unifi) by burning Stable Coin ($uSD) // DOCUMENT
+ * @dev This contract define the logic that is used
  */
 contract MintNewVotingTokensForStableCoinFunctionality {
     function onStart(address, address) public {

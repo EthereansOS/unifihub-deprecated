@@ -1,0 +1,29 @@
+site_name: Unifi Docs
+docs_dir: md-build
+site_dir: build
+permalink: True
+nav:
+  - Home: README.md
+  - Contributing: CONTRIBUTING.md
+  - API:
+      - Stable Coin:
+          - Address: stableCoin/Address.md
+          - Context: stableCoin/Context.md
+          - ERC20: stableCoin/ERC20.md
+          - IDoubleProxy: stableCoin/IDoubleProxy.md
+          - IERC20: stableCoin/IERC20.md
+          - IMWDFunctionalitiesManager: stableCoin/IMWDFunctionalitiesManager.md
+          - IMWDProxy: stableCoin/IMWDProxy.md
+          - IStableCoin: stableCoin/IStableCoin.md
+          - IStateHolder: stableCoin/IStateHolder.md
+          - IUniswapV2Pair: stableCoin/IUniswapV2Pair.md
+          - IUniswapV2Router: stableCoin/IUniswapV2Router.md
+          - SafeMath: stableCoin/SafeMath.md
+          - StableCoin: stableCoin/StableCoin.md
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - typescript
+    - javascript
