@@ -162,7 +162,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .StableITBTNActive, .StableITBTNFActive {display: inline-block;} 
 .StableITBTNFActive {font-size: 13px; padding: 5px 9px; margin-top: 5px;}
 .ArrivaUniswap {position: fixed; width: 100%; height: 100%; overflow: hidden; z-index: 10;left: 0;top: 0;}
-.ArrivaUniswap img {width: 40%; position: absolute; left: 30%; top: 150px;}
+.ArrivaUniswap img {width: 30%; position: absolute; left: 35%; top: 150px;}
 .ArrivaUniswapQuelloVero iframe {position: fixed; width: 100%; height: 100%; overflow: hidden; z-index: 10;left: 0;top: 0;z-index: 9;}
 
 
