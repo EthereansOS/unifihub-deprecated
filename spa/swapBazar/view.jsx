@@ -65,6 +65,12 @@ var SwapBazar = React.createClass({
     renderUniswapLink() {
         return window.context[this.state.uniswap === 'swap' ? "uniswapDappLinkTemplate" : "uniswapDappLinkTemplatePool"].format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address);
     },
+    componentDidUpdate() {
+        var _this = this;
+        _this.state && _this.state.uniswap && _this.uniswapLoader && setTimeout(function() {
+            $(_this.uniswapLoader).css('display', 'none');
+        }, 2000);
+    },
     render() {
         return (<section className="unifiDapp">
             <DappMenu />
@@ -89,7 +95,7 @@ var SwapBazar = React.createClass({
             <section className="ArrivaUniswapQuelloVero">
                 <a href="javascript:;" onClick={this.closeUniswap}>X</a>
                 <iframe src={this.renderUniswapLink()}></iframe>
-                <section className="ArrivaUniswap">
+                <section ref={ref => this.uniswapLoader = ref} className="ArrivaUniswap">
                     <img src="assets/img/loader2.gif"></img>
                 </section>
             </section>}
