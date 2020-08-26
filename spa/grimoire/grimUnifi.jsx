@@ -53,7 +53,7 @@ var GrimUnifi = React.createClass({
                         </article>
                         <article className="grimoireArticle" id="UnifiLS">
                             <h2>UniFi Liquidity Staking</h2>
-                            <p>UniFi Liquidity Stakinf is available here: <a target="_blank" href="https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c">https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c</a></p>
+                            <p>UniFi Liquidity Staking is available here: <a target="_blank" href="https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c">https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c</a></p>
                             <p>The UniFi Liquidity Staking Mechanism is designed to reward those who lock up Uniswap V2 liquidity for the long term.</p>
                             <p>Liquidity Staking will inflate the supply over the first year (if every tier is completely filled) by 918,000 UniFi (1% of the supply).</p>
                             <p>The Five Year tier was filled by the team in an early test, and we won’t touch the rewards for three years. When they are unlocked and redeemed, 50% of the UniFi will be sent to the UniFi wallet and 50% to the NERV operations wallet.</p>
