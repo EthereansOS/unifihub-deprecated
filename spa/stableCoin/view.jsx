@@ -197,7 +197,7 @@ var StableCoin = React.createClass({
                         {this.state.toggleTotalCoins && <ul className="SideStableList">
                             {Object.values(this.state.totalCoins.list).map(it => <li key={it.address}>
                                 <section>
-                                    <span>{window.fromDecimals(it.amount, window.stableCoin.decimals)}</span>
+                                    <span>{window.fromDecimals(it.balanceOf, window.stableCoin.decimals)}</span>
                                     {'\u00a0'}
                                     <span>{it.symbol}</span>
                                 </section>
