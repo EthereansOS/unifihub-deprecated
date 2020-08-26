@@ -39,7 +39,7 @@ to an Handlebars template located at `docs/solidity-docgen-templates/contract.hb
 To build the documentation:
 
 ```console
-yarn docs
+yarn docs:build
 ```
 
 To serve the documentation

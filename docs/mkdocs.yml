@@ -7,19 +7,14 @@ nav:
   - Contributing: CONTRIBUTING.md
   - API:
       - Stable Coin:
-          - Address: stableCoin/Address.md
-          - Context: stableCoin/Context.md
-          - ERC20: stableCoin/ERC20.md
-          - IDoubleProxy: stableCoin/IDoubleProxy.md
-          - IERC20: stableCoin/IERC20.md
-          - IMWDFunctionalitiesManager: stableCoin/IMWDFunctionalitiesManager.md
-          - IMWDProxy: stableCoin/IMWDProxy.md
-          - IStableCoin: stableCoin/IStableCoin.md
-          - IStateHolder: stableCoin/IStateHolder.md
-          - IUniswapV2Pair: stableCoin/IUniswapV2Pair.md
-          - IUniswapV2Router: stableCoin/IUniswapV2Router.md
-          - SafeMath: stableCoin/SafeMath.md
-          - StableCoin: stableCoin/StableCoin.md
+          - IDoubleProxy: stableCoin/standalone/IDoubleProxy.md
+          - IMVDFunctionalitiesManager: stableCoin/standalone/IMVDFunctionalitiesManager.md
+          - IMVDProxy: stableCoin/standalone/IMVDProxy.md
+          - IStateHolder: stableCoin/standalone/IStateHolder.md
+          - IStableCoin: stableCoin/standalone/IStableCoin.md
+      - Microservices:
+          - MintNewVotingTokensForStableCoinFunctionality: stableCoin/microservices/MintNewVotingTokensForStableCoinFunctionality.md
+
 theme:
   name: readthedocs
   highlightjs: true

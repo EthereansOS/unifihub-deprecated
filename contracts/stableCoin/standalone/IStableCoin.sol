@@ -38,9 +38,9 @@ interface IStableCoin {
     function allowedPairs() external view returns (address[] memory);
 
     /**
-     * @return The amount of available mintable token
+     * @return mintable The amount of available mintable token
      */
-    function availableToMint() external view returns (uint256);
+    function availableToMint() external view returns (uint256 mintable);
 
     // DOCUMENT
     function differences() external view returns (uint256, uint256);
@@ -79,23 +79,17 @@ interface IStableCoin {
     // |------------------------------------------------------------------------------------------|
 
     /**
-     * @dev // DOCUMENT
-     *
-     * =====
+     * @dev Compute the reward of the rebalanceByDebt() operation.
      *
      * @param burnt amount of of uSD burnt
      */
-    function calculateRebalanceByDebtReward(uint256 burnt) external view returns (uint256);
+    function calculateRebalanceByDebtReward(uint256 burnt) external view returns (uint256 reward);
 
     /**
      * @dev Convert from one of the allowed whitelisted tokens to uSD
      *
-     * =====
-     *
      * @param tokenAddress Address of the token to convert
      * @param amount Amount of Unifi token to be converted
-     *
-     * =====
      *
      * @return Amount of uSD tokens
      */
@@ -108,8 +102,6 @@ interface IStableCoin {
      * Mint logic of the StableCoin.
      * @dev Mint the uSD token
      *
-     * =====
-     *
      * @param pairIndex Index of the pair inside the allowedPairs array
      * @param amountA The amount of tokenA to add as liquidity if the B/A price is <=
      *  amountBDesired/amountADesired (A depreciates)
@@ -119,8 +111,6 @@ interface IStableCoin {
      *  Must be <= amountADesired
      * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts.
      *  Must be <= amountBDesired
-     *
-     * =====
      *
      * @return Amount of freshly minted uSD token
      */
@@ -136,13 +126,9 @@ interface IStableCoin {
      * Mint logic of the StableCoin.
      * @dev Mint the uSD token
      *
-     * =====
-     *
      * @param pairIndex Index of the pair inside the allowedPairs array
      * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
      * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
-     *
-     * =====
      *
      * @return amountA The amount of tokenA received
      * @return amountB The amount of tokenB received
@@ -159,8 +145,6 @@ interface IStableCoin {
      * @dev Rebalance by Credit is triggered when the total amount of source tokens' value is greater
      * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
      *
-     * =====
-     *
      * @notice Positive imbalances can be caused by the accrual of liquidity provider fee. Withdrawn tokens
      * are stored inside the Unifi DFO as a source of long-term value
      */
@@ -174,8 +158,6 @@ interface IStableCoin {
     /**
      * @dev Rebalance by Credit is triggered when the total amount of source tokens' value is greater
      * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
-     *
-     * =====
      *
      * @notice Positive imbalances can be caused by the accrual of liquidity provider fee. Withdrawn tokens
      * are stored inside the Unifi DFO as a source of long-term value

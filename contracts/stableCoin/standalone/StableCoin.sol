@@ -4,8 +4,8 @@ pragma solidity ^0.6.0;
 
 import "./ERC20.sol";
 import "./IStableCoin.sol";
-import "./IMWDFunctionalitiesManager.sol";
-import "./IMWDProxy.sol";
+import "./IMVDFunctionalitiesManager.sol";
+import "./IMVDProxy.sol";
 import "./IDoubleProxy.sol";
 import "./IStateHolder.sol";
 import "./IUniswapV2Pair.sol";

@@ -2,9 +2,14 @@
 
 pragma solidity ^0.6.0;
 
+import "./IERC20.sol";
+import "./IMVDFunctionalitiesManager.sol";
+import "./IMVDProxy.sol";
+import "./IStateHolder.sol";
+
 /**
- * @title Mint Voting Tokens ($unifi) by burning Stable Coin ($uSD) // DOCUMENT
- * @dev This contract define the logic that is used
+ * @title Mint Voting Tokens ($unifi) by burning Stable Coin ($uSD)
+ * @dev This contract adds unifi minting capabilies to uSD
  */
 contract MintNewVotingTokensForStableCoinFunctionality {
     function onStart(address, address) public {
@@ -82,52 +87,4 @@ contract MintNewVotingTokensForStableCoinFunctionality {
         }
         return string(bStr);
     }
-}
-
-// --------------------------------------------------------------------------------------
-
-interface IMVDProxy {
-    function getToken() external view returns (address);
-
-    function getStateHolderAddress() external view returns (address);
-
-    function getMVDFunctionalitiesManagerAddress() external view returns (address);
-
-    function transfer(
-        address receiver,
-        uint256 value,
-        address token
-    ) external;
-
-    function flushToWallet(
-        address tokenAddress,
-        bool is721,
-        uint256 tokenId
-    ) external;
-}
-
-// --------------------------------------------------------------------------------------
-
-interface IMVDFunctionalitiesManager {
-    function isAuthorizedFunctionality(address functionality) external view returns (bool);
-}
-
-// --------------------------------------------------------------------------------------
-
-interface IStateHolder {
-    function clear(string calldata varName)
-        external
-        returns (string memory oldDataType, bytes memory oldVal);
-
-    function setBool(string calldata varName, bool val) external returns (bool);
-
-    function getBool(string calldata varName) external view returns (bool);
-}
-
-// --------------------------------------------------------------------------------------
-
-interface IERC20 {
-    function mint(uint256 amount) external;
-
-    function balanceOf(address account) external view returns (uint256);
 }

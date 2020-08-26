@@ -22,8 +22,9 @@
 {{#if (or (eq visibility "public") (eq visibility "external"))}}
 ### Function: {{name}}
 `{{name}}({{args}}){{#if outputs}} → {{outputs}}{{/if}}`
+{{#if natspec.devdoc}}
 #### Description
-{{#if natspec.devdoc}}{{natspec.devdoc}}{{else}}No description{{/if}}
+{{natspec.devdoc}}{{else}}{{/if}}
 {{#if natspec.params}}
 #### Parameters:
 {{#natspec.params}}
@@ -42,8 +43,9 @@
 {{#ownEvents}}
 ### Event: {{name}}
 `{{name}}({{args}})`
+{{#if natspec.devdoc}}
 #### Description
-{{#if natspec.devdoc}}{{natspec.devdoc}}{{else}}No description{{/if}}
+{{natspec.devdoc}}{{else}}{{/if}}
 {{#if natspec.params}}
 #### Parameters:
 {{#natspec.params}}
