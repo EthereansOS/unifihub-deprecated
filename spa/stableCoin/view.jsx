@@ -210,7 +210,7 @@ var StableCoin = React.createClass({
                             <section className="SideHealth"><aside style={{ "width": this.state.totalCoins.healthPercentage + "%" }}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
                         </section>
                     </section>}
-                    {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
+                    {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (parseInt(this.state.totalCoins.regularPercentage) > 103 || parseInt(this.state.totalCoins.regularPercentage) < 97) && <section className="SideDiff">
                         <h4>Rebalance</h4>
                         {parseInt(this.state.totalCoins.regularPercentage) > 103 && <section className="SideRebelanceBro SideCredit">
                             <label>
@@ -241,7 +241,7 @@ var StableCoin = React.createClass({
                             </section>}
                         </section>}
                     </section>}
-                    <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsable DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
+                    <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
                 {this.state && this.state.grimoire && <GrimuSD/>}
             </section>
