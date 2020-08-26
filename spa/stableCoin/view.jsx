@@ -16,6 +16,16 @@ var StableCoin = React.createClass({
     componentDidMount() {
         this.controller.loadData();
     },
+    onActionChange(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var value = e.currentTarget.value;
+        var _this = this;
+        _this.setState({myBalance : null}, function() {
+            value === 'Burn' && _this.controller.getMyBalance().then(function(myBalance) {
+                _this.setState({myBalance});
+            });
+        });
+    },
     onPairChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
@@ -144,7 +154,7 @@ var StableCoin = React.createClass({
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
                         <label>
-                            <select ref={ref => this.actionSelect = ref}>
+                            <select ref={ref => this.actionSelect = ref} onChange={this.onActionChange}>
                                 <option value="Mint">Mint</option>
                                 <option value="Burn">Burn</option>
                             </select>
@@ -175,6 +185,7 @@ var StableCoin = React.createClass({
                             {window.walletAddress && <h6><a href="javascript:;" data-token="1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)} {this.state.selectedPair.token1.symbol}</h6>}
                         </label>
                         <h2>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
+                        {window.walletAddress && this.state && this.state.myBalance && <h6>Balance: <b>{window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)}</b>{'\u00a0'}{window.stableCoin.symbol}</h6>}
                         {window.walletAddress && (!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedPair.token0.symbol}</a>}
                         {window.walletAddress && this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
                         {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}

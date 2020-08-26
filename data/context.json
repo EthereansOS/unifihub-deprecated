@@ -12,7 +12,7 @@
     "trustwalletImgURLTemplate": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{0}/logo.png",
     "uniswapDappLinkTemplate" : "https://app.uniswap.org/#/{0}?inputCurrency={1}&outputCurrency={2}",
     "uniswapInfoLinkTemplate" : "https://uniswap.info/token/{0}",
-    "stableCoinAddressRopsten" : "0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A",
+    "stableCoinAddressRopsten" : "0x0407fb98ae1972a61f544fe41335eb1213f8f372",
     "stableCoinAddress" : "0x04C2d7C0712089a61C52A315FCe8F28a55F34DFa",
     "infuraNode" : "https://ropsten.infura.io/v3/5e302428cc5e41a188dc717dc6f34a5b",
     "uniwsapOfficialTokensList" : "https://unpkg.com/@uniswap/default-token-list@latest",

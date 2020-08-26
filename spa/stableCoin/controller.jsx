@@ -280,6 +280,13 @@ var StableCoinController = function (view) {
         }
     };
 
+    context.getMyBalance = async function getMyBalance() {
+        if(!window.walletAddress) {
+            return null;
+        }
+        return await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress);
+    };
+
     context.calculateRebalanceByDebtReward = async function calculateRebalanceByDebtReward(amount) {
         amount = window.toDecimals(amount.split(',').join(''), window.stableCoin.decimals);
         return await window.blockchainCall(window.stableCoin.token.methods.calculateRebalanceByDebtReward, amount);
@@ -330,11 +337,16 @@ var StableCoinController = function (view) {
         var first = totalSupply < balanceOf ? totalSupply : balanceOf;
         var second = totalSupply > balanceOf ? totalSupply : balanceOf;
         var percentage = (first / second) * 100;
+        percentage = parseInt(window.formatMoney(percentage, 0));
         balanceOf > totalSupply && (percentage = percentage === 200 ? 200 : percentage > 200 ? 201 : 200 - percentage);
         totalCoins.regularPercentage = window.numberToString(percentage).split(',').join('').split('.')[0];
         totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         parseInt(totalCoins.regularPercentage) > 200 && (totalCoins.regularPercentage = '200+');
         parseInt(totalCoins.healthPercentage) > 100 && (totalCoins.healthPercentage = '100');
+        if(isNaN(parseInt(totalCoins.regularPercentage))) {
+            totalCoins.regularPercentage = '100';
+            totalCoins.healthPercentage = '50';
+        }
         context.view.setState({totalCoins});
     };
 
