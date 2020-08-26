@@ -1,4 +1,9 @@
 var UniswapTokenPicker = React.createClass({
+    getDefaultSubscriptions() {
+        return {
+            'ethereum/update' : () => this.setState({key: null, selected : null})
+        };
+    },
     onSectionChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var key = e.currentTarget.dataset.key;
