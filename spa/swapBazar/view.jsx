@@ -97,18 +97,18 @@ var SwapBazar = React.createClass({
                     <h5>From</h5>
                     <label className="UniActiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.inputToken = ref} tokensList={this.state.tokensList} onChange={inputToken => this.onToken(inputToken, "input")} />
-                        {this.state && this.state.inputPrice && <span className="BazPrice">Price: ${window.formatMoney(this.state.inputPrice, 2)}</span>}
+                        {this.state && this.state.inputPrice && <span className="BazPrice">{this.state.inputPrice === 'notFound' ? "Price not found" : `Price: ${"$"}${this.state.inputPrice}`}</span>}
                     </label>
                     <h5>To</h5>
                     <label className="UniDisactiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.outputToken = ref} tokensList={this.state.tokensList} onChange={outputToken => this.onToken(outputToken, "output")} />
-                        {this.state && this.state.outputPrice && <span className="BazPrice">Price: ${window.formatMoney(this.state.outputPrice, 2)}</span>}
+                        {this.state && this.state.outputPrice && <span className="BazPrice">{this.state.outputPrice === 'notFound' ? "Price not found" : `Price: ${"$"}${this.state.outputPrice}`}</span>}
                     </label>
                 </section>
                 <section className="BazzActions">
-                    <a href="javascript:;" onClick={this.openUniswap} data-action="swap" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
-                    <a href="javascript:;" onClick={this.openUniswap} data-action="add" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Add Liquidity</a>
-                    <a href="javascript:;" onClick={this.openUniswap} data-action="remove" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Remove Liquidity</a>
+                    <a href="javascript:;" onClick={this.openUniswap} data-action="swap" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) ? " Disabled" : "")}>Swap</a>
+                    <a href="javascript:;" onClick={this.openUniswap} data-action="add" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) ? " Disabled" : "")}>Add Liquidity</a>
+                    <a href="javascript:;" onClick={this.openUniswap} data-action="remove" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) ? " Disabled" : "")}>Remove Liquidity</a>
                     <p className={"BazzPreDesc" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " ActiveDesc")}>Select Tiers to Swap or Manage Liquidity</p>
                 </section>
             </section>}

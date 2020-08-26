@@ -215,8 +215,11 @@ var SwapBazarController = function (view) {
         try {
             var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, window.toDecimals('1', token.decimals), [token.address, window.wethAddress]))[1], 18, true);
             priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
-            return priceInDollars;
+            priceInDollars = window.numberToString(priceInDollars);
+            var priceString = window.formatMoney(priceInDollars, 4);
+            return priceString === '0' ? priceInDollars : priceString;
         } catch (e) {
+            return "notFound";
         }
     };
 };
