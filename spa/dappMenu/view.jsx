@@ -63,7 +63,7 @@ var DappMenu = React.createClass({
                 _this.state[type] && _this[type] && (_this[type].onblur = _this[type].onblur || function(e) {
                     e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                     e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
-                    toggleWork(type);
+                    e.relatedTarget !== oldTarget && toggleWork(type);
                 }) && _this[type].focus();
             });
         };
