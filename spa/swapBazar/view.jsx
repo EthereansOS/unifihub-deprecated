@@ -51,7 +51,25 @@ var SwapBazar = React.createClass({
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
     render() {
-        return (<section>
+        return (<section className="unifiDapp">
+            <DappMenu />
+            <section className="CallToGrim">
+                <section>
+                    <a href="javascript:;" onClick={this.toggleGrimoire}>
+                        {this.state && this.state.grimoire && <img src="assets/img/m0.png"></img>}
+                        {(!this.state || !this.state.grimoire) && <img src="assets/img/m0.png"></img>}
+                    </a>
+                </section>
+            </section>
+            <section className="StableCoinTitle">
+                <section className="StableCoinTitleIntern">
+                    <img src="assets/img/m1.png"></img>
+                    <article>
+                        <h2>The Bazar</h2>
+                        <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                    </article>
+                </section>
+            </section>
             {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && <section>
                 <a href="javascript:;" onClick={this.closeUniswap}>X</a>
                 <iframe src={window.context.uniswapDappLinkTemplate.format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address)}></iframe>
@@ -73,15 +91,7 @@ var SwapBazar = React.createClass({
                 <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
                 <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Pool</a>
             </section>}
-            <section>
-                <section>
-                    <a href="javascript:;" onClick={this.toggleGrimoire}>
-                        {this.state && this.state.grimoire && <span>X</span>}
-                        {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
-                    </a>
-                </section>
                 {this.state && this.state.grimoire && <GrimBazar/>}
-            </section>
         </section>);
     }
 });

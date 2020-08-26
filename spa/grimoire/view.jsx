@@ -16,7 +16,7 @@ var Grimoire = React.createClass({
                         <img src="assets/img/m0.png"></img>
                         <article>
                             <h2>The Grimoire</h2>
-                            <h6><b>The comprehensive giude to use the Uniswap Magic</b> <br></br>Here, you can find every info needed to understand UniFi and to integrate your dapp with this protocol.</h6>
+                            <h6><b>Ancient black magic is unleashing the true power of the Unicorn.</b> Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.</h6>
                         </article>
                     </section>
                 </section>
