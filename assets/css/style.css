@@ -140,6 +140,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .CallToGrim {position: fixed; top: 10px; left: 190px; width: 35px; height: 35px;}
 .CallToGrim a {width: 35px; height: 35px; display: inline-block; text-align: center; border-radius: 10px;}
 .CallToGrim a img {width: 30px; height: 30px; display: inline-block; vertical-align: center;}
+.BoomerModeToggler {width: 35px; height: 35px; display: inline-block; text-align: center; border-radius: 10px; position: fixed; top: 10px; right: 230px; text-decoration: none;}
 
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
@@ -169,7 +170,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .Boomer > .explainer .coverMenu li a span {text-shadow: 2px 2px 2px #5d5e60;color: #bab9b9;}
 .Boomer .CallToGrim a {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .Boomer .maghetto {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
-
+.Boomer .BoomerModeToggler {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 
 .RPG .UniBox, .RPG .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -195,7 +196,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .grimoireIndex a {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
 .RPG .coverMenu li a span {text-shadow: 2px 2px 2px #5d5e60;color: #bab9b9;}
 .RPG .CallToGrim a {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-
+.RPG .BoomerModeToggler {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 
 
 @media only screen and (min-width: 640px) {

@@ -76,7 +76,7 @@ var DappMenu = React.createClass({
     render() {
         return (
             <section className="MenuAll">
-                <a className="BoomerModeToggler" href="javascript:;" onClick={this.toggleBoomerMode} ref={ref => ref && (ref.innerHTML = ('&#' + (window.localStorage.boomerMode === 'true' ? '127769' : '128161') + ';'))}></a>
+                <a className="BoomerModeToggler" href="javascript:;" onClick={this.toggleBoomerMode} ref={ref => ref && (ref.innerHTML = ('&#' + (window.localStorage.boomerMode === 'true' ? '128188' : '10024') + ';'))}></a>
                 <a className="maghetto" href=""><img src="assets/img/maghetto.png"></img></a>
                 <a href="javascript:;" onClick={this.toggle} data-type="menu" className="menuOpener">Menu</a>
                 {!window.walletAddress && <a href="javascript:;" onClick={this.toggle} data-type="connect" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>}
