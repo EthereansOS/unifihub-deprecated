@@ -123,6 +123,14 @@ var StableCoin = React.createClass({
         return (
             <section className="unifiDapp">
                 <DappMenu />
+                <section className="CallToGrim">
+                    <section>
+                        <a href="javascript:;" onClick={this.toggleGrimoire}>
+                            {this.state && this.state.grimoire && <img src="assets/img/m0.png"></img>}
+                            {(!this.state || !this.state.grimoire) && <img src="assets/img/m0.png"></img>}
+                        </a>
+                    </section>
+                </section>
                 <section className="StableCoinTitle">
                     <section className="StableCoinTitleIntern">
                         <img src="assets/img/m4.png"></img>
@@ -235,15 +243,7 @@ var StableCoin = React.createClass({
                     </section>}
                     <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsable DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
-                <section>
-                    <section>
-                        <a href="javascript:;" onClick={this.toggleGrimoire}>
-                            {this.state && this.state.grimoire && <span>X</span>}
-                            {(!this.state || !this.state.grimoire) && <span>Grimoire</span>}
-                        </a>
-                    </section>
-                    {this.state && this.state.grimoire && <GrimuSD/>}
-                </section>
+                {this.state && this.state.grimoire && <GrimuSD/>}
             </section>
         );
     }

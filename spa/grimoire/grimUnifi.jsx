@@ -5,8 +5,7 @@ var GrimUnifi = React.createClass({
     
     render() {
         return (
-            <section className="unifiDapp">
-                <DappMenu />
+            <section>
                 <section className="grimoireWelcome">
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/maghetto.png"></img>
