@@ -29,7 +29,7 @@ var Index = React.createClass({
         props.props && Object.entries(props.props).forEach(entry => props[entry[0]] = entry[1]);
         delete props.props;
         return (
-            <section className="unifiAll">
+            <section className="unifiAll Boomer">
                 {React.createElement(window[props.section || 'Explainer'], props)}
             </section>
         );
