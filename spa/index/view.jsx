@@ -30,11 +30,9 @@ var Index = React.createClass({
         delete window.addressBarParams.section;
         section && this.sectionChange(section);
     },
-    toggleBoomerMode(e) {
-        e && e.preventDefault(true) && e.stopPropagation(true);
-        e && $(e.target).html('&#' + (this.domRoot.toggleClass('Boomer').hasClass('Boomer') ? '128161' : '127769') + ';');
+    toggleBoomerMode() {
         window.localStorage.setItem('boomerMode', !this.domRoot.hasClass('Boomer'));
-        !e && this.forceUpdate();
+        this.forceUpdate();
     },
     render() {
         var props = {};
