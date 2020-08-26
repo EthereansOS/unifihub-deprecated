@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.6.0;
 
 import "./ERC20.sol";
 import "./IStableCoin.sol";
@@ -44,8 +44,7 @@ contract StableCoin is ERC20, IStableCoin {
         uint256[] memory rebalanceRewardMultiplier,
         uint256[] memory timeWindows,
         uint256[] memory mintables
-    ) {
-        // DOCUMENT
+    ) public {
         if (doubleProxy == address(0)) {
             return;
         }
@@ -90,8 +89,8 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
-    function tierData() public override view returns (uint256[] memory, uint256[] memory) {
-        return (_timeWindows, _mintables);
+    function allowedPairs() public override view returns (address[] memory) {
+        return _allowedPairs;
     }
 
     /**
@@ -114,6 +113,20 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
+    function differences() public override view returns (uint256 credit, uint256 debt) {
+        uint256 totalSupply = totalSupply();
+        uint256 effectiveAmount = 0;
+        for (uint256 i = 0; i < _allowedPairs.length; i++) {
+            (uint256 amount0, uint256 amount1) = _getPairAmount(i);
+            effectiveAmount += (amount0 + amount1);
+        }
+        credit = effectiveAmount > totalSupply ? effectiveAmount - totalSupply : 0;
+        debt = totalSupply > effectiveAmount ? totalSupply - effectiveAmount : 0;
+    }
+
+    /**
+     * @inheritdoc IStableCoin
+     */
     function doubleProxy() public override view returns (address) {
         return _doubleProxy;
     }
@@ -128,20 +141,13 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
-    function allowedPairs() public override view returns (address[] memory) {
-        return _allowedPairs;
+    function tierData() public override view returns (uint256[] memory, uint256[] memory) {
+        return (_timeWindows, _mintables);
     }
 
     // |------------------------------------------------------------------------------------------|
     // | ----- SETTERS ----- |
     // |------------------------------------------------------------------------------------------|
-
-    /**
-     * @inheritdoc IStableCoin
-     */
-    function setDoubleProxy(address newDoubleProxy) public override _byCommunity {
-        _doubleProxy = newDoubleProxy;
-    }
 
     /**
      * @inheritdoc IStableCoin
@@ -153,16 +159,13 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
-    function differences() public override view returns (uint256 credit, uint256 debt) {
-        uint256 totalSupply = totalSupply();
-        uint256 effectiveAmount = 0;
-        for (uint256 i = 0; i < _allowedPairs.length; i++) {
-            (uint256 amount0, uint256 amount1) = _getPairAmount(i);
-            effectiveAmount += (amount0 + amount1);
-        }
-        credit = effectiveAmount > totalSupply ? effectiveAmount - totalSupply : 0;
-        debt = totalSupply > effectiveAmount ? totalSupply - effectiveAmount : 0;
+    function setDoubleProxy(address newDoubleProxy) public override _byCommunity {
+        _doubleProxy = newDoubleProxy;
     }
+
+    // |------------------------------------------------------------------------------------------|
+    // | ----- CORE FUNCTIONS ----- |
+    // |------------------------------------------------------------------------------------------|
 
     /**
      * @inheritdoc IStableCoin
@@ -264,13 +267,16 @@ contract StableCoin is ERC20, IStableCoin {
     }
 
     /**
+     * @dev Rebalance by Credit is triggered when the total amount of source tokens is greater
+     * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
+     *
      * @inheritdoc IStableCoin
      */
     function rebalanceByCredit(
         uint256 pairIndex,
         uint256 pairAmount,
-        uint256 amount0,
-        uint256 amount1
+        uint256 amountA,
+        uint256 amountB
     ) public override _forAllowedPair(pairIndex) returns (uint256 redeemed) {
         // NOTE: Use DFO Protocol to check for authorization
         require(
@@ -284,18 +290,18 @@ contract StableCoin is ERC20, IStableCoin {
         );
         _lastRedeemBlock = block.number;
         (uint256 credit, ) = differences();
-        (address token0, address token1, address pairAddress) = _getPairData(pairIndex);
+        (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
         (uint256 removed0, uint256 removed1) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
-            token0,
-            token1,
+            tokenA,
+            tokenB,
             pairAmount,
-            amount0,
-            amount1,
+            amountA,
+            amountB,
             IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getMVDWalletAddress(),
             block.timestamp + 1000
         );
-        redeemed = fromTokenToStable(token0, removed0) + fromTokenToStable(token1, removed1);
+        redeemed = fromTokenToStable(tokenA, removed0) + fromTokenToStable(tokenB, removed1);
         require(redeemed <= credit, "Cannot redeem given pair amount");
     }
 
@@ -312,6 +318,8 @@ contract StableCoin is ERC20, IStableCoin {
             abi.encode(address(0), 0, reward = calculateRebalanceByDebtReward(amount), msg.sender)
         );
     }
+
+    // -------------------------------------------------------------------------------------------|
 
     /**
      * // DOCUMENT
@@ -334,6 +342,8 @@ contract StableCoin is ERC20, IStableCoin {
         require(pairIndex >= 0 && pairIndex < _allowedPairs.length, "Unknown pair!");
         _;
     }
+
+    // -------------------------------------------------------------------------------------------|
 
     /**
      * // DOCUMENT
@@ -374,38 +384,55 @@ contract StableCoin is ERC20, IStableCoin {
     }
 
     /**
-     * @dev Use the Uniswap Protocol to add liquidity to a pool.
+     * @dev Utility Function: Use the Uniswap Router to add liquidity to a pool.
+     *
+     * @param tokenA A pool token
+     * @param tokenB A pool token
+     * @param liquidity The amount of liquidity tokens to remove
+     * @param amountADesired The amount of tokenA to add as liquidity if the B/A price is <=
+     *  amountBDesired/amountADesired (A depreciates).
+     * @param amountBDesired The amount of tokenB to add as liquidity if the A/B price is <=
+     *  amountADesired/amountBDesired (B depreciates).
+     * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
+     * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts. Must be <= amountBDesired.
+     *
+     * =====
+     *
+     * @return amountA The amount of tokenA sent to the pool
+     * @return amountB The amount of tokenB sent to the pool
+     * @return liquidity The amount of liquidity tokens minted
+     *
      */
     function _createPoolToken(
-        address firstToken,
-        address secondToken,
-        uint256 originalFirstAmount,
-        uint256 originalSecondAmount,
-        uint256 firstAmountMin,
-        uint256 secondAmountMin
+        address tokenA,
+        address tokenB,
+        uint256 amountADesired,
+        uint256 amountBDesired,
+        uint256 amountAMin,
+        uint256 amountBMin
     )
         private
         returns (
-            uint256 firstAmount,
-            uint256 secondAmount,
-            uint256 poolAmount
+            uint256 amountA,
+            uint256 amountB,
+            uint256 liquidity
         )
     {
-        (firstAmount, secondAmount, poolAmount) = IUniswapV2Router(UNISWAP_V2_ROUTER).addLiquidity(
-            firstToken,
-            secondToken,
-            originalFirstAmount,
-            originalSecondAmount,
-            firstAmountMin,
-            secondAmountMin,
+        (amountA, amountB, liquidity) = IUniswapV2Router(UNISWAP_V2_ROUTER).addLiquidity(
+            tokenA,
+            tokenB,
+            amountADesired,
+            amountBDesired,
+            amountAMin,
+            amountBMin,
             address(this),
             block.timestamp + 1000
         );
-        if (firstAmount < originalFirstAmount) {
-            IERC20(firstToken).transfer(msg.sender, originalFirstAmount - firstAmount);
+        if (amountA < amountADesired) {
+            IERC20(tokenA).transfer(msg.sender, amountADesired - amountA);
         }
-        if (secondAmount < originalSecondAmount) {
-            IERC20(secondToken).transfer(msg.sender, originalSecondAmount - secondAmount);
+        if (amountB < amountBDesired) {
+            IERC20(tokenB).transfer(msg.sender, amountBDesired - amountB);
         }
     }
 

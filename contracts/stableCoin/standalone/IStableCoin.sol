@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.6.0;
 
 /**
  * @title Interface for the "uSD" AKA "uniswap State Dollar", Unifi stablecoin.
@@ -33,14 +33,17 @@ interface IStableCoin {
     // |------------------------------------------------------------------------------------------|
 
     /**
-     * @return All tiers of data of the carried context
+     * @return Array of allowed Uniswap pairs
      */
-    function tierData() external view returns (uint256[] memory, uint256[] memory);
+    function allowedPairs() external view returns (address[] memory);
 
     /**
      * @return The amount of available mintable token
      */
     function availableToMint() external view returns (uint256);
+
+    // DOCUMENT
+    function differences() external view returns (uint256, uint256);
 
     /**
      * @return The address for the doubleProxy smart contract
@@ -48,31 +51,28 @@ interface IStableCoin {
     function doubleProxy() external view returns (address);
 
     /**
-     * @return Array of allowed Uniswap pairs
-     */
-    function allowedPairs() external view returns (address[] memory);
-
-    // DOCUMENT
-    function differences() external view returns (uint256, uint256);
-
-    /**
      * @return The multiplier used to compute the rebalancing rewards
      */
     function rebalanceRewardMultiplier() external view returns (uint256[] memory);
+
+    /**
+     * @return All tiers of data of the carried context
+     */
+    function tierData() external view returns (uint256[] memory, uint256[] memory);
 
     // |------------------------------------------------------------------------------------------|
     // | ----- SETTERS ----- |
     // |------------------------------------------------------------------------------------------|
 
     /**
-     * @param newDoubleProxy new DoubleProxy to set
-     */
-    function setDoubleProxy(address newDoubleProxy) external;
-
-    /**
      * @param newAllowedPairs list of Uniswap pairs to be whitelisted
      */
     function setAllowedPairs(address[] calldata newAllowedPairs) external;
+
+    /**
+     * @param newDoubleProxy new DoubleProxy to set
+     */
+    function setDoubleProxy(address newDoubleProxy) external;
 
     // |------------------------------------------------------------------------------------------|
     // | ----- CORE FUNCTIONS ----- |
@@ -112,11 +112,13 @@ interface IStableCoin {
      *
      * @param pairIndex Index of the pair inside the allowedPairs array
      * @param amountA The amount of tokenA to add as liquidity if the B/A price is <=
-     *  amountBDesired/amountADesired (A depreciates).
+     *  amountBDesired/amountADesired (A depreciates)
      * @param amountB The amount of tokenB to add as liquidity if the A/B price is <=
-     *  amountADesired/amountBDesired (B depreciates).
-     * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
-     * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts. Must be <= amountBDesired.
+     *  amountADesired/amountBDesired (B depreciates)
+     * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts.
+     *  Must be <= amountADesired
+     * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts.
+     *  Must be <= amountBDesired
      *
      * =====
      *
@@ -154,14 +156,20 @@ interface IStableCoin {
     ) external returns (uint256 amountA, uint256 amountB);
 
     /**
-     * @dev // DOCUMENT
+     * @dev Rebalance by Credit is triggered when the total amount of source tokens is greater
+     * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
+     *
+     * =====
+     *
+     * @notice Positive imbalances can be caused by the accrual of liquidity provider fee. Withdrawn tokens
+     * are stored inside the Unifi DFO as a source of long-term value
      */
     function rebalanceByCredit(
         uint256 pairIndex,
         uint256 pairAmount,
-        uint256 amount0,
-        uint256 amount1
-    ) external returns (uint256);
+        uint256 amountA,
+        uint256 amountB
+    ) external returns (uint256 redeemed);
 
     /**
      * @dev // DOCUMENT
