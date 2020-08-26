@@ -63,7 +63,7 @@ var SwapBazar = React.createClass({
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
     renderUniswapLink() {
-        return window.context[this.state.uniswap === 'swap' ? "uniswapDappLinkTemplate" : "uniswapDappLinkTemplatePool"].format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address);
+        return window.context[this.state.uniswap === 'swap' ? "uniswapDappLinkTemplate" : "uniswapDappLinkTemplatePool"].format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address, window.localStorage.boomerMode === 'true' ? 'light' : 'dark');
     },
     componentDidUpdate() {
         var _this = this;
