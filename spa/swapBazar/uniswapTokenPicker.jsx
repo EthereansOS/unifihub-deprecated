@@ -58,7 +58,7 @@ var UniswapTokenPicker = React.createClass({
                     </li>)}
                 </section>
             </section>
-            {thisKey && <section>
+            {thisKey && <section className="BazSelectorContainerObjects">
                 {this.props.tokensList[thisKey].map((it, i) => {
                     if (!it) {
                         return;
