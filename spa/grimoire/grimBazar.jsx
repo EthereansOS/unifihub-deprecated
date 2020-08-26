@@ -20,17 +20,25 @@ var GrimBazar = React.createClass({
                         <ul className="grimoireIndex">
                             <h2>Index</h2>
                             <a href="#Bazbasics"><b>Basics</b></a>
-                            <a href=""><b>Listing</b></a>
-                            <a href=""><b>Uniswap Integration</b></a>
-                            <a href=""><b>ethArt V2 Integration</b></a>
+                            <a href="#Bazlisting"><b>Listing</b></a>
                         </ul>
                         <article className="grimoireArticle" id="Bazbasics">
                             <h2>Basics</h2>
-                            <p>Programmable Liquidity is an exciting feature in AMMs, but if it impacts the AMM itself, this can introduce bugs due to math complexities (like what happened with Balancer). UniFi crafting aims to achieve Programmable Liquidity, but using Uniswap as a base layer. This helps liquidity providers customize their investment, and empower new applications on top of Uniswap.</p>
-                            <p>Uniswap accepts liquidity pools composed of 50:50 asset ratios. This is the most secure setup for an AMM, except for some cases. However, this setup disincentivizes liquidity provision due to the problem of impermanent losses.</p>
-                            <p>To solve this problem and create new opportunities for the financial use of Uniswap pools, UniFi introduces “Crafting.” This is a new fancy way to build liquidity together, without needing to trust and know each other.</p> 
-                            <p>Anyone can create a Craft Order, customize the liquidity setup and deploy it by adding his or her own portion of liquidity. Anyone can then fill the remaining liquidity required to pool the liquidity in the Uniswap pool. After a pre-selected block, the first one who transacts the removal will remove and send the liquidity to all of the Order participants, based on the rules created initially.</p>
-                             
+                            <p>The UniFi Bazar unleashes the true potential of Uniswap, by enabling Ethereans to trade Index Funds, Programmable Equities and NFTs more easily than ever before.</p>
+                        </article>
+                        <article className="grimoireArticle" id="Bazlisting">
+                            <h2>Listing</h2>
+                            <h4>Index Funds </h4>
+                            <p>Previously, any ERC20 Uniswap V2 pool token could be traded on Uniswap. But Index Funds—backed by multiple ERC20 tokens—could not. Until now.</p> 
+                            <h6>On the Bazar, Ethereans can freely swap and track crypto Index Funds.</h6>
+                            <h4>Programmable Equities</h4>
+                            <p>Programmable equities are a new asset class in crypto. They are the ERC20 voting tokens of Decentralized Flexible Organizations (DFOs). Holders have 100% ownership of the protocol; there is no opportunity for external manipulation.</p>
+                            <h6>On the Bazar, all programmable equities can be listed and traded on Uniswap.</h6>
+                            <h4>Non-Fungible Tokens (NFTs)</h4>
+                            <p>ERC1155 NFTs are tokens with metadata, but at the same time have a supply. The reason they haven’t been tradable in AMMs before is due to their ‘transfer’ function. They use the ‘SafeTransferFrom’ method, instead of the ERC20 methods, ‘Transfer’ and ‘TransferFrom.’ Also, they don’t have decimals; they’re transferred using ID and Amount.</p>
+                            <p>ethArt V2 will be released in November, and the Bazar will be able to synthesize ERC1155 tokens with an ERC20 (à la WETH with ETH) in the background, fundamentally reshaping the NFT market by allowing Ethereans to trade ERC1155 tokens for the first time. </p>
+                            <h4>Swappable ERC 1155 release</h4>
+                            <p>The release of ethArt V2 and swappable NFTs is schedulate for late November</p>
                         </article>
                     </section>
                 </section>

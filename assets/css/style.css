@@ -171,6 +171,8 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .Boomer .CallToGrim a {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .Boomer .maghetto {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
 .Boomer .BoomerModeToggler {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .grimoireArticle a {color: #000000; font-weight: bold;}
+
 
 .RPG .UniBox, .RPG .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -197,7 +199,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .coverMenu li a span {text-shadow: 2px 2px 2px #5d5e60;color: #bab9b9;}
 .RPG .CallToGrim a {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .BoomerModeToggler {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-
+.RPG .grimoireArticle a {color: #c7ac97; font-weight: bold;}
 
 @media only screen and (min-width: 640px) {
     .cover {max-height: 740px; width: 100%;}
@@ -224,7 +226,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
     .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle; z-index: 1; position: relative;}
-    .grimoireWelcome .GrimImg2 {width: 70px; height: 70px; position: absolute; bottom: 10px; left: 5px; z-index: 2;}
+    .grimoireWelcome .GrimImg2 {width: 70px; height: 70px; position: absolute;bottom: -10px;left: -15px; z-index: 2;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
     .grimoireIndex {width: 350px;}
     .DuGustis {position: relative;}
