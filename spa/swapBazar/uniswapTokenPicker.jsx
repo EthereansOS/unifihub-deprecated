@@ -71,9 +71,10 @@ var UniswapTokenPicker = React.createClass({
         </section>);
     },
     renderInput(it, onClick, i) {
+        var key = this.getKey();
         return (<a href="javascript;" data-index={i} onClick={onClick}>
-            <img src={it.logo || it.logoURI || window.context.trustwalletImgURLTemplate.format(it.address)} />
-            <span>{it.symbol}</span>
+            {key !== "Indexes" && <img src={it.logo || it.logoURI || window.context.trustwalletImgURLTemplate.format(it.address)} />}
+            <p>{it.symbol}</p>
         </a>);
     },
     renderClosed() {
@@ -91,6 +92,7 @@ var UniswapTokenPicker = React.createClass({
         return (
         <section className="BazTokenSelector">
             {this.state && this.state.opened && this.renderOpened()}
+            {this.state && this.state.opened && <section className="Boh"></section>}
             {(!this.state || !this.state.opened) && this.renderClosed()}
         </section>);
     }

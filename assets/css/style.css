@@ -124,7 +124,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RebalanceEmergency label span {display: inline-block; margin: 0 5px; font-size: 15px;}
 .RebalanceEmergencyRew {width: 100%; display: inline-block;}
 .coverConnectMenu:focus {border: none; outline: -webkit-focus-ring-color auto 0px;} 
-
+.Boh {position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 5;}
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
@@ -144,15 +144,21 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .explainer .BoomerModeToggler {display: none;}
 .BazTokenSelector {width: 100%; display: inline-block; margin: 10px auto; text-align: center;}
 .BazTokenSelector a {padding: 10px 20px; text-decoration: none; font-weight: bold; display: inline-block; margin: 5px; border-radius: 6px;}
-.BazSelectorContainer {position: fixed; top: 100; left: 5%; width: 90%; overflow-y: scroll;overflow-x: hidden; min-height: 50%;}
-.BazSelectorContainerClose {position: fixed; border-radius: 50%; width: 40px; height: 40px; top: 70px; left: 5px;}
+.BazSelectorContainer {position: fixed; top: 20%; left: 50%; width: 90%; overflow-y: scroll;overflow-x: hidden;  height: 60%; margin: auto; z-index: 10; border-radius: 10px;}
+.BazSelectorContainerClose {position: fixed; border-radius: 50%; width: 40px; height: 40px; top: 70px; left: 5px;top: 14%;left: 48%;}
 .BazSelectorContainerClose a {font-size: 25px; padding: 0;}
 .BazSelectorContainerMenu {display: inline-block; width: 100%;}
 .BazSelectorContainerMenuintern {width: 100%;}
 .BazSelectorContainerMenu li {width: 33.3%; display: inline-block; height: 32px;}
-.BazSelectorContainerMenu li a {padding: 8px 0; width: 100%; margin: 0; font-size: 14px;}
-.BazSelectorContainerObjects {width: 90%; display: inline-block; margin-top: 20px;}
-.BazSelectorContainerObjects li {display: inline-block;}
+.BazSelectorContainerMenu li a {padding: 8px 0; width: 100%; margin: 0; font-size: 13px; font-weight: bold;}
+.BazSelectorContainerObjects {width: 95%; display: inline-block; margin-top: 20px; text-align: left;}
+.BazSelectorContainerObjects li {display: inline-block; width: 120px; margin: 10px;word-wrap: break-word;}
+.BazSelectorContainerObjects li a {font-size: 13px; font-weight: normal; padding: 3px 6px; margin: 0; border-radius: 0; display: inline-block;}
+.BazSelectorContainerObjects li a img {width: 20px; height: 20px; vertical-align: middle;}
+.BazSelectorContainerObjects li a p {display: inline;}
+.BazzPreDescfalse {display: none;}
+.BazPrice {width: 100%; text-align: center;display: inline-block; font-weight: bold;}
+
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
 .Boomer .UniSideBox {border-radius: 20px; color: #000000; width: 100%; background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -184,13 +190,17 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .Boomer .BoomerModeToggler {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .Boomer .grimoireArticle a {color: #000000; font-weight: bold;}
 .Boomer .BazTokenSelector a {background-color: #bab9b9; color: #000000;}
-.Boomer .BazSelectorContainer {background-color: #2b2622; color: #444444;}
+.Boomer .BazSelectorContainer {background-color: #ffffff; color: #444444;}
+.Boomer .BazSelectorContainer:focus {border: none;}
 
 .Boomer .BazSelectorContainerMenu {background-color: #bab9b9;}
 .Boomer .BazSelectorContainerClose {background-color: #bab9b9;}
-.Boomer .BazSelectorContainerMenu .selected {background-color: #5549c9;}
-.Boomer .BazSelectorContainerMenu .selected a {color: #ffffff;}
+.Boomer .BazSelectorContainerMenu .selected {background-color: #ffffff;}
+.Boomer .BazSelectorContainerMenu .selected a {color: #000000;}
 .Boomer .BazSelectorContainerMenu a {background-color: transparent;}
+.Boomer .Boh {background-color: #000000eb;}
+.Boomer .BazSelectorContainerObjects li a {background-color: transparent; color: #000000; font-weight: bold;}
+.Boomer .ActiveDesc {color:#000000;display: inline-block;}
 
 .RPG .UniBox, .RPG .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -219,7 +229,18 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .BoomerModeToggler {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .grimoireArticle a {color: #c7ac97; font-weight: bold;}
 .RPG .BazTokenSelector a {background-color: #000000; color: #ffffff;}
-.RPG .BazSelectorContainer {background-color: #2b2622; color: #444444;}
+.RPG .BazSelectorContainer {background-color: rgb(33, 36, 41); color: #444444;}
+
+.RPG .BazSelectorContainerMenu {background-color: #000000;}
+.RPG .BazSelectorContainerClose {background-color: #c7ac97;}
+.RPG .BazSelectorContainerMenu .selected {background-color: #c7ac97;}
+.RPG .BazSelectorContainerMenu .selected a {color: #000000;}
+.RPG .BazSelectorContainerMenu a {background-color: transparent;}
+.RPG .Boh {background-color: #5d00aaeb;}
+.RPG .BazSelectorContainerObjects li a {background-color: transparent; color: #ffffff; font-weight: bold;}
+.RPG .BazSelectorContainerMenu li a {font-size: 14px;}
+.RPG .BazSelectorContainerClose a {background-color: transparent; color: #000000;}
+.RPG .ActiveDesc {color:#5d5e60; display: inline-block;}
 
 @media only screen and (min-width: 640px) {
     .cover {max-height: 740px; width: 100%;}
@@ -250,8 +271,8 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
     .grimoireIndex {width: 350px;}
     .DuGustis {position: relative;}
-    .BazSelectorContainer {width: 400px;}
-    .BazSelectorContainerMenuintern {width: 400px;}
+    .BazSelectorContainer {width: 70%; left: 15%;}
+    .BazSelectorContainerMenuintern {width: 100%;}
 
 }
 @media only screen and (min-width: 890px) {
@@ -270,7 +291,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .StableCoinTitle img, .grimoireWelcome img {width: 100px; height: 100px;}
     footer .welcomeLinks, footer p {width: 500px;}
     .grimoireIndex {width: 450px;}
-    .BazSelectorContainer {width: 600px;}
-    .BazSelectorContainerMenuintern {width: 600px;}
+    .BazSelectorContainer {width: 50%; left: 25%;}
+    .BazSelectorContainerMenuintern {width: 100%;}
     
 }

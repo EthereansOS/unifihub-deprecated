@@ -16,7 +16,7 @@ var SwapBazarController = function (view) {
         try {
             context.view.setState({
                 tokensList: {
-                    "Programmable Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens.map(it => it.chainId === window.networkId && it),
+                    "Prog. Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens.map(it => it.chainId === window.networkId && it),
                     "Tokens": (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens.map(it => it.chainId === window.networkId && it),
                     Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens.map(it => it.chainId === window.networkId && it)
                 }
@@ -111,7 +111,7 @@ var SwapBazarController = function (view) {
         await context.recursiveLoadPair(indexes);
 
         var tokensList = {
-            "Programmable Equities": programmableEquities,
+            "Prog. Equities": programmableEquities,
             "Tokens": uniswapTokens,
             Indexes: Object.values(indexes)
         };
