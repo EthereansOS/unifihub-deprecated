@@ -78,7 +78,7 @@ var SwapBazar = React.createClass({
                     <img src="assets/img/m1.png"></img>
                     <article>
                         <h2>The Bazar</h2>
-                        <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                        <h6><b>Ancient black magic is unleashing the true power of the Unicorn.</b> Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.</h6>
                     </article>
                 </section>
             </section>
@@ -91,12 +91,12 @@ var SwapBazar = React.createClass({
                 <section className="UniTitle">
                 </section>
                 <section className="UniTierQuantity">
-                    <h5>Input</h5>
+                    <h5>From</h5>
                     <label className="UniActiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.inputToken = ref} tokensList={this.state.tokensList} onChange={inputToken => this.onToken(inputToken, "input")} />
                         {this.state && this.state.inputPrice && <span>{window.formatMoney(this.state.inputPrice, 2)}$</span>}
                     </label>
-                    <h5>Output</h5>
+                    <h5>To</h5>
                     <label className="UniDisactiveQuantityTier">
                         <UniswapTokenPicker ref={ref => this.outputToken = ref} tokensList={this.state.tokensList} onChange={outputToken => this.onToken(outputToken, "output")} />
                         {this.state && this.state.outputPrice && <span>{window.formatMoney(this.state.outputPrice, 2)}$</span>}

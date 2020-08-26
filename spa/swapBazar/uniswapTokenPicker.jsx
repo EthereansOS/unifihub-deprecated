@@ -20,7 +20,7 @@ var UniswapTokenPicker = React.createClass({
                 e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                 e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
                 e.relatedTarget && e.relatedTarget !== oldTarget && _this.opened && _this.opened.focus();
-                (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({ opened: null });
+               // (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({ opened: null });
             }) && _this.opened.focus();
         });
     },
@@ -42,14 +42,16 @@ var UniswapTokenPicker = React.createClass({
     renderOpened() {
         var _this = this;
         var thisKey = this.getKey();
-        return (<section tabIndex="-1" ref={ref => this.opened = ref}>
-            <section>
+        return (<section className="BazSelectorContainer" tabIndex="-1" ref={ref => this.opened = ref}>
+            <section className="BazSelectorContainerClose">
                 <a href="javascript:;" onClick={this.close}>X</a>
             </section>
-            <section>
-                {this.props.tokensList && Object.keys(this.props.tokensList).map(key => <li key={key} className={thisKey === key ? "Selected" : undefined}>
-                    <a href="javascript;" data-key={key} onClick={_this.onSectionChange}>{key}</a>
-                </li>)}
+            <section className="BazSelectorContainerMenu">
+                <section className="BazSelectorContainerMenuintern">
+                    {this.props.tokensList && Object.keys(this.props.tokensList).map(key => <li key={key} className={thisKey === key ? "Selected" : undefined}>
+                        <a href="javascript;" data-key={key} onClick={_this.onSectionChange}>{key}</a>
+                    </li>)}
+                </section>
             </section>
             {thisKey && <section>
                 {this.props.tokensList[thisKey].map((it, i) => {
@@ -77,11 +79,12 @@ var UniswapTokenPicker = React.createClass({
         }
         return (<section>
             {selected && this.renderInput(selected, this.open)}
-            {!selected && <a href="javascript:;" onClick={this.open}>Select token...</a>}
+            {!selected && <a href="javascript:;" onClick={this.open}>Select</a>}
         </section>);
     },
     render() {
-        return (<section>
+        return (
+        <section className="BazTokenSelector">
             {this.state && this.state.opened && this.renderOpened()}
             {(!this.state || !this.state.opened) && this.renderClosed()}
         </section>);
