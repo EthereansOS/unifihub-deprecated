@@ -105,7 +105,7 @@ var ReactModuleManager = function() {
                     if (rendered.props === undefined || rendered.props === null) {
                         rendered.props = {};
                     }
-                    rendered.props.className = loader ? rendered.props.defaultClassName : rendered.props.className;
+                    rendered.props.className = loader && rendered.props.defaultClassName ? rendered.props.defaultClassName : rendered.props.className;
                     if (rendered.props.className === undefined || rendered.props.className === null) {
                         rendered.props.className = '';
                     }

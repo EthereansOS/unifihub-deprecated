@@ -1,10 +1,4 @@
 var Explainer = React.createClass({
-    requiredScripts: [
-        'spa/loader.jsx'
-    ],
-    requiredModules: [
-        'spa/dappMenu'
-    ],
     renderExStableCoin() {
         return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Uniswap State Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.", undefined, () => this.emit('section/change', 'stableCoin'));
     },
