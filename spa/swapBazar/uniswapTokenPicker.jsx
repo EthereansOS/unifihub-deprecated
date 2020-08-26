@@ -72,7 +72,7 @@ var UniswapTokenPicker = React.createClass({
     },
     renderInput(it, onClick, i) {
         return (<a href="javascript;" data-index={i} onClick={onClick}>
-            <img src={it.logo || it.logoURI || "assets/img/default-logo.png"} />
+            <img src={it.logo || it.logoURI || window.context.trustwalletImgURLTemplate.format(it.address)} />
             <span>{it.symbol}</span>
         </a>);
     },

@@ -17,7 +17,7 @@ var SwapBazar = React.createClass({
         if (e.currentTarget.className.toLowerCase().indexOf('disabled') !== -1) {
             return;
         }
-        var uniswap = e.currentTarget.innerHTML.toLowerCase();
+        var uniswap = e.currentTarget.dataset.action;
         var _this = this;
         this.setState({
             uniswap: null
@@ -62,6 +62,9 @@ var SwapBazar = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
+    renderUniswapLink() {
+        return window.context[this.state.uniswap === 'swap' ? "uniswapDappLinkTemplate" : "uniswapDappLinkTemplatePool"].format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address);
+    },
     render() {
         return (<section className="unifiDapp">
             <DappMenu />
@@ -84,7 +87,7 @@ var SwapBazar = React.createClass({
             </section>
             {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && <section>
                 <a href="javascript:;" onClick={this.closeUniswap}>X</a>
-                <iframe src={window.context.uniswapDappLinkTemplate.format(this.state.uniswap, this.state.inputToken.address, this.state.outputToken.address)}></iframe>
+                <iframe src={this.renderUniswapLink()}></iframe>
             </section>}
             {(!this.state || !this.state.tokensList) && <Loader />}
             {this.state && this.state.tokensList && <section className="UniBox">
@@ -102,8 +105,9 @@ var SwapBazar = React.createClass({
                         {this.state && this.state.outputPrice && <span>{window.formatMoney(this.state.outputPrice, 2)}$</span>}
                     </label>
                 </section>
-                <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
-                <a href="javascript:;" onClick={this.openUniswap} className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Pool</a>
+                <a href="javascript:;" onClick={this.openUniswap} data-action="swap" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Swap</a>
+                <a href="javascript:;" onClick={this.openUniswap} data-action="add" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Add to Pool</a>
+                <a href="javascript:;" onClick={this.openUniswap} data-action="remove" className={"StableITBTN" + ((!this.state || !this.state.inputToken || !this.state.outputToken) && " Disabled")}>Remove from Pool</a>
             </section>}
                 {this.state && this.state.grimoire && <GrimBazar/>}
         </section>);
