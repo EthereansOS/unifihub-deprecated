@@ -6,7 +6,21 @@ var Grimoire = React.createClass({
         'spa/grimoire/grimBazar.jsx',
         'spa/grimoire/grimUnifi.jsx'
     ],
-    
+    componentDidMount() {
+        if(!this.props.href) {
+            return;
+        }
+        var href = this.props.href;
+        setTimeout(function() {
+            var host = window.location.protocol;
+            host += "//";
+            host += window.location.hostname;
+            window.location.port && (host += (":" + window.location.port));
+            host +="/";
+            host += href;
+            window.location.href = host;
+        }, 200);
+    },
     render() {
         return (
             <section className="unifiDapp">

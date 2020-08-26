@@ -18,10 +18,22 @@ var DappMenu = React.createClass({
                 icon: "m4"
             }, {
                 title: "Liquidity Crafting",
-                icon: "m2"
+                icon: "m2",
+                props : {
+                    onClick: () => this.emit("section/change", "grimoire", {
+                        href : "#grimCraft"
+                    }),
+                    href: "#grimCraft"
+                }
             }, {
                 title: "Liquidity Offering",
-                icon: "m5"
+                icon: "m5",
+                props : {
+                    onClick: () => this.emit("section/change", "grimoire", {
+                        href : "#grimCraft"
+                    }),
+                    href: "#grimCraft"
+                }
             }, {
                 title: "Swap Bazar",
                 icon: "m1"
@@ -30,7 +42,11 @@ var DappMenu = React.createClass({
                 icon: "m0"
             }, {
                 title: "Github",
-                icon: "m3"
+                icon: "m3",
+                props : {
+                    href: "https://github.com/b-u-i-d-l/unifi",
+                    target: "_blank"
+                }
             }]
         };
     },
