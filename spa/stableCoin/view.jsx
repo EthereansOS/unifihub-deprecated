@@ -146,7 +146,7 @@ var StableCoin = React.createClass({
                         <img src="assets/img/m4.png"></img>
                         <article>
                             <h2>Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b><br/>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
                         </article>
                     </section>
                 </section>
