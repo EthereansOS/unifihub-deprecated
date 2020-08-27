@@ -165,6 +165,8 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .ArrivaUniswap img {width: 30%; position: absolute; left: 35%; top: 150px;}
 .ArrivaUniswapQuelloVero iframe {position: fixed;width: 80%;height: 80%;overflow: hidden;left: 10%;top: 10%;z-index: 9;border: none;border-radius: 35px;}
 .SeneVaUniswap {position: fixed; top: 10px; left: 50%; border-radius: 50%; width: 40px; height: 40px; line-height: 2.5; font: 12px; font-weight: bold; text-decoration: none;}
+.grimoire .connectOpener, .swapBazar .connectOpener{display: none;}
+.grimoire .BoomerModeToggler, .swapBazar .BoomerModeToggler {right: 15px;}
 
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}

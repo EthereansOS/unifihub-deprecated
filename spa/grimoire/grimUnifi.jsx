@@ -31,7 +31,7 @@ var GrimUnifi = React.createClass({
                         </article>
                         <article className="grimoireArticle" id="Unifidist">
                             <h2>UniFi Token Distribution</h2>
-                            <p>The total supply of $UniFi is 88,888,888, which is initially distributed as follows:</p>
+                            <p>The total supply of $UniFi is 88,888,888, which is initially distributed and Locked as follows:</p>
                             <ol>
                                 <li><b>- 36% </b> (32,042,000) are locked in the NERV Wallet <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0x25756f9C2cCeaCd787260b001F224159aB9fB97A">[0x25756f9C2cCeaCd787260b001F224159aB9fB97A]</a> This is the DFOhub Operation' DFO wallet, funded by Fair Inflation.</li>
                                 <li><b>- 40% </b> (35,900,000) are locked in the UniFI's DFO wallet <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0x2578aA454b29C15c8eEF62C972Ee1ff57CD99DEf">[0x2578aA454b29C15c8eEF62C972Ee1ff57CD99DEf]</a>. This pays out the liquidity staking rewards. The active reward staking contract is <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0xb266252Fd70D253b4330151A96694d35e94b846c">[0xb266252Fd70D253b4330151A96694d35e94b846c]</a></li>

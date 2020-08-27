@@ -11,7 +11,7 @@ var GrimuSD = React.createClass({
                         <img src="assets/img/m4.png"></img>
                         <article id="grimuSD">
                             <h2>The Grimoire - Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">Launch Dapp</a> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.</h6>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | <a href="">Etherscan</a> <a href="">Uniswap</a></h6>
                         </article>
                     </section>
                 </section>
@@ -49,7 +49,7 @@ var GrimuSD = React.createClass({
                                 <li>1 - A  stablecoin collateralized by uSD loses value or fails altogether.</li>
                                 <li>2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.</li>
                                 <li>The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.</li>
-                                <li>To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
+                                <li>3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
                             </ol>
                             <h6>The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.</h6>
                             <h4>DFO Credit</h4>
