@@ -11,7 +11,7 @@ var GrimuSD = React.createClass({
                         <img src="assets/img/m4.png"></img>
                         <article id="grimuSD">
                             <h2>The Grimoire - Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | <a href="">Etherscan</a> <a href="">Uniswap</a></h6>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | <a href="https://etherscan.io/address/0x84841e552a021224de716b7be89747bb2d62d642">Etherscan</a> <a href="https://uniswap.info/token/0x84841e552a021224de716b7be89747bb2d62d642">Uniswap</a></h6>
                         </article>
                     </section>
                 </section>
