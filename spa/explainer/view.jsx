@@ -40,7 +40,7 @@ var Explainer = React.createClass({
                     <img src="assets/img/welcome.png"></img>
                 </article>
                 <header>
-                    <h2>A Decentralized finance on top of Uniswap, doing fantastic things securelly</h2>
+                    <h2>Decentralized Finance on top of Uniswap, doing fantastic things securely</h2>
                 </header>
                 <DappMenu show={true}/>
                 {this.renderExStableCoin()}
