@@ -23,6 +23,7 @@ var GrimuSD = React.createClass({
                             <a href="#uSDrebalancing"><b>Rebalancing</b></a>
                             <a href="#uSDsec"><b>Security and Emergency Strategies</b></a>
                             <a href="#uSDres"><b>Resilience, Decentralization and independency</b></a>
+                            <a href="#uSDallow"><b>Allowed Stable Coins</b></a>
                             <a href="#uSDapi"><b>APIs and Documentation</b></a>
                             <a href="#uSDarchi"><b>Responsible DeFi Architecture</b></a>
                         </ul>
@@ -69,15 +70,32 @@ var GrimuSD = React.createClass({
                             <p>uSD is the most resilient, secure and stable stablecoin in the industry. By taking advantage of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers. It resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, Tether etc.</p>
                             <p>uSD is backed by a Decentralized Flexible Organization. $UniFi holders on the Ethereum network have 100% control of the code and Credit/Debit of the protocol. Nobody can stop or censor the UniFi-uSD protocol; for the first time, the Ethereum network doesn’t have to choose between stability and independence in a stablecoin; it can have both.</p>
                         </article>
+                        <article className="grimoireArticle" id="uSDallow">
+                            <h2>Allowed Stable Coins</h2>
+                            <p>The Allowed Stable Coin to Mint and Burn uSD are:</p>
+                            <ol>
+                                <li><b>DAI</b> <a targer="_blank" href="https://etherscan.io/token/0x6b175474e89094c44da98b954eedeac495271d0f">0x6b175474e89094c44da98b954eedeac495271d0f</a></li>
+                                <li><b>USDC</b> <a targer="_blank" href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48">0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</a></li>
+                                <li><b>GSDC</b> <a targer="_blank" href="https://etherscan.io/token/0x056fd409e1d7a124bd7017459dfea2f387b6d5cd">0x056fd409e1d7a124bd7017459dfea2f387b6d5cd</a></li>
+                                <li><b>BUSD</b> <a targer="_blank" href="https://etherscan.io/token/0x4fabb145d64652a948d72533023f6e7a623c7c53">0x4fabb145d64652a948d72533023f6e7a623c7c53</a></li>
+                                <li><b>USDT</b> <a targer="_blank" href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7">0xdac17f958d2ee523a2206206994597c13d831ec7</a></li>
+                                <li><b>TUSD</b> <a targer="_blank" href="https://etherscan.io/token/0x0000000000085d4780b73119b644ae5ecd22b376">0x0000000000085d4780b73119b644ae5ecd22b376</a></li>
+                                <li><b>PAX</b> <a targer="_blank" href="https://etherscan.io/token/0x8e870d67f660d95d5be530380d0ec0bd388289e1">0x8e870d67f660d95d5be530380d0ec0bd388289e1</a></li>
+                            </ol>
+                        </article>
                         <article className="grimoireArticle" id="uSDapi">
                             <h2>APIs and Documentation</h2>
                             <p>To build on top of uSD and to interact with the dApp, you can find all of the documentation and APIs here:  <a target="_blank" href="https://github.com/b-u-i-d-l/unifi-docs">Documentation</a></p>
                         </article>
                         <article className="grimoireArticle" id="uSDarchi">
                             <h2>Responsible DeFi Limits</h2>
-                            <p>Due to a Responible DeFi Approach, UniFi uSD is limited in its early stage to mint by:</p>
+                            <p>Due to a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responible DeFi Approach</a>, UniFi uSD is limited in its early stage to mint by:</p>
                             <ol>
-                                <li></li>
+                                <li>- 500,000 uSD Mintable for the first month (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/10941929">10941929</a>)</li>
+                                <li>- 2,000,000 uSD Mintable for the first two months (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/11141929">11141929</a>)</li>
+                                <li>- 5,000,000 uSD Mintable for the first three months (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/11341929">11341929</a>)</li>
+                                <li>- 10,000,000 uSD Mintable for the first four months (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/11541929">11541929</a>)</li>
+                                <li>- 20,000,000 uSD Mintable for the first five months (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/11741929">11741929</a>)</li>
                             </ol>
                         </article>
                     </section>

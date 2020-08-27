@@ -8,10 +8,7 @@ var GrimCrafting = React.createClass({
             <section>
                 <section className="grimoireWelcome">
                     <section className="grimoireWelcomeIntern">
-                        <section className="DuGustis">
                             <img src="assets/img/m2.png"></img>
-                            <img className="GrimImg2" src="assets/img/m5.png"></img>
-                        </section>
                         <article id="grimCraft">
                             <h2>The Grimoire - Crafting and Initial Liquidity Offering</h2>
                             <h6><b>Craft makes it possible to provide liquidity that is programmable with advanced rules.</b> Using Unicorn magic, pools can balance tokens diversely with unprecedented security.</h6>

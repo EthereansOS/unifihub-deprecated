@@ -282,7 +282,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .MenuOpen {width: 100%; display: inline-block; text-align: center;}
     .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
-    .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle; z-index: 1; position: relative;}
+    .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle; z-index: 1;}
     .grimoireWelcome .GrimImg2 {width: 70px; height: 70px; position: absolute;bottom: -10px;left: -15px; z-index: 2;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
     .grimoireIndex {width: 350px;}
