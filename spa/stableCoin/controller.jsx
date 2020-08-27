@@ -14,6 +14,7 @@ var StableCoinController = function (view) {
         context.view.setState({ availableToMint: await window.blockchainCall(window.stableCoin.token.methods.availableToMint) });
         context.getTotalCoins();
         context.calculatePriceInDollars();
+        context.view.state && context.view.state.selectedPair && context.getBalance(context.view.state.selectedPair);
     };
 
     context.loadDifferences = async function loadDifferences() {
