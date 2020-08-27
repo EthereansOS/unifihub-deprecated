@@ -45,8 +45,10 @@ var StableCoinController = function (view) {
             var total = window.web3.utils.toBN(reserves[0]).add(window.web3.utils.toBN(reserves[1])).toString();
             total = window.fromDecimals(total, window.stableCoin.decimals, true);
             total = parseFloat(total);
+            console.log(total);
             if(total < window.context.uSDPoolLimit) {
-                pair.disabled = false;
+                console.log("disabled");
+                pair.disabled = true;
             }
             pairData.name = pairData.token0.symbol + ' / ' + pairData.token1.symbol;
             pairs.push(pairData);
