@@ -25,8 +25,8 @@ var Explainer = React.createClass({
                         <h3>{featureTitle}</h3>
                         <p>{featureDesc}</p>
                         <aside className="featureActions">
-                            <a href={(typeof actionA).toLowerCase() === "string" ? actionA : "javascript:;"} target={(typeof actionA).toLowerCase() === "string" ? "_blank" : undefined} id={featureActionA} onClick={(typeof actionA).toLowerCase() === "string" ? undefined : actionA} className={featureActionAStyle + " FancyButton"}>{featureBtnA}</a>
-                            <a href={(typeof actionB).toLowerCase() === "string" ? actionB : "javascript:;"} target={(typeof actionB).toLowerCase() === "string" ? "_blank" : undefined} id={featureActionB} onClick={(typeof actionB).toLowerCase() === "string" ? undefined : actionB} className={featureActionBStyle + " FancyButton"}>{featureBtnB}</a>
+                            <a href={(typeof actionA).toLowerCase() === "string" ? actionA : "javascript:;"} target={(typeof actionA).toLowerCase() === "string" ? "_blank" : undefined} onClick={(typeof actionA).toLowerCase() === "string" ? undefined : actionA} className={featureActionAStyle + " FancyButton"}>{featureBtnA}</a>
+                            <a href={(typeof actionB).toLowerCase() === "string" ? actionB : "javascript:;"} target={(typeof actionB).toLowerCase() === "string" ? "_blank" : undefined} onClick={(typeof actionB).toLowerCase() === "string" ? undefined : actionB} className={featureActionBStyle + " FancyButton"}>{featureBtnB}</a>
                         </aside>
                     </article>
                 </section>

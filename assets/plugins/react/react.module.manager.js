@@ -109,7 +109,7 @@ var ReactModuleManager = function() {
                     if (rendered.props.className === undefined || rendered.props.className === null) {
                         rendered.props.className = '';
                     }
-                    if (!rendered.props.className.containsAloneWord(lowerCaseViewName)) {
+                    if (rendered.props.className && !rendered.props.className.containsAloneWord(lowerCaseViewName)) {
                         if (rendered.props.className !== '') {
                             lowerCaseViewName += ' '
                         }
@@ -247,7 +247,7 @@ var ReactModuleManager = function() {
         var element;
         var involveLoadedModules = true
 
-        if (typeof viewName !== 'string' || window[viewName] === undefined || window[viewName] instanceof HTMLCollection) {
+        if (typeof viewName !== 'string' || window[viewName] === undefined || window[viewName] instanceof HTMLCollection || window[viewName] instanceof HTMLElement) {
             element = React.createElement2.apply(React, callerArguments)
             involveLoadedModules = typeof viewName !== 'string'
             if (elementName !== undefined) {
