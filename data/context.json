@@ -3,6 +3,14 @@
         "1": "",
         "3": "Ropsten"
     },
+    "domainData" : {
+        "name" : "unifi.com",
+        "sections" : {
+            "bazar" : "swapBazar",
+            "usd" : "stableCoin",
+            "grimoire" : "grimoire"
+        }
+    },
     "switchWebsite" : "https://switch.dfohub.com",
     "gitHubURL" : "https://github.com/b-u-i-d-l/brand-contest",
     "etherscanURL": "https://etherscan.io/",

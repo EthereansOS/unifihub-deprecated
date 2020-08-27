@@ -25,11 +25,6 @@ var Index = React.createClass({
             callback: () => _this.setState({ section: section.firstLetterToUpperCase(), props })
         });
     },
-    componentDidMount() {
-        var section = window.addressBarParams.section;
-        delete window.addressBarParams.section;
-        section && this.sectionChange(section);
-    },
     toggleBoomerMode() {
         window.localStorage.setItem('boomerMode', !this.domRoot.hasClass('Boomer'));
         this.forceUpdate();
