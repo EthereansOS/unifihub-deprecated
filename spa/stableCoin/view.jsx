@@ -20,9 +20,9 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var value = e.currentTarget.value;
         var _this = this;
-        _this.setState({myBalance : null}, function() {
-            value === 'Burn' && _this.controller.getMyBalance().then(function(myBalance) {
-                _this.setState({myBalance});
+        _this.setState({ myBalance: null }, function () {
+            value === 'Burn' && _this.controller.getMyBalance().then(function (myBalance) {
+                _this.setState({ myBalance });
             });
         });
     },
@@ -146,7 +146,7 @@ var StableCoin = React.createClass({
                         <img src="assets/img/m4.png"></img>
                         <article>
                             <h2>Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b><br/>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD. | <a href="https://etherscan.io/address/0x84841e552a021224de716b7be89747bb2d62d642">Etherscan</a> <a href="https://uniswap.info/token/0x84841e552a021224de716b7be89747bb2d62d642">Uniswap</a></h6>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD. | <a href="https://etherscan.io/address/0x84841e552a021224de716b7be89747bb2d62d642">Etherscan</a> <a href="https://uniswap.info/token/0x84841e552a021224de716b7be89747bb2d62d642">Uniswap</a></h6>
                         </article>
                     </section>
                 </section>
@@ -164,9 +164,14 @@ var StableCoin = React.createClass({
                         <label>
                             <p> by</p>
                             <select onChange={this.onPairChange}>
-                                {this.state && this.state.pairs && this.state.pairs.map((it, i) => <option key={it.name} value={i}>
-                                    {it.name}
-                                </option>)}
+                                {this.state && this.state.pairs && this.state.pairs.map((it) => {
+                                    if(it.disabled) {
+                                        return;
+                                    }
+                                    return (<option key={it.name} value={it.index}>
+                                        {it.name}
+                                    </option>);
+                                })}
                             </select>
                         </label>
                     </section>
@@ -254,7 +259,7 @@ var StableCoin = React.createClass({
                     </section>}
                     <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
-                {this.state && this.state.grimoire && <GrimuSD/>}
+                {this.state && this.state.grimoire && <GrimuSD />}
             </section>
         );
     }

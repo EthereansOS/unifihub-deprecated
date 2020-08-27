@@ -46,7 +46,7 @@ var StableCoinController = function (view) {
             total = window.fromDecimals(total, window.stableCoin.decimals, true);
             total = parseFloat(total);
             if(total < window.context.uSDPoolLimit) {
-                continue;
+                pair.disabled = false;
             }
             pairData.name = pairData.token0.symbol + ' / ' + pairData.token1.symbol;
             pairs.push(pairData);
