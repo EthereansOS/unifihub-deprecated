@@ -65,7 +65,7 @@ var Explainer = React.createClass({
                             <a target="_blank" href="https://defipulse.io">DeFi Pulse</a>
                             <a target="_blank" href="https://etherscan.io/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Etherscan</a>
                         </section>
-                        <p><b>Use it at your own risk!</b> This is an R&D project in it's early stage [Beta]. Before to use UniFi related functions be sure to read the documentation and Smart Contracts code. All of the Functions of UniFi work on top of Uniswap, Before use them be sure to read how Uniswap work: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
+                        <p><b>Use at your own risk!</b> This is an R&D project in its early stage [Beta]. Before using UniFi related functions, be sure to read the documentation and Smart Contracts code. All of the functions of UniFi work on top of Uniswap, so be sure about how Uniswap works too: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
                     </section>
                 </footer>
             </section>
