@@ -88,7 +88,7 @@ var StableCoin = React.createClass({
         }
         return (
             <section>
-                <h4>Still available to Mint:</h4>
+                <h4>Mintable:</h4>
                 <span>{window.fromDecimals(this.state.availableToMint, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
             </section>
         );
@@ -206,7 +206,6 @@ var StableCoin = React.createClass({
                         <h5>Supply:</h5>
                         <h6>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>
                     </section>}
-                    {this.renderAvailableToMint()}
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h5>Collateral:</h5>
                         <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.balanceOf, window.stableCoin.decimals)} S.C.</a></h6>
@@ -220,6 +219,7 @@ var StableCoin = React.createClass({
                             </li>)}
                         </ul>}
                     </section>}
+                    {this.renderAvailableToMint()}
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4>
                         <section className="SideHealthHelp">
