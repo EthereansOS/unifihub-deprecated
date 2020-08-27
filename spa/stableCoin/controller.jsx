@@ -343,7 +343,7 @@ var StableCoinController = function (view) {
         totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         parseInt(totalCoins.regularPercentage) > 200 && (totalCoins.regularPercentage = '200+');
         parseInt(totalCoins.healthPercentage) > 100 && (totalCoins.healthPercentage = '100');
-        if(isNaN(parseInt(totalCoins.regularPercentage))) {
+        if(isNaN(parseInt(totalCoins.regularPercentage)) || (balanceOf === 0 && totalSupply === 0)) {
             totalCoins.regularPercentage = '100';
             totalCoins.healthPercentage = '50';
         }
