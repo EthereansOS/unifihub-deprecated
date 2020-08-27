@@ -2,6 +2,8 @@
 ## Decentralized Finance on top of Uniswap, doing fantastic things securely
 ### UniFi is a new Decentralized Flexible Organization (DFO) that researches and develops a responsible Decentralized Finance layer on top of Uniswap. A DFO protocol powered DeFi set of tools built on top of Uniswap
 
+### Website: <a href="https://unifihub.com">https://unifihub.com</a>
+
 # Uniswap State Dollar
 
 uSD is a stablecoin based on Uniswap Liquidity Pools Minted by the magic rainbow of Uniswap stablecoin pools, and backed by the power of the Unicorn, uSD is the most secure and resilient stablecoin on Ethereum - ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | Etherscan Uniswap
