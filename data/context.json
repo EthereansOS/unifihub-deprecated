@@ -24,7 +24,7 @@
     "uniSwapV2FactoryAddress" : "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
     "dfoAddress": "0xc3BE549499f1e504c793a6c89371Bd7A98229500",
     "dfoAddressRopsten": "0x761E02FEC5A21C6d3F284bd536dB2D2d33d5540B",
-    "uSDPoolLimit" : 50000,
+    "uSDPoolLimit" : 10000,
     "blockSearchSection" : 9000000,
     "deploySearchStart": 9779603,
     "deploySearchStartRopsten": 7465062,
