@@ -78,7 +78,6 @@ var GrimuSD = React.createClass({
                                 <li><b>USDC</b> <a targer="_blank" href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48">0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</a></li>
                                 <li><b>GSDC</b> <a targer="_blank" href="https://etherscan.io/token/0x056fd409e1d7a124bd7017459dfea2f387b6d5cd">0x056fd409e1d7a124bd7017459dfea2f387b6d5cd</a></li>
                                 <li><b>BUSD</b> <a targer="_blank" href="https://etherscan.io/token/0x4fabb145d64652a948d72533023f6e7a623c7c53">0x4fabb145d64652a948d72533023f6e7a623c7c53</a></li>
-                                <li><b>USDT</b> <a targer="_blank" href="https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7">0xdac17f958d2ee523a2206206994597c13d831ec7</a></li>
                                 <li><b>TUSD</b> <a targer="_blank" href="https://etherscan.io/token/0x0000000000085d4780b73119b644ae5ecd22b376">0x0000000000085d4780b73119b644ae5ecd22b376</a></li>
                                 <li><b>PAX</b> <a targer="_blank" href="https://etherscan.io/token/0x8e870d67f660d95d5be530380d0ec0bd388289e1">0x8e870d67f660d95d5be530380d0ec0bd388289e1</a></li>
                             </ol>
