@@ -25,7 +25,7 @@ var UniswapTokenPicker = React.createClass({
                 e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                 e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
                 e.relatedTarget && e.relatedTarget !== oldTarget && _this.opened && _this.opened.focus();
-               // (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({ opened: null });
+                (!e.relatedTarget || (e.relatedTarget !== oldTarget && !e.relatedTarget.dataset.key)) && _this.setState({ opened: null });
             }) && _this.opened.focus();
         });
     },

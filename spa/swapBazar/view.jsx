@@ -10,7 +10,11 @@ var SwapBazar = React.createClass({
         }
     },
     componentDidMount() {
+        this.mounted = true;
         this.controller.loadData();
+    },
+    componentWillUnmount() {
+        delete this.mounted;
     },
     openUniswap(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);

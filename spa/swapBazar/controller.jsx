@@ -24,7 +24,36 @@ var SwapBazarController = function (view) {
         } catch (e) {
             await context.loadDataOnChain();
         }
+        context.loadLogos();
         context.readAddressBarParams();
+    };
+
+    context.loadLogos = async function loadLogos() {
+        var tokensList = context.view.state.tokensList;
+        var keys = Object.keys(tokensList);
+        for(var key of keys) {
+            if(key === 'Indexes') {
+                continue;
+            }
+            var tokens = tokensList[key];
+            for(var i = 0; i < tokens.length; i++) {
+                var token = tokensList[key][i];
+                if(token === true || token === false) {
+                    continue;
+                }
+                token.logoURI = token.logoURI || window.context.trustwalletImgURLTemplate.format(window.web3.utils.toChecksumAddress(token.address));
+                try {
+                    await window.AJAXRequest(token.logoURI);
+                    if(!context.view.mounted) {
+                        return;
+                    }
+                } catch(e) {
+                    token.logoURI = 'assets/img/default-logo.png'
+                }
+                tokensList[key][i] = token;
+                context.view.setState({tokensList});
+            }
+        }
     };
 
     context.readAddressBarParams = async function readAddressBarParams() {
