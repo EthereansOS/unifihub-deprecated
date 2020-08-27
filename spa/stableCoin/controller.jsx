@@ -39,6 +39,15 @@ var StableCoinController = function (view) {
                 token0: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token0)),
                 token1: await window.loadTokenInfos(await window.blockchainCall(pair.methods.token1))
             };
+            var reserves = await window.blockchainCall(pair.methods.getReserves);
+            reserves[0] = context.fromTokenToStable(pairData.token0.decimals, reserves[0]);
+            reserves[1] = context.fromTokenToStable(pairData.token1.decimals, reserves[1]);
+            var total = window.web3.utils.toBN(reserves[0]).add(window.web3.utils.toBN(reserves[1])).toString();
+            total = window.fromDecimals(total, window.stableCoin.decimals, true);
+            total = parseFloat(total);
+            if(total < window.context.uSDPoolLimit) {
+                continue;
+            }
             pairData.name = pairData.token0.symbol + ' / ' + pairData.token1.symbol;
             pairs.push(pairData);
         }

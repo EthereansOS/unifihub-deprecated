@@ -232,7 +232,7 @@ var StableCoin = React.createClass({
                                 <a href="javascript:;" onClick={this.controller.rebalanceByCredit} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}
-                        {parseInt(this.state.totalCoins.regularPercentage) < 97 && <section className="SideRebelanceBro SideDebit">
+                        {parseInt(this.state.totalCoins.regularPercentage) < 85 && <section className="SideRebelanceBro SideDebit">
                             <label>
                                 <h5>DFO Debt:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
