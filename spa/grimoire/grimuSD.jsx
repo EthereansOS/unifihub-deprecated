@@ -50,7 +50,7 @@ var GrimuSD = React.createClass({
                                 <li>1 - A  stablecoin collateralized by uSD loses value or fails altogether.</li>
                                 <li>2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.</li>
                                 <li>The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.</li>
-                                <li>3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
+                                <li>3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 20% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
                             </ol>
                             <h6>The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.</h6>
                             <h4>DFO Credit</h4>
