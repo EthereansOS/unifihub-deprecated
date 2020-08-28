@@ -4,9 +4,9 @@
 
 ### Website: <a href="https://unifihub.com">https://unifihub.com</a>
 
-# Unified State Dollar
+# Unified Stable Dollar
 
-uSD is a stablecoin based on Uniswap Liquidity Pools Minted by the magic rainbow of Uniswap stablecoin pools, and backed by the power of the Unicorn, uSD is the most secure and resilient stablecoin on Ethereum - ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | Etherscan Uniswap
+uSD is a stablecoin based on Uniswap Liquidity Pools Minted by the magic rainbow of Uniswap stablecoin pools, and backed by the power of the Unicorn, uSD is the most secure and resilient stablecoin on Ethereum - ever. The only way it could be destabilized is if the entire stablecoin industry crashed.
 Independent from any off-chain issuer, it is fortified against every risk inherent to all other stablecoins, and free of the anxiety that pervades the industry.
 
 The protocol achieves this unprecedented feat by collateralizing other stablecoins. If any of them lose value or fail, it can simply rebalance itself to leverage the security of the others. And to account for excess due to fees earned by their pools, it can rebalance itself in another way.
@@ -42,7 +42,7 @@ The goal of $UniFi holders, which aligns with their self-interest, is to ensure 
 
 ### DFO Credit
 
-As established, uSD is backed by Uniswap pool liquidity. 
+As established, uSD is backed by Uniswap stablecoin pools liquidity. 
 
 This raises an issue; Uniswap pools earn 0.3% of trading fees. This could destabilize uSD by creating an excess of collateralized stablecoins in the pools.DFO Credit, the second rebalancing function of the UniFi DFO, resolves this by removing that excess from the pools and sending it in the DFO wallet managed by $UniFi holders.
 
@@ -56,7 +56,7 @@ This is a long term economic incentive for the UniFi DFO to grow and invest cred
 
 ### Resilience, Decentralization and Independence
 
-uSD is indeed the most resilient and secure stablecoin in the industry. By taking advantage of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers, and resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, etc.
+uSD is indeed the most resilient and secure stablecoin in the industry. By taking advantage to use Decentralized Finance on the top of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers, and resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, etc.
 It is backed by a Decentralized Flexible Organization. $UniFi holders on the Ethereum network have 100% control of the code and Credit/Debit of the protocol. Nobody can stop or censor the UniFi-uSD protocol; for the first time, the Ethereum network doesn't have to choose between stability and independence in a stablecoin; it can have both.
 
 ### Allowed Stable Coins
@@ -90,11 +90,11 @@ Craft makes it possible to provide liquidity that is programmable with advanced 
 
 Programmable liquidity is an exciting new feature in AMMs (Automated Market Makers). However, if not applied correctly, it can actually be a security hole for bugs, due to math complexities (as we saw with Balancer recently).
 
-UniFi Crafting resolves this by offering programmable liquidity, but with Uniswap as a base layer, taking advantage of its secure and decentralized core. This also helps liquidity providers customize their investments, and empowers new applications on top of Uniswap.
+UniFi Crafting resolves this by offering programmable liquidity, but with the Uniswap protocol as a base layer, taking advantage of its secure and decentralized core. This also helps liquidity providers customize their investments, and empowers new applications on top of Uniswap.
 
 ### How Does It Work?
 
-Uniswap allows for liquidity pools composed of 50:50 asset ratios. This is usually the most secure setup for an AMM, but disincentivizes liquidity provision by incurring impermanent losses. Crafting resolves this, and opens up novel financial use cases for Uniswap pools. It is a fancy new way to build liquidity together, without needing to trust and know each other.
+The Uniswap protocol allows for liquidity pools composed of 50:50 asset ratios. This is usually the most secure setup for an AMM, but disincentivizes liquidity provision by incurring impermanent losses. Crafting resolves this, and opens up novel financial use cases for Uniswap pools. It is a fancy new way to build liquidity together, without needing to trust and know each other.
 
 Anyone can create a Craft order, customize the liquidity setup and deploy it by contributing initial liquidity. Others can then contribute the rest of the liquidity required to pool the order on Uniswap. Later, after the predetermined block, any of the participants can trigger removal of the liquidity. It is then distributed to all participants based on the predetermined rules.
 
@@ -172,7 +172,7 @@ The release Of Crafting and ILOs is expected for early October 2020.
 
 Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities and Token Index Funds (and soon NFTs, including ERC1155s, thanks to ethArt V2) can now be swapped on the new Bazar DEX.
 
-The UniFi Bazar unleashes the true potential of Uniswap, by enabling Ethereans to trade these more easily than ever before.
+The UniFi Bazar unleashes the true potential of Decentralized Finance on the top of Uniswap, by enabling Ethereans to trade these more easily than ever before.
 
 ## Listing
 

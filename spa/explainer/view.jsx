@@ -12,7 +12,7 @@ var Explainer = React.createClass({
         return this.renderInput("ExDex", "assets/img/exp3.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "Swap More Than Just Tokens", "Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.", () => this.emit('section/change', 'grimoire', {href: "#grimBaz"}), () => this.emit('section/change', 'swapBazar'));
     },
     renderExGrimoire() {
-        return this.renderInput("ExGrimoire", "assets/img/exp2.png", "a", "readButton", "a", "gitButton", "Read", "Github", "Unicorn Magic For Dummies", "The Official guide for using Uniswap Unicorn magic. Grimoire, the best selling book of 2020, is prescribed by all the top wizard Universities, and won this years' Booker Prize.", () => this.emit('section/change', 'Grimoire'), "https://github.com/b-u-i-d-l/unifi");
+        return this.renderInput("ExGrimoire", "assets/img/exp2.png", "a", "readButton", "a", "gitButton", "Read", "Github", "Unicorn Magic For Dummies", "The Official guide for using Unicorn magic with the DeFi on the top of Uniswap. Grimoire, the best selling book of 2020, is prescribed by all the top wizard Universities, and won this years' Booker Prize.", () => this.emit('section/change', 'Grimoire'), "https://github.com/b-u-i-d-l/unifi");
     },
     renderInput(expFeature, featureIllustration, featureActionA, featureActionAStyle, featureActionB, featureActionBStyle, featureBtnA, featureBtnB, featureTitle, featureDesc, actionA, actionB) {
         return (
@@ -70,7 +70,7 @@ var Explainer = React.createClass({
                             <a target="_blank" href="https://etherscan.io/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Etherscan</a>
                             <a target="_blank" href="javascript:;" onClick={this.openStableCoin}>Redeem from the old StableCoin</a>
                         </section>
-                        <p><b>Use at your own risk!</b> This is an R&D project in its early stage [Beta]. Before using UniFi related functions, be sure to read the documentation and Smart Contracts code. All of the functions of UniFi work on top of Uniswap, so be sure about how Uniswap works too: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
+                        <p><b>Use at your own risk!</b> This is an R&D project in its early stage [Beta]. Before using UniFi related functions, be sure to read the documentation and Smart Contracts code. All of the functions of UniFi work on top of Uniswap, so be sure about how Uniswap DeFi protocol works too: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
                     </section>
                 </footer>
             </section>

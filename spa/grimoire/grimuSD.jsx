@@ -67,7 +67,7 @@ var GrimuSD = React.createClass({
                         </article>
                         <article className="grimoireArticle" id="uSDres">
                             <h2>Resilience, Decentralization and independency</h2>
-                            <p>uSD is the most resilient, secure and stable stablecoin in the industry. By taking advantage of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers. It resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, Tether etc.</p>
+                            <p>uSD is the most resilient, secure and stable stablecoin in the industry. By taking advantage of Decentralized Finance on the top of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers. It resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, Tether etc.</p>
                             <p>uSD is backed by a Decentralized Flexible Organization. $UniFi holders on the Ethereum network have 100% control of the code and Credit/Debit of the protocol. Nobody can stop or censor the UniFi-uSD protocol; for the first time, the Ethereum network doesn’t have to choose between stability and independence in a stablecoin; it can have both.</p>
                         </article>
                         <article className="grimoireArticle" id="uSDallow">

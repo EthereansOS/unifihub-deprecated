@@ -10,7 +10,7 @@ var GrimUnifi = React.createClass({
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/maghetto.png"></img>
                         <article id="grimUniFi">
-                            <h2>The Grimoire - Uniswap Finance and the UniFi token</h2>
+                            <h2>The Grimoire - Decentralized Finance on top of Uniswap and the UniFi token</h2>
                             <h6>UniFi is a new Decentralized Flexible Organization (DFO) that researches and develops a responsible Decentralized Finance layer on top of Uniswap.</h6>
                         </article>
                     </section>
@@ -19,7 +19,7 @@ var GrimUnifi = React.createClass({
                     <section className="grimoireBox">
                         <ul className="grimoireIndex">
                             <h2>Index</h2>
-                            <a href="#Unifibasics"><b>Uniswap Finance and the UniFi token</b></a>
+                            <a href="#Unifibasics"><b>Decentralized Finance on top of Uniswap and the UniFi token</b></a>
                             <a href="#Unifidist"><b>UniFi Token Distribution</b></a>
                             <a href="#UnifiFI"><b>UniFi Fair Inflation</b></a>
                             <a href="#UnifiLS"><b>UniFi Liquidity Staking</b></a>
