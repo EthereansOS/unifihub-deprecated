@@ -3,7 +3,9 @@ var StableCoinController = function (view) {
     context.view = view;
 
     context.loadData = async function loadData() {
-        await window.loadEthereumStuff(context.view.props.oldStableCoin);
+        await window.loadEthereumStuff(context.view.oldStableCoin);
+        delete window.addressBarParams.useOldStableCoin;
+        context.view.forceUpdate();
         context.loadPairs();
         context.loadEconomicData();
     };

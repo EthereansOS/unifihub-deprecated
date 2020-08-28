@@ -14,7 +14,11 @@ var StableCoin = React.createClass({
         }
     },
     componentDidMount() {
+        this.oldStableCoin = this.props.oldStableCoin || window.consumeAddressBarParam("useOldStableCoin") !== undefined
         this.controller.loadData();
+    },
+    componentWillUnmount() {
+        delete this.oldStableCoin;
     },
     onActionChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -146,7 +150,7 @@ var StableCoin = React.createClass({
                         <img src="assets/img/m4.png"></img>
                         <article>
                             <h2>{window.stableCoin.name.firstLetterToUpperCase()}</h2>
-                            <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.getNetworkElement("stableCoinAddress")} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.getNetworkElement("stableCoinAddress")} target="_blank">Uniswap</a></h6>
+                            <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
                         </article>
                     </section>
                 </section>}
@@ -155,7 +159,7 @@ var StableCoin = React.createClass({
                     <section className="UniTitle">
                         <label>
                             <select ref={ref => this.actionSelect = ref} onChange={this.onActionChange}>
-                                <option value="Mint">Mint</option>
+                                {!this.oldStableCoin && <option value="Mint">Mint</option>}
                                 <option value="Burn">Burn</option>
                             </select>
                             <img className="UniStableManage" src={window.stableCoin.logo}></img>

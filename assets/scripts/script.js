@@ -235,6 +235,12 @@ window.getAddress = async function getAddress() {
     return (window.walletAddress = (await window.web3.eth.getAccounts())[0]);
 };
 
+window.consumeAddressBarParam = function consumeAddressBarParam(paramName) {
+    var param = window.addressBarParams[paramName];
+    delete window.addressBarParams[paramName];
+    return param;
+};
+
 window.getSendingOptions = function getSendingOptions(transaction) {
     return new Promise(async function(ok, ko) {
         if (transaction) {

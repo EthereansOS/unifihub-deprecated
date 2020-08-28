@@ -29,6 +29,9 @@ var Index = React.createClass({
         window.localStorage.setItem('boomerMode', !this.domRoot.hasClass('Boomer'));
         this.forceUpdate();
     },
+    componentDidMount() {
+        this.controller.onSection();
+    },
     render() {
         var props = {};
         this.props && Object.entries(this.props).forEach(entry => props[entry[0]] = entry[1]);
