@@ -145,7 +145,7 @@ var StableCoin = React.createClass({
                         </a>
                     </section>
                 </section>
-                {window.stableCoin && <section className="StableCoinTitle">
+                {window.stableCoin && window.stableCoin.name && window.stableCoin.symbol && <section className="StableCoinTitle">
                     <section className="StableCoinTitleIntern">
                         <img src="assets/img/m4.png"></img>
                         <article>

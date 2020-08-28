@@ -29,6 +29,9 @@ var SwapBazarController = function (view) {
     };
 
     context.loadLogos = async function loadLogos() {
+        if(!context.view.state || !context.view.state.tokensList) {
+            return;
+        }
         var tokensList = context.view.state.tokensList;
         var keys = Object.keys(tokensList);
         for(var key of keys) {
