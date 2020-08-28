@@ -4,7 +4,7 @@
 
 ### Website: <a href="https://unifihub.com">https://unifihub.com</a>
 
-# Uniswap State Dollar
+# Unified State Dollar
 
 uSD is a stablecoin based on Uniswap Liquidity Pools Minted by the magic rainbow of Uniswap stablecoin pools, and backed by the power of the Unicorn, uSD is the most secure and resilient stablecoin on Ethereum - ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | Etherscan Uniswap
 Independent from any off-chain issuer, it is fortified against every risk inherent to all other stablecoins, and free of the anxiety that pervades the industry.
