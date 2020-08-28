@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 /**
- * @title Interface for the "uSD" AKA "uniswap State Dollar", Unifi stablecoin.
- * @dev Define the interface for the usD
+ * @title Interface for the $uSD aka unified Stable Dollar.
+ * @dev Define the interface for the $usD
+ *
+ * The core idea behind Unified Stable Coin is to implement a stable coin collateralized by pools of whitelisted
+ * stable coins on UniSwap. By hedging across several pools and implementing simple yet effective
+ * rebalancing schemes, $uSD is able reduce an holder exposure to a stable-coin failure.
+ *
  */
 interface IStableCoin {
     /**
@@ -14,7 +19,7 @@ interface IStableCoin {
      * @param symbol ticker for the StableCoin ERC20 token
      * @param doubleProxy address for the DoubleProxy
      * @param allowedPairs array of Uniswap Pairs to be set as whitelisted source tokens
-     * @param rebalanceRewardMultiplier multiplier used to compute how many unifi tokens to mint during uSD rebalance
+     * @param rebalanceRewardMultiplier multiplier used to compute how many unifi tokens to mint during $uSD rebalance
      * @param timeWindows time windows inside which some time-delimited operations can be performed
      * @param mintables max amount of mintables inside a timeWindow
      */
@@ -81,17 +86,17 @@ interface IStableCoin {
     /**
      * @dev Compute the reward of the rebalanceByDebt() operation.
      *
-     * @param burnt amount of of uSD burnt
+     * @param burnt amount of of $uSD burnt
      */
     function calculateRebalanceByDebtReward(uint256 burnt) external view returns (uint256 reward);
 
     /**
-     * @dev Convert from one of the allowed whitelisted tokens to uSD
+     * @dev Convert from one of the allowed whitelisted tokens to $uSD
      *
      * @param tokenAddress Address of the token to convert
      * @param amount Amount of Unifi token to be converted
      *
-     * @return Amount of uSD tokens
+     * @return Amount of $uSD tokens
      */
     function fromTokenToStable(address tokenAddress, uint256 amount)
         external
@@ -100,7 +105,7 @@ interface IStableCoin {
 
     /**
      * Mint logic of the StableCoin.
-     * @dev Mint the uSD token
+     * @dev Mint the $uSD token
      *
      * @param pairIndex Index of the pair inside the allowedPairs array
      * @param amountA The amount of tokenA to add as liquidity if the B/A price is <=
@@ -112,7 +117,7 @@ interface IStableCoin {
      * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts.
      *  Must be <= amountBDesired
      *
-     * @return Amount of freshly minted uSD token
+     * @return Amount of freshly minted $uSD token
      */
     function mint(
         uint256 pairIndex,
@@ -124,7 +129,7 @@ interface IStableCoin {
 
     /**
      * Mint logic of the StableCoin.
-     * @dev Mint the uSD token
+     * @dev Mint the $uSD token
      *
      * @param pairIndex Index of the pair inside the allowedPairs array
      * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
@@ -142,8 +147,8 @@ interface IStableCoin {
     ) external returns (uint256 amountA, uint256 amountB);
 
     /**
-     * @dev Rebalance by Credit is triggered when the total amount of source tokens' value is greater
-     * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
+     * @dev Rebalance by Credit is triggered when the total amount of source tokens' is greater
+     * than $uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
      *
      * @notice Positive imbalances can be caused by the accrual of liquidity provider fee. Withdrawn tokens
      * are stored inside the Unifi DFO as a source of long-term value
@@ -156,11 +161,12 @@ interface IStableCoin {
     ) external returns (uint256 redeemed);
 
     /**
-     * @dev Rebalance by Credit is triggered when the total amount of source tokens' value is greater
-     * than uSD circulating supply. Rebalancing is done by withdrawing the excess from the pool.
+     * @dev Rebalance by Debt is triggered when the total amount of source tokens' is lesser
+     * than $uSD circulating supply. Rebalancing is done by minting new equity ($unifi) at premium
+     * in exchange for burning $uSD.
      *
-     * @notice Positive imbalances can be caused by the accrual of liquidity provider fee. Withdrawn tokens
-     * are stored inside the Unifi DFO as a source of long-term value
+     * @notice Negative imbalances can be caused by the failure of a Stable Coin in one of the whitelisted
+     * source pairs.
      */
     function rebalanceByDebt(uint256 amount) external returns (uint256);
 }

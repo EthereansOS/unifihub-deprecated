@@ -1,4 +1,4 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 interface IERC20 {
     function mint(uint256 amount) external;

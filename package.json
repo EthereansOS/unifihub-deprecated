@@ -16,7 +16,7 @@
     "docs:build": "yarn docs:docgen && yarn docs:mkdocs:build",
     "docs:clean": "rm -r docs/{md-build,build}",
     "docs:serve": "yarn docs:docgen && yarn docs:mkdocs:serve",
-    "docs:docgen": "cd docs && solidity-docgen -i ../contracts -o md-build -t solidity-docgen-templates && cp ../*.md md-build",
+    "docs:docgen": "cd docs && solidity-docgen -i ../contracts -o md-build -t solidity-docgen-templates && cp ../*.md md-build && ./to_lowercase.sh",
     "docs:mkdocs:build": "cd docs && mkdocs build",
     "docs:mkdocs:serve": "yarn docs:docgen && cd docs && mkdocs serve"
   }

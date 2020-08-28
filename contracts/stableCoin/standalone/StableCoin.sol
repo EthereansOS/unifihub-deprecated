@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 
 import "./ERC20.sol";
 import "./IStableCoin.sol";
@@ -13,7 +13,7 @@ import "./IUniswapV2Router.sol";
 
 /**
  * @title StableCoin
- * @dev Contract for the "uSD" Stable Coin.
+ * @dev Contract for the $uSD Stable Coin.
  * It's an ERC20 token extended with the IStableCoin interface and DFO protocol magic.
  */
 contract StableCoin is ERC20, IStableCoin {
