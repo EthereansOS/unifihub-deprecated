@@ -141,15 +141,15 @@ var StableCoin = React.createClass({
                         </a>
                     </section>
                 </section>
-                <section className="StableCoinTitle">
+                {window.stableCoin && <section className="StableCoinTitle">
                     <section className="StableCoinTitleIntern">
                         <img src="assets/img/m4.png"></img>
                         <article>
-                            <h2>Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD. | <a href="https://etherscan.io/address/0x84841e552a021224de716b7be89747bb2d62d642">Etherscan</a> <a href="https://uniswap.info/token/0x84841e552a021224de716b7be89747bb2d62d642">Uniswap</a></h6>
+                            <h2>{window.stableCoin.name.firstLetterToUpperCase()}</h2>
+                            <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.getNetworkElement("stableCoinAddress")} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.getNetworkElement("stableCoinAddress")} target="_blank">Uniswap</a></h6>
                         </article>
                     </section>
-                </section>
+                </section>}
                 {(!this.state || !this.state.selectedPair) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">

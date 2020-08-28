@@ -10,8 +10,8 @@ var GrimuSD = React.createClass({
                     <section className="grimoireWelcomeIntern">
                         <img src="assets/img/m4.png"></img>
                         <article id="grimuSD">
-                            <h2>The Grimoire - Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | <a href="https://etherscan.io/address/0x84841e552a021224de716b7be89747bb2d62d642">Etherscan</a> <a href="https://uniswap.info/token/0x84841e552a021224de716b7be89747bb2d62d642">Uniswap</a></h6>
+                            <h2>The Grimoire - Unified Stable Dollar</h2>
+                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> Minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.getNetworkElement("stableCoinAddress")} target="_blank">Etherscan</a> <a  target="_blank" href={"https://uniswap.info/token/" + window.getNetworkElement("stableCoinAddress")}>Uniswap</a></h6>
                         </article>
                     </section>
                 </section>
@@ -29,7 +29,7 @@ var GrimuSD = React.createClass({
                         </ul>
                         <article className="grimoireArticle" id="uSDbasics">
                             <h2>Basics</h2>
-                            <p>The aim of the Uniswap State Dollar (uSD) protocol is to build the most secure and resilient stablecoin on Ethereum—ever. Independent from any off-chain issuer, it is fortified against the risks inherent to all other stablecoins, and free of the anxiety that pervades the industry.</p>
+                            <p>The aim of the Unified Stable Dollar (uSD) protocol is to build the most secure and resilient stablecoin on Ethereum—ever. Independent from any off-chain issuer, it is fortified against the risks inherent to all other stablecoins, and free of the anxiety that pervades the industry.</p>
                             <p>uSD achieves this unprecedented level of stability by collateralizing other stablecoins. If any of them lose value or fail, it can simply rebalance itself to leverage the security of the others. And to account for excess due to fees in their pools, it can rebalance itself in another way.</p>
                             <h4>The only way uSD can be destabilized is if the entire stablecoin industry collapses.</h4>
                             <h6>uSD is backed by Uniswap’s (whitelisted) stablecoin liquidity pools.</h6> 

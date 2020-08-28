@@ -22,13 +22,13 @@ contract MintNewVotingTokensForStableCoinFunctionality {
 
     function onStart(address, address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address stablecoinauthorized = 0x84841e552A021224de716b7Be89747bb2D62D642;
+        address stablecoinauthorized = 0x44086035439E676c02D411880FcCb9837CE37c57;
         stateHolder.setBool(_toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized)), true);
     }
 
     function onStop(address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address stablecoinauthorized = 0x84841e552A021224de716b7Be89747bb2D62D642;
+        address stablecoinauthorized = 0x44086035439E676c02D411880FcCb9837CE37c57;
         stateHolder.clear(_toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized)));
     }
 

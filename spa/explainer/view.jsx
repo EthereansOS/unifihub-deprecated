@@ -1,6 +1,6 @@
 var Explainer = React.createClass({
     renderExStableCoin() {
-        return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Uniswap State Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.", () => this.emit('section/change', 'grimoire', {href: "#grimuSD"}), () => this.emit('section/change', 'stableCoin'));
+        return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Unified Stable Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.", () => this.emit('section/change', 'grimoire', {href: "#grimuSD"}), () => this.emit('section/change', 'stableCoin'));
     },
     renderExCrafting() {
         return this.renderInput("ExCrafting", "assets/img/exp0.png", "a", "InfoButton", "a", "soonButton", "More", "Coming Soon", "Crafting Programmable Liquidity", "Craft makes it possible to provide liquidity that is programmable with advanced rules. Using Unicorn magic, pools can balance tokens diversely with unprecedented security.", () => this.emit('section/change', 'grimoire', {href: "#grimCraft"}));
@@ -33,6 +33,10 @@ var Explainer = React.createClass({
             </section>
         );
     },
+    openStableCoin(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.emit('section/change', 'stableCoin', {oldStableCoin : true})
+    },
     render() {
         return (
             <section className="unifiWelcome">
@@ -64,6 +68,7 @@ var Explainer = React.createClass({
                             <a target="_blank" href="https://uniswap.info/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Uniswap</a>
                             <a target="_blank" href="https://defipulse.io">DeFi Pulse</a>
                             <a target="_blank" href="https://etherscan.io/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Etherscan</a>
+                            <a target="_blank" href="javascript:;" onClick={this.openStableCoin}>Redeem from the old StableCoin</a>
                         </section>
                         <p><b>Use at your own risk!</b> This is an R&D project in its early stage [Beta]. Before using UniFi related functions, be sure to read the documentation and Smart Contracts code. All of the functions of UniFi work on top of Uniswap, so be sure about how Uniswap works too: <a href="https://docs.ethhub.io/guides/graphical-guide-for-understanding-uniswap/" target="_Blank">Ethhub Uniswap Guide</a> | <a href="https://uniswap.org/docs/v2/advanced-topics/understanding-returns/" target="_Blank">Uniswap Returns Guide</a> | <a href="https://medium.com/@pintail/understanding-uniswap-returns-cc593f3499ef" target="_Blank">Advanced Uniswap Guide</a></p>
                     </section>
