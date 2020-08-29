@@ -160,6 +160,7 @@ var StableCoinController = function (view) {
             token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
             await window.blockchainCall(window.stableCoin.token.methods.mint, pairData.index, token0Value, token1Value, token0Slippage, token1Slippage);
             context.loadEconomicData();
+            context.view.openSuccessMessage(`minted new ${window.stableCoin.symbol} tokens`);
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {
@@ -198,6 +199,7 @@ var StableCoinController = function (view) {
             token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
             await window.blockchainCall(window.stableCoin.token.methods.burn, pairData.index, supplyInPercentage, token0Slippage, token1Slippage);
             context.loadEconomicData();
+            context.view.openSuccessMessage(`burnt your ${window.stableCoin.symbol} tokens`);
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {
@@ -240,6 +242,7 @@ var StableCoinController = function (view) {
             token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
             await window.blockchainCall(window.stableCoin.token.methods.rebalanceByCredit, pairData.index, poolAmount, token0Slippage, token1Slippage);
             context.loadEconomicData();
+            context.view.openSuccessMessage(`rebalanced by credit the ${window.stableCoin.symbol}`);
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {
@@ -293,6 +296,7 @@ var StableCoinController = function (view) {
             }
             await window.blockchainCall(window.stableCoin.token.methods.rebalanceByDebt, amount);
             context.loadEconomicData();
+            context.view.openSuccessMessage(`rebalanced by debt the ${window.stableCoin.symbol}`);
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {

@@ -10,7 +10,8 @@ var StableCoin = React.createClass({
     getDefaultSubscriptions() {
         return {
             'ethereum/update': this.controller.loadData,
-            'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair)
+            'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair),
+            'success/message' : this.openSuccessMessage
         }
     },
     componentDidMount() {
@@ -133,6 +134,20 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
+    closeSuccessMessage(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.successMessageCloseTimeout && window.clearTimeout(this.successMessageCloseTimeout);
+        this.setState({successMessage : null});
+    },
+    openSuccessMessage(successMessage) {
+        this.closeSuccessMessage();
+        var _this = this;
+        _this.setState({successMessage}, function() {
+            _this.successMessageCloseTimeout = setTimeout(function() {
+                //_this.closeSuccessMessage();
+            }, 4000);
+        });
+    },
     render() {
         return (
             <section className="unifiDapp">
@@ -153,6 +168,12 @@ var StableCoin = React.createClass({
                             <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
                         </article>
                     </section>
+                </section>}
+                {false && this.state && this.state.successMessage && <section className="SuccessMessage">
+                    <a href="javascript:;" onClick={this.closeSuccessMessage}>X</a>
+                    <p>
+                        You have successfully {this.state.successMessage}!
+                    </p>
                 </section>}
                 {(!this.state || !this.state.selectedPair) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">

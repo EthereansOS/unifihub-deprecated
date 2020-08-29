@@ -6,6 +6,11 @@ var Grimoire = React.createClass({
         'spa/grimoire/grimBazar.jsx',
         'spa/grimoire/grimUnifi.jsx'
     ],
+    getDefaultSubscriptions() {
+        return {
+            'ethereum/update' : () => this.forceUpdate()
+        }
+    },
     componentDidMount() {
         if(!this.props.href) {
             return;
