@@ -18,10 +18,22 @@ var DappMenu = React.createClass({
                 icon: "m4"
             }, {
                 title: "Liquidity Crafting",
-                icon: "m2"
+                icon: "m2",
+                props : {
+                    onClick: () => this.emit("section/change", "grimoire", {
+                        href : "#grimCraft"
+                    }),
+                    href: "#grimCraft"
+                }
             }, {
                 title: "Liquidity Offering",
-                icon: "m5"
+                icon: "m5",
+                props : {
+                    onClick: () => this.emit("section/change", "grimoire", {
+                        href : "#grimCraft"
+                    }),
+                    href: "#grimCraft"
+                }
             }, {
                 title: "Swap Bazar",
                 icon: "m1"
@@ -30,7 +42,11 @@ var DappMenu = React.createClass({
                 icon: "m0"
             }, {
                 title: "Github",
-                icon: "m3"
+                icon: "m3",
+                props : {
+                    href: "https://github.com/b-u-i-d-l/unifi",
+                    target: "_blank"
+                }
             }]
         };
     },
@@ -60,22 +76,27 @@ var DappMenu = React.createClass({
             state[type] = !(_this.state && _this.state[type]);
             _this[type] && delete _this[type].onblur;
             _this.setState(state, function() {
-                _this.state[type] && _this[type] && !_this[type].onblur && (_this[type].onblur = function(e) {
+                _this.state[type] && _this[type] && (_this[type].onblur = _this[type].onblur || function(e) {
                     e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
                     e.relatedTarget && e.relatedTarget !== oldTarget && e.relatedTarget.click();
-                    //toggleWork(type);
+                    e.relatedTarget !== oldTarget && toggleWork(type);
                 }) && _this[type].focus();
             });
         };
         toggleWork(e.currentTarget.dataset.type);
     },
+    toggleBoomerMode(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.emit('visual/mode/toggle');
+    },
     render() {
         return (
             <section className="MenuAll">
+                <a className="BoomerModeToggler" href="javascript:;" onClick={this.toggleBoomerMode} ref={ref => ref && (ref.innerHTML = ('&#' + (window.localStorage.boomerMode === 'true' ? '128188' : '10024') + ';'))}></a>
                 <a className="maghetto" href=""><img src="assets/img/maghetto.png"></img></a>
                 <a href="javascript:;" onClick={this.toggle} data-type="menu" className="menuOpener">Menu</a>
                 {!window.walletAddress && <a href="javascript:;" onClick={this.toggle} data-type="connect" className="connectOpener"><img src="assets/img/m6.png"></img><span>Connect</span></a>}
-                {window.walletAddress && <a href="javascript:;" className="connectOpener"><img src={window.makeBlockie(window.walletAddress)}/><span>{window.shortenWord(window.walletAddress, 12)}</span></a>}
+                {window.walletAddress && <a href={window.getNetworkElement("etherscanURL") + "address/" + window.walletAddress} target="_blank" className="connectOpener"><img src={window.makeBlockie(window.walletAddress)}/><span>{window.shortenWord(window.walletAddress, 12)}</span></a>}
                 <section className="MenuOpen" style={{"display" : this.props.show ? "inline-block" : this.state && this.state.menu ? "inline-block" : "none"}}>
                     <section ref={ref => this.menu = ref} className="coverMenu" tabIndex="-1">
                         {this.state.menuItems.map(this.renderMenuItem)}

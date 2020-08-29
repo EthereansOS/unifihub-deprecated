@@ -1,6 +1,22 @@
+/* Discussion:
+ * https://github.com/b-u-i-d-l/unifi
+ */
+/* Description:
+ * When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50). If the stablecoin totally fails, the other stablecoins effectively pump in correlation.
+ *
+ * DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the UniFi DFO then pays off by minting UniFi. Let’s look at how this plays out, step by step:
+ *
+ * 1 - A stablecoin collateralized by uSD loses value or fails altogether.
+ *
+ * 2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.
+ *
+ * 3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.
+ *
+ * The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.
+ */
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.6.0;
 
 import "./IERC20.sol";
 import "./IMVDFunctionalitiesManager.sol";
@@ -14,7 +30,7 @@ import "./IStateHolder.sol";
 contract MintNewVotingTokensForStableCoinFunctionality {
     function onStart(address, address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address stablecoinauthorized = 0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A;
+        address stablecoinauthorized = 0x44086035439E676c02D411880FcCb9837CE37c57;
         stateHolder.setBool(
             _toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized)),
             true
@@ -23,7 +39,7 @@ contract MintNewVotingTokensForStableCoinFunctionality {
 
     function onStop(address) public {
         IStateHolder stateHolder = IStateHolder(IMVDProxy(msg.sender).getStateHolderAddress());
-        address stablecoinauthorized = 0x9f4c43A51C9a67F432E5C8BcBFa55312110BCD3A;
+        address stablecoinauthorized = 0x44086035439E676c02D411880FcCb9837CE37c57;
         stateHolder.clear(
             _toStateHolderKey("stablecoin.authorized", _toString(stablecoinauthorized))
         );
@@ -37,7 +53,6 @@ contract MintNewVotingTokensForStableCoinFunctionality {
     ) public {
         IMVDProxy proxy = IMVDProxy(msg.sender);
 
-        // NOTE: Use DFO Protocol to check for authorization
         require(
             IStateHolder(proxy.getStateHolderAddress()).getBool(
                 _toStateHolderKey("stablecoin.authorized", _toString(sender))

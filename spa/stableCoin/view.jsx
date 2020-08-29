@@ -1,7 +1,8 @@
 var StableCoin = React.createClass({
     requiredScripts: [
         'spa/banner.jsx',
-        'spa/loader.jsx'
+        'spa/loader.jsx',
+        'spa/grimoire/grimuSD.jsx'
     ],
     requiredModules: [
         'spa/dappMenu'
@@ -9,11 +10,28 @@ var StableCoin = React.createClass({
     getDefaultSubscriptions() {
         return {
             'ethereum/update': this.controller.loadData,
-            'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair)
+            'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair),
+            'success/message' : this.openSuccessMessage
         }
     },
     componentDidMount() {
+        this.oldStableCoin = this.props.oldStableCoin || window.consumeAddressBarParam("useOldStableCoin") !== undefined
         this.controller.loadData();
+    },
+    componentWillUnmount() {
+        delete this.oldStableCoin;
+        this.economicDataInterval && window.clearInterval(this.economicDataInterval);
+        delete this.economicDataInterval;
+    },
+    onActionChange(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var value = e.currentTarget.value;
+        var _this = this;
+        _this.setState({ myBalance: null }, function () {
+            value === 'Burn' && _this.controller.getMyBalance().then(function (myBalance) {
+                _this.setState({ myBalance });
+            });
+        });
     },
     onPairChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -77,7 +95,7 @@ var StableCoin = React.createClass({
         }
         return (
             <section>
-                <h4>Still available to Mint:</h4>
+                <h4>Mintable:</h4>
                 <span>{window.fromDecimals(this.state.availableToMint, window.stableCoin.decimals)} {window.stableCoin.symbol}</span>
             </section>
         );
@@ -109,41 +127,78 @@ var StableCoin = React.createClass({
         var target = e.currentTarget;
         _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
         _this.onTypeTimeout = setTimeout(function () {
-            _this.controller.calculateRebalanceByDebtReward(target.value).then(function(result) {
+            _this.controller.calculateRebalanceByDebtReward(target.value).then(function (result) {
                 _this.debtReward.innerHTML = window.fromDecimals(result, window.dfo.decimals);
             });
         }, window.context.typeTimeout);
+    },
+    toggleGrimoire(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.setState({ grimoire: !(this.state && this.state.grimoire) });
+    },
+    closeSuccessMessage(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        this.successMessageCloseTimeout && window.clearTimeout(this.successMessageCloseTimeout);
+        this.setState({successMessage : null});
+    },
+    openSuccessMessage(successMessage) {
+        this.closeSuccessMessage();
+        var _this = this;
+        _this.setState({successMessage}, function() {
+            _this.successMessageCloseTimeout = setTimeout(function() {
+                //_this.closeSuccessMessage();
+            }, 4000);
+        });
     },
     render() {
         return (
             <section className="unifiDapp">
                 <DappMenu />
-                <section className="StableCoinTitle">
+                <section className="CallToGrim">
+                    <section>
+                        <a href="javascript:;" onClick={this.toggleGrimoire}>
+                            {this.state && this.state.grimoire && <img src="assets/img/m0.png"></img>}
+                            {(!this.state || !this.state.grimoire) && <img src="assets/img/m0.png"></img>}
+                        </a>
+                    </section>
+                </section>
+                {window.stableCoin && window.stableCoin.name && window.stableCoin.symbol && <section className="StableCoinTitle">
                     <section className="StableCoinTitleIntern">
                         <img src="assets/img/m4.png"></img>
                         <article>
-                            <h2>Uniswap State Dollar</h2>
-                            <h6><b>uSD is a Stable Coin based on Uniswap Liquidity Pools</b> <a href="">More</a> <br></br>Here, you can mint uSD by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning uSD.</h6>
+                            <h2>{window.stableCoin.name.firstLetterToUpperCase()}</h2>
+                            <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
                         </article>
                     </section>
-                </section>
-                {!this.state || !this.state.selectedPair && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+                </section>}
+                {false && this.state && this.state.successMessage && <section className="SuccessMessage">
+                    <a href="javascript:;" onClick={this.closeSuccessMessage}>X</a>
+                    <p>
+                        You have successfully {this.state.successMessage}!
+                    </p>
+                </section>}
+                {(!this.state || !this.state.selectedPair) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
-                        <labe>
-                            <select ref={ref => this.actionSelect = ref}>
-                                <option value="Mint">Mint</option>
+                        <label>
+                            <select ref={ref => this.actionSelect = ref} onChange={this.onActionChange}>
+                                {!this.oldStableCoin && <option value="Mint">Mint</option>}
                                 <option value="Burn">Burn</option>
                             </select>
                             <img className="UniStableManage" src={window.stableCoin.logo}></img>
                             <p><b>{window.stableCoin.symbol}</b></p>
-                        </labe>
+                        </label>
                         <label>
                             <p> by</p>
                             <select onChange={this.onPairChange}>
-                                {this.state && this.state.pairs && this.state.pairs.map((it, i) => <option key={it.name} value={i}>
-                                    {it.name}
-                                </option>)}
+                                {this.state && this.state.pairs && this.state.pairs.map((it) => {
+                                    if(it.disabled) {
+                                        return;
+                                    }
+                                    return (<option key={it.name} value={it.index}>
+                                        {it.name}
+                                    </option>);
+                                })}
                             </select>
                         </label>
                     </section>
@@ -162,6 +217,7 @@ var StableCoin = React.createClass({
                             {window.walletAddress && <h6><a href="javascript:;" data-token="1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)} {this.state.selectedPair.token1.symbol}</h6>}
                         </label>
                         <h2>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
+                        {window.walletAddress && this.state && this.state.myBalance && this.actionSelect && this.actionSelect.value === 'Burn' && <h6>Balance: <b>{window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)}</b>{'\u00a0'}{window.stableCoin.symbol}</h6>}
                         {window.walletAddress && (!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedPair.token0.symbol}</a>}
                         {window.walletAddress && this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
                         {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
@@ -177,29 +233,29 @@ var StableCoin = React.createClass({
                         <h5>Supply:</h5>
                         <h6>{window.fromDecimals(this.state.totalSupply, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>
                     </section>}
-                    {this.renderAvailableToMint()}
                     {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h5>Collateral:</h5>
-                        <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.amount, window.stableCoin.decimals)} S.C.</a></h6>
+                        <h6><a href="javascript:;" onClick={this.toggleTotalCoins}>{window.fromDecimals(this.state.totalCoins.balanceOf, window.stableCoin.decimals)} S.C.</a></h6>
                         {this.state.toggleTotalCoins && <ul className="SideStableList">
                             {Object.values(this.state.totalCoins.list).map(it => <li key={it.address}>
                                 <section>
-                                    <span>{window.fromDecimals(it.amount, window.stableCoin.decimals)}</span>
+                                    <span>{window.fromDecimals(it.balanceOf, window.stableCoin.decimals)}</span>
                                     {'\u00a0'}
                                     <span>{it.symbol}</span>
                                 </section>
                             </li>)}
                         </ul>}
                     </section>}
-                    {window.walletAddress && this.state && this.state.totalCoins && <section className="SideStandard">
+                    {this.renderAvailableToMint()}
+                    {this.state && this.state.totalCoins && <section className="SideStandard">
                         <h4>Health:</h4>
                         <section className="SideHealthHelp">
-                            <section className="SideHealth"><aside style={{"width": this.state.totalCoins.healthPercentage + "%"}}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
+                            <section className="SideHealth"><aside style={{ "width": this.state.totalCoins.healthPercentage + "%" }}><span>{this.state.totalCoins.regularPercentage}%</span></aside></section>
                         </section>
                     </section>}
-                    {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (this.state.differences[0] !== '0' || this.state.differences[1] !== '0') && <section className="SideDiff">
+                    {window.walletAddress && this.state && this.state.pairs && this.state.totalCoins && this.state.differences && (parseInt(this.state.totalCoins.regularPercentage) > 103 || parseInt(this.state.totalCoins.regularPercentage) < 97) && <section className="SideDiff">
                         <h4>Rebalance</h4>
-                        {parseInt(this.state.totalCoins.regularPercentage) < 97 && <section className="SideRebelanceBro SideCredit">
+                        {parseInt(this.state.totalCoins.regularPercentage) > 103 && <section className="SideRebelanceBro SideCredit">
                             <label>
                                 <h5>DFO Credit:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[0], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
@@ -208,7 +264,7 @@ var StableCoin = React.createClass({
                                 <a href="javascript:;" onClick={this.controller.rebalanceByCredit} className="StableITBTN">Rebalance</a>
                             </section>}
                         </section>}
-                        {parseInt(this.state.totalCoins.regularPercentage) > 101 && <section className="SideRebelanceBro SideDebit">
+                        {parseInt(this.state.totalCoins.regularPercentage) < 85 && <section className="SideRebelanceBro SideDebit">
                             <label>
                                 <h5>DFO Debt:</h5>
                                 <h6><b>{window.fromDecimals(this.state.differences[1], window.stableCoin.decimals)} {window.stableCoin.symbol}</b></h6>
@@ -216,7 +272,7 @@ var StableCoin = React.createClass({
                             {window.walletAddress && <section className="RebalanceEmergency">
                                 <label>
                                     <span>&#128293;</span>
-                                    <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref}/>
+                                    <input onChange={this.rebalanceByDebtInputChange} ref={ref => this.rebalanceByDebtInput = ref} />
                                     <span>{window.stableCoin.symbol}</span>
                                 </label>
                                 <section className="RebalanceEmergencyRew">
@@ -228,8 +284,9 @@ var StableCoin = React.createClass({
                             </section>}
                         </section>}
                     </section>}
-                    <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsable DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
+                    <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
+                {this.state && this.state.grimoire && <GrimuSD />}
             </section>
         );
     }

@@ -1,6 +1,6 @@
 html {margin: 0; background-color: #2b2622;}
 h1,h4,h3, h5,h6,h2 {margin-block-end: 0;margin-block-start: 0;}
-body {width: 100%; position: relative; margin: 0; font-family: "Myriad Pro";}
+body {width: 100%; position: relative; margin: 0;}
 ol,ul, li {margin-block-start: 0; margin-block-end: 0; list-style-type: none; padding-inline-start:0;}
 p {display: inline-block;margin-block-start: 0px;margin-block-end: 0px;margin-inline-start: 0px;margin-inline-end: 0px;}
 h1 {font-size: 30px;}
@@ -23,6 +23,7 @@ section, article, label {display: inline-block;}
 .expMoreandMore {width: 100%; text-align: center; padding: 50px 0;}
 .expMoreandMore h5 {font-size: 25px; color: #c7ac97;}
 .expMoreandMore h5 img {width: 40px; height: 40px; vertical-align: middle;}
+.unifiAll {min-height: 100%;}
 
 .loaderRegular {margin: 30px auto; width: 100px; height: 100px; padding: 30px; border-radius: 8px;}
 .loaderMini {width: 30px; height: 30px; vertical-align: middle; margin: 0 10px; display: inline-block;}
@@ -60,20 +61,37 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .unifiDapp {position: relative;}
 .unifiDapp .MenuAll {width: 100%; position: fixed; top: 0; left: 0;}
 .unifiDapp .MenuAll .connectOpener, .unifiDapp .MenuAll .menuOpener {padding: 6px 10px; border-radius: 8px; margin-top: 10px;text-decoration: none;}
-.unifiDapp .MenuAll .maghetto {width: 40px; height: 40px; float: left;margin: 5px 10px 0 20px;}
+.unifiDapp .MenuAll .maghetto {width: 30px; height: 30px; float: left;margin: 5px 10px 0 20px;}
 .unifiDapp .MenuAll .maghetto img {width: 100%; height: 100%;}
 .unifiDapp .MenuAll .menuOpener {float: left; margin-left: 20px;}
-.unifiDapp .MenuAll .menuOpener, .unifiDapp .MenuAll .connectOpener span {font-size: 18px; font-weight: bold;}
+.unifiDapp .MenuAll .menuOpener, .unifiDapp .MenuAll .connectOpener span {font-size: 12px; font-weight: bold;}
 .unifiDapp .MenuAll .connectOpener {float: right; margin-right: 20px; text-decoration: none;}
-.unifiDapp .MenuAll .connectOpener img {width: 25px; height: 25px; vertical-align: middle;}
-.unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
-.unifiDapp .MenuOpen {text-align: left; position: absolute; left: 90px; top: 50px; z-index: 99999999999999;}
-.unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;}
+.unifiDapp .MenuAll .connectOpener img {width: 10px; height: 10px; vertical-align: middle;}
+.unifiDapp .MenuAll .connectOpener span {font-size: 12px; vertical-align: middle;}
+.unifiDapp .MenuOpen {text-align: left; position: absolute; left: 10px; top: 50px; z-index: 99999999999999;}
+.unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;outline: -webkit-focus-ring-color auto 0px;}
+.ethereumWalletProvider {text-align: left; position: absolute; right: 20px; top: 0px; z-index: 99999999999999;}
+
 .UniBox, .UniSideBox {position: relative;max-width: 250px;width: 100%; opacity: 1;padding: 30px 1rem; margin: 50px 10px 50px 10px;vertical-align: top;}
 .UniStableManage {width: 25px; height: 25px;vertical-align: middle; margin: 7px;}
 .UniActiveQuantityTier, .UniDisactiveQuantityTier {display: inline-block; margin: 5px auto;}
 .UniTierQuantity h6 {font-size: 15px; margin: 6px auto;}
-.StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 100px; text-align: center;}
+.StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 30px; text-align: center;position: initial;z-index: 1;}
+.grimoireBoxAll {width: 100%; margin-top: 25px; text-align: center;}
+.grimoireBox {width: 95%; margin-bottom: 18px; text-align: center;}
+.grimoireIndex {width: 95%; margin-left: 4%; text-align: left;}
+.grimoireIndex h2 {font-size: 20px; margin-bottom: 20px; margin-top: 20px;}
+.grimoireIndex a {width: 100%; padding: 10px 0; display: inline-block; font-size: 14px; vertical-align: middle;}
+.grimoireIndex a img {width: 20px;height: 20px; margin-right: 6px; vertical-align: middle;}
+.grimoireArticle {width: 90%; padding: 4%; text-align: left;}
+.grimoireArticle h2 {font-size: 30px; margin-bottom: 25px;}
+.grimoireArticle p {font-size: 15px; line-height: 1.4; width: 100%; display: inline-block; margin-bottom: 15px;}
+.grimoireArticle h6 {font-size: 19px; width: 100%; display: inline-block; margin-bottom: 20px; font-weight: normal;margin-top: 10px;}
+.grimoireArticle h4 {font-size: 21px; width: 100%; display: inline-block; margin-bottom: 15px; font-weight: bold;}
+.grimoireArticle ol {width: 100%; display: inline-block; text-align: right;}
+.grimoireArticle li {width: 95%; text-align: left; display: inline-block; font-size: 15px;line-height: 1.3; margin: 10px auto;}
+
+
 .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {display: none;}
 .StableCoinTitle h2, .grimoireWelcome h2 {font-size: 25px; margin: 10px 0; vertical-align: middle;text-align: left;}
 .StableCoinTitle h6, .grimoireWelcome h6 {font-size: 15px; text-align: left; line-height: 1.4; font-weight: normal;}
@@ -107,7 +125,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RebalanceEmergency label span {display: inline-block; margin: 0 5px; font-size: 15px;}
 .RebalanceEmergencyRew {width: 100%; display: inline-block;}
 .coverConnectMenu:focus {border: none; outline: -webkit-focus-ring-color auto 0px;} 
-
+.Boh {position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 5;}
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
@@ -120,13 +138,105 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniTierQuantity label img {width: 20px; height: 20px; margin: 0 5px; vertical-align: middle; display: inline-block;}
 .UniTierQuantity label input, .RebalanceEmergency label input {width: 130px; display: inline-block; height: 30px;}
 
+.CallToGrim {position: fixed; top: 10px; left: 190px; width: 35px; height: 35px;}
+.CallToGrim {display: none;}
+.CallToGrim a {width: 35px; height: 35px; display: inline-block; text-align: center; border-radius: 10px;}
+.CallToGrim a img {width: 30px; height: 30px; display: inline-block; vertical-align: center;}
+.BoomerModeToggler {width: 20px; height: 20px; display: inline-block; text-align: center; border-radius: 10px; position: fixed; bottom: 10px; right: 0px; text-decoration: none;line-height: 2; font-size: 12px;}
+.explainer .BoomerModeToggler {display: none;}
+.BazTokenSelector {width: 100%; display: inline-block; margin: 10px auto; text-align: center;}
+.BazTokenSelector a {padding: 10px 20px; text-decoration: none; font-weight: bold; display: inline-block; margin: 5px; border-radius: 6px;}
+.BazSelectorContainer {position: fixed; top: 20%; left: 5%; width: 90%; overflow-y: scroll;overflow-x: hidden;  height: 60%; margin: auto; z-index: 10; border-radius: 10px;}
+.BazSelectorContainerClose {position: fixed; border-radius: 50%; width: 30px; height: 30px; top: 20px; left: 5px;top: 10%;left: 48%;}
+.BazSelectorContainerClose a {font-size: 18px; padding: 0;}
+.BazSelectorContainerMenu {display: inline-block; width: 100%;}
+.BazSelectorContainerMenuintern {width: 100%;}
+.BazSelectorContainerMenu li {width: 33.3%; display: inline-block; height: 32px;}
+.BazSelectorContainerMenu li a {padding: 8px 0; width: 100%; margin: 0; font-size: 13px; font-weight: bold;}
+.BazSelectorContainerObjects {width: 95%; display: inline-block; margin-top: 20px; text-align: left;}
+.BazSelectorContainerObjects li {display: inline-block; width: 110px; margin: 10px;word-wrap: break-word;}
+.BazSelectorContainerObjects li a {font-size: 13px; font-weight: normal; padding: 3px 6px; margin: 0; border-radius: 0; display: inline-block;}
+.BazSelectorContainerObjects li a img {width: 20px; height: 20px; vertical-align: middle;}
+.BazSelectorContainerObjects li a p {display: inline;}
+.BazzPreDescDisabled {display: none;}
+.BazPrice {width: 100%; text-align: center;display: inline-block; font-weight: bold;}
+.StableITBTNDisabled, .StableITBTNFDisabled {display: none;}
+.StableITBTNActive, .StableITBTNFActive {display: inline-block;} 
+.StableITBTNFActive {font-size: 13px; padding: 5px 9px; margin-top: 5px;}
+.ArrivaUniswap {position: fixed; width: 80%; height: 80%; overflow: hidden; z-index: 10;left: 10%;top: 10%;border: none;border-radius: 35px;}
+.ArrivaUniswap img {width: 30%; position: absolute; left: 35%; top: 150px;}
+.ArrivaUniswapQuelloVero iframe {position: fixed;width: 90%;height: 80%;overflow: hidden;left: 5%;top: 10%;z-index: 9;border: none;border-radius: 35px;}
+.SeneVaUniswap {position: fixed; top: 10px; left: 70%; border-radius: 50%; width: 30px; height: 30px; line-height: 2; font: 12px; font-weight: bold; text-decoration: none;}
+.grimoire .connectOpener, .swapBazar .connectOpener{display: none;}
+.grimoire .BoomerModeToggler, .swapBazar .BoomerModeToggler {right: 15px;}
+.grimoire .grimoireWelcome {display: inline-block; margin-top: 60px; width: 90%;}
+.grimoire .grimoireWelcomeintern {display: inline-block;border-radius: 30px; padding: 15px 0;}
+.grimoire .grimoireWelcomeintern img {display: none;}
+.grimoire .grimoireWelcomeintern article {width: 80%;display: inline-block;}
+.grimoire .grimoireWelcomeintern h2 {font-size: 20px;}
+.grimoire .grimoireWelcomeintern h6 {font-size: 13px;}
+.grimoire .grimoireArticle {word-wrap: break-word;}
+.grimUnifi, .grimBazar, .grimCrafting, .grimuSD {max-width: 100%;}
+.coverMenu {margin: 50px auto 50px auto; width: 90%; border-radius: 8px; text-align: left; padding: 8px 5px;}
+.coverMenu li {width: 200; display: inline-block; position: relative; margin-left: 25px;}
+.coverMenu li a {width: 100%; display: inline-block; padding: 5px 5px; text-decoration: none;}
+.coverMenu li a img {width: 35px; height: 35px; margin: 0 7px; vertical-align: middle;}
+.coverMenu li a span {font-size: 16px; font-weight: bolder; vertical-align: middle;}
+.coverMenu li .menuArrow {display: none;}
+.coverMenu li:hover .menuArrow {width: 20px; height: 20px; position: absolute; left: -15px; top: 15px; display: block;}
+.coverMenu .menuArrow img {width: 20px; height: 20px;}
 
-.Boomer .UniBox {background: rgb(33, 36, 41); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #f1f1f1;}
-.RPG .UniBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;width: 100%;}
+.Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
+.Boomer .UniSideBox {border-radius: 20px; color: #000000; width: 100%; background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer {background: linear-gradient(29deg, rgba(255,255,255,1) 0%, rgba(228,228,228,1) 66%);font-family: "Inter var", sans-serif;}
+.Boomer > .explainer {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);font-family: "Myriad Pro";}
+.Boomer .UniTitle select, .Boomer .UniActiveQuantityTier input, .Boomer .UniDisactiveQuantityTier input, .Boomer .RebalanceEmergency label input {background-color: #e7e7e7; color: #000000; border: 5px solid #e7e7e7; border-radius: 5px;}
+.Boomer .UniTitle {color: #000000;}
+.Boomer .menuOpener, .Boomer .connectOpener {background-color: #bab9b9; color: #000000;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .unifiDapp .MenuOpen .coverMenu {background-color: #bab9b9; border-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .StableCoinTitleIntern, .Boomer .grimoireWelcomeIntern {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .StableCoinTitle h2, .Boomer .grimoireWelcome h2 {color: #000000;}
+.Boomer .StableCoinTitle h6, .Boomer .grimoireWelcome h6 {color: #000000;}
+.Boomer .StableCoinTitle h6 a, .Boomer .grimoireWelcome h6 a {color: #000000;}
+.Boomer .UniSideBox .SideStandard h6 a {color: #000000;}
+.Boomer .UniSideBox .SideStableList li span {color: #000000;}
+.Boomer .UniSideBox .SideHealth aside {background-color: #128b03; border:none;}
+.Boomer .loaderRegular {background-color: #e3d2c2;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .Disclamerone a {color: #000000; text-decoration: underline;}
+.Boomer .UniActiveQuantityTier h6, .Boomer .UniDisactiveQuantityTier h6 {color: #000000;}
+.Boomer .UniActiveQuantityTier h6 a, .Boomer .UniDisactiveQuantityTier h6 a {background-color: #000000; color: #ffffff; border-radius: 5px; margin-right: 5px;}
+.Boomer .coverConnectMenu .ethereumWalletProvider {background-color: #bab9b9; border-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; color: #000000;}
+.Boomer .ethereumWalletProvider a {color: #000000;}
+.Boomer .grimoireIndex h2 {color: #000000;}
+.Boomer .grimoireIndex a {color: #000000;}
+.Boomer .coverMenu li a span {color: #000000;}
+.Boomer > .explainer .coverMenu li a span {text-shadow: 2px 2px 2px #5d5e60;color: #bab9b9;}
+.Boomer .CallToGrim a {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .maghetto {-webkit-filter: grayscale(100%); filter: grayscale(100%);}
+.Boomer .BoomerModeToggler {background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.Boomer .grimoireArticle a {color: #000000; font-weight: bold;}
+.Boomer .BazTokenSelector a {background-color: #bab9b9; color: #000000;}
+.Boomer .BazSelectorContainer {background-color: #ffffff; color: #444444;}
+.Boomer .BazSelectorContainer:focus {border: none;}
+.Boomer .BazSelectorContainerMenu {background-color: #bab9b9;}
+.Boomer .BazSelectorContainerClose {background-color: #bab9b9;}
+.Boomer .BazSelectorContainerMenu .selected {background-color: #ffffff;}
+.Boomer .BazSelectorContainerMenu .selected a {color: #000000;}
+.Boomer .BazSelectorContainerMenu a {background-color: transparent;}
+.Boomer .Boh {background-color: #000000eb;}
+.Boomer .BazSelectorContainerObjects li a {background-color: transparent; color: #000000; font-weight: bold;}
+.Boomer .ActiveDesc {color:#000000;display: inline-block;}
+.Boomer .StableITBTNActive {background-color: #b030df;}
+.Boomer .StableITBTNFActive {background-color: #5549c9;}
+.Boomer .ArrivaUniswap {background-color: #ffffff;}
+.Boomer .SeneVaUniswap {background-color: #ffffff; color: #000000;}
+
+
+.RPG .UniBox, .RPG .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
-.RPG body {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);}
-.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
-.RPG .UniTitle {color: rgb(195, 197, 203);}
+.RPG {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);font-family: "Myriad Pro";}
+.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RPG .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
+.RPG .UniTitle {color: #bab9b9;}
 .RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .unifiDapp .MenuOpen .coverMenu {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .StableCoinTitleIntern, .RPG .grimoireWelcomeIntern {background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -141,8 +251,55 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .UniActiveQuantityTier h6, .RPG .UniDisactiveQuantityTier h6 {color: #adadad;}
 .RPG .UniActiveQuantityTier h6 a, .RPG .UniDisactiveQuantityTier h6 a {background-color: #000000; color: #ffffff; border-radius: 5px; margin-right: 5px;}
 .RPG .coverConnectMenu .ethereumWalletProvider {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .ethereumWalletProvider a {color: #bab9b9;}
+.RPG .grimoireIndex h2 {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
+.RPG .grimoireIndex a {text-shadow:2px 2px 2px #5d5e60; color: #bab9b9;}
+.RPG .coverMenu li a span {text-shadow: 2px 2px 2px #5d5e60;color: #bab9b9;}
+.RPG .CallToGrim a {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .BoomerModeToggler {background-color: #c7ac97;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
+.RPG .grimoireArticle a {color: #c7ac97; font-weight: bold;}
+.RPG .BazTokenSelector a {background-color: #000000; color: #ffffff;}
+.RPG .BazSelectorContainer {background-color: rgb(33, 36, 41); color: #444444;}
+.RPG .BazSelectorContainerMenu {background-color: #000000;}
+.RPG .BazSelectorContainerClose {background-color: #c7ac97;}
+.RPG .BazSelectorContainerMenu .selected {background-color: #c7ac97;}
+.RPG .BazSelectorContainerMenu .selected a {color: #000000;}
+.RPG .BazSelectorContainerMenu a {background-color: transparent;}
+.RPG .Boh {background-color: #c7ac97d6;}
+.RPG .BazSelectorContainerObjects li a {background-color: transparent; color: #ffffff; font-weight: bold;}
+.RPG .BazSelectorContainerMenu li a {font-size: 14px;}
+.RPG .BazSelectorContainerClose a {background-color: transparent; color: #000000;}
+.RPG .ActiveDesc {color:#5d5e60; display: inline-block;}
+.RPG .StableITBTNActive {background-color: #5549c9;}
+.RPG .StableITBTNFActive {background-color: #c7ac97; color: #1a1a1a;}
+.RPG .ArrivaUniswap {background-color: #e3d2c2;}
+.RPG .SeneVaUniswap {background-color: #e3d2c2; color: #000000;}
 
 @media only screen and (min-width: 640px) {
+    .grimoire .grimoireWelcomeintern img {display: inline-block;}
+    .BazTokenSelector {width: 100%; display: inline-block; margin: 10px auto; text-align: center;}
+    .BazTokenSelector a {padding: 10px 20px; text-decoration: none; font-weight: bold; display: inline-block; margin: 5px; border-radius: 6px;}
+    .BazSelectorContainer {position: fixed; top: 20%; left: 50%; width: 90%; overflow-y: scroll;overflow-x: hidden;  height: 60%; margin: auto; z-index: 10; border-radius: 10px;}
+    .BazSelectorContainerClose {position: fixed; border-radius: 50%; width: 40px; height: 40px; top: 70px; left: 5px;top: 14%;left: 48%;}
+    .BazSelectorContainerClose a {font-size: 25px; padding: 0;}
+    .BazSelectorContainerMenu {display: inline-block; width: 100%;}
+    .BazSelectorContainerMenuintern {width: 100%;}
+    .BazSelectorContainerMenu li {width: 33.3%; display: inline-block; height: 32px;}
+    .BazSelectorContainerMenu li a {padding: 8px 0; width: 100%; margin: 0; font-size: 13px; font-weight: bold;}
+    .BazSelectorContainerObjects {width: 95%; display: inline-block; margin-top: 20px; text-align: left;}
+    .BazSelectorContainerObjects li {display: inline-block; width: 120px; margin: 10px;word-wrap: break-word;}
+    .BazSelectorContainerObjects li a {font-size: 13px; font-weight: normal; padding: 3px 6px; margin: 0; border-radius: 0; display: inline-block;}
+    .BazSelectorContainerObjects li a img {width: 20px; height: 20px; vertical-align: middle;}
+    .BazSelectorContainerObjects li a p {display: inline;}
+    .BazzPreDescDisabled {display: none;}
+    .BazPrice {width: 100%; text-align: center;display: inline-block; font-weight: bold;}
+    .StableITBTNDisabled, .StableITBTNFDisabled {display: none;}
+    .StableITBTNActive, .StableITBTNFActive {display: inline-block;} 
+    .StableITBTNFActive {font-size: 13px; padding: 5px 9px; margin-top: 5px;}
+    .ArrivaUniswap {position: fixed; width: 80%; height: 80%; overflow: hidden; z-index: 10;left: 10%;top: 10%;border: none;border-radius: 35px;}
+    .ArrivaUniswap img {width: 30%; position: absolute; left: 35%; top: 150px;}
+    .ArrivaUniswapQuelloVero iframe {position: fixed;width: 80%;height: 80%;overflow: hidden;left: 10%;top: 10%;z-index: 9;border: none;border-radius: 35px;}
+    .SeneVaUniswap {position: fixed; top: 10px; left: 50%; border-radius: 50%; width: 40px; height: 40px; line-height: 2.5; font: 12px; font-weight: bold; text-decoration: none;}
     .cover {max-height: 740px; width: 100%;}
     .UniBox {max-width: 300px;width: 100%; margin: 50px 10px 50px 10px;}
     .cover > img {width: 100%;}
@@ -154,20 +311,39 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .featureActions a {padding: 4px 7px; font-size: 13px;}
     .unifiWelcome header {width: 350px;}
     .unifiWelcome header h2 {font-size: 18px;}
+    .StableCoinTitle, .grimoireWelcome {width: 100%; margin-top: 100px; text-align: center;position: initial;z-index: 1;}
     .coverMenu {margin: 50px auto 50px auto; width: 240px; border: 3px solid #bab9b9; border-radius: 8px; text-align: left; padding: 8px 5px;}
     .coverMenu li {width: 200; display: inline-block; position: relative; margin-left: 25px;}
     .coverMenu li a {width: 100%; display: inline-block; padding: 5px 5px; text-decoration: none;}
     .coverMenu li a img {width: 35px; height: 35px; margin: 0 7px; vertical-align: middle;}
-    .coverMenu li a span {font-size: 16px; font-weight: bolder; text-shadow:2px 2px 2px #5d5e60; color: #bab9b9; vertical-align: middle;}
+    .coverMenu li a span {font-size: 16px; font-weight: bolder; vertical-align: middle;}
     .coverMenu li .menuArrow {display: none;}
     .coverMenu li:hover .menuArrow {width: 20px; height: 20px; position: absolute; left: -15px; top: 15px; display: block;}
     .coverMenu .menuArrow img {width: 20px; height: 20px;}
+    .unifiDapp .MenuOpen {text-align: left; position: absolute; left: 90px; top: 50px; z-index: 99999999999999;}
+    .unifiDapp .MenuOpen .coverMenu {margin: 0;z-index: 99999999999999;outline: -webkit-focus-ring-color auto 0px;}
     .unifiWelcome .MenuOpen {display: inline-block !important;}
     .MenuOpen {width: 100%; display: inline-block; text-align: center;}
-    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 590px; padding: 20px; border-radius: 8px; display: inline-block;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 480px; display: inline-block; vertical-align: middle;}
-    .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle;}
+    .StableCoinTitle img, .grimoireWelcome img {width: 80px; height: 80px; margin-right: 10px; vertical-align: middle; z-index: 1;}
+    .grimoireWelcome .GrimImg2 {width: 70px; height: 70px; position: absolute;bottom: -10px;left: -15px; z-index: 2;}
     footer .welcomeLinks, footer p {width: 500px; padding: 20px;}
+    .grimoireIndex {width: 350px;}
+    .DuGustis {position: relative;}
+    .BazSelectorContainer {width: 70%; left: 15%;}
+    .BazSelectorContainerMenuintern {width: 100%;}
+    .unifiDapp .MenuAll .connectOpener {float: right; margin-right: 20px; text-decoration: none;}
+    .unifiDapp .MenuAll .connectOpener img {width: 25px; height: 25px; vertical-align: middle;}
+    .unifiDapp .MenuAll .menuOpener, .unifiDapp .MenuAll .connectOpener span {font-size: 18px; font-weight: bold;}
+    .unifiDapp .MenuAll .connectOpener span {font-size: 18px; vertical-align: middle;}
+    .BoomerModeToggler {width: 35px; height: 35px; display: inline-block; text-align: center; border-radius: 10px; position: fixed; top: 10px; right: 230px; text-decoration: none;line-height: 2; font-size: 16px;}
+    .CallToGrim {display: inline-block;}
+    .unifiDapp .MenuAll .maghetto {width: 40px; height: 40px; float: left;margin: 5px 10px 0 20px;}
+    .grimoireIndex h2 {font-size: 30px; margin-bottom: 20px; margin-top: 0;}
+    .grimoireIndex a {width: 100%; padding: 20px 0; display: inline-block; font-size: 18px; vertical-align: middle;}
+    .grimoireIndex a img {width: 30px;height: 30px; margin-right: 6px; vertical-align: middle;}
+    
 
 }
 @media only screen and (min-width: 890px) {
@@ -181,9 +357,12 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
     .featureActions a {padding: 4px 7px; font-size: 18px; border: 4px solid #5d5e60;}
     .unifiWelcome header {width: 500px;}
     .unifiWelcome header h2 {font-size: 20px;}
-    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern {width: 740px;}
+    .StableCoinTitle .StableCoinTitleIntern, .grimoireWelcome .grimoireWelcomeIntern, .grimoireBox {width: 740px;}
     .StableCoinTitleIntern article, .grimoireWelcomeIntern article {width: 590px;}
     .StableCoinTitle img, .grimoireWelcome img {width: 100px; height: 100px;}
     footer .welcomeLinks, footer p {width: 500px;}
+    .grimoireIndex {width: 450px;}
+    .BazSelectorContainer {width: 50%; left: 25%;}
+    .BazSelectorContainerMenuintern {width: 100%;}
     
 }

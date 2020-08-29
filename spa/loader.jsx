@@ -25,7 +25,7 @@ var Loader = React.createClass({
      },*/
     render() {
         return (
-            <img className={this.props.loaderClass} src={this.props.loaderImg}></img>
+            <img className={this.props.loaderClass || "loaderRegular"} src={this.props.loaderImg || "assets/img/loader1.gif"}></img>
         );
     }
 });

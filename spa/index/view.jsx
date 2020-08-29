@@ -3,24 +3,34 @@ var Index = React.createClass({
         'spa/loader.jsx'
     ],
     requiredModules: [
-        'spa/explainer'
+        'spa/explainer',
+        'spa/dappMenu'
     ],
+    getCustomLoader() {
+        return (<section className="Intro">
+            <img className="introLoader" src="assets/img/loaderwow.gif" />
+            <h1>Welcome to the <span><b>UniFi</b></span> World</h1>
+        </section>);
+    },
     getDefaultSubscriptions() {
         return {
-            'section/change': this.sectionChange
+            'section/change': this.sectionChange,
+            'visual/mode/toggle': this.toggleBoomerMode
         };
     },
     sectionChange(section, props) {
         var _this = this;
         ReactModuleLoader.load({
-            modules : ['spa/' + section.firstLetterToLowerCase()],
-            callback: () => _this.setState({section: section.firstLetterToUpperCase(), props})
+            modules: ['spa/' + section.firstLetterToLowerCase()],
+            callback: () => _this.setState({ section: section.firstLetterToUpperCase(), props })
         });
     },
+    toggleBoomerMode() {
+        window.localStorage.setItem('boomerMode', !this.domRoot.hasClass('Boomer'));
+        this.forceUpdate();
+    },
     componentDidMount() {
-        var section = window.addressBarParams.section;
-        delete window.addressBarParams.section;
-        section && this.sectionChange(section);
+        this.controller.onSection();
     },
     render() {
         var props = {};
@@ -29,7 +39,7 @@ var Index = React.createClass({
         props.props && Object.entries(props.props).forEach(entry => props[entry[0]] = entry[1]);
         delete props.props;
         return (
-            <section className="unifiAll">
+            <section className={"unifiAll " + (window.localStorage.boomerMode === 'true' ? "Boomer" : "RPG")}>
                 {React.createElement(window[props.section || 'Explainer'], props)}
             </section>
         );
