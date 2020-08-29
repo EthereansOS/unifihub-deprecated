@@ -8,6 +8,7 @@ var StableCoinController = function (view) {
         context.view.forceUpdate();
         context.loadPairs();
         context.loadEconomicData();
+        context.view.economicDataInterval = context.view.economicDataInterval || setInterval(context.loadEconomicData, window.context.refreshDataPollingInterval);
     };
 
     context.loadEconomicData = async function loadEconomicData() {

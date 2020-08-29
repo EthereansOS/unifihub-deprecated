@@ -38,6 +38,7 @@
     "blockSearchSection" : 9000000,
     "deploySearchStart": 9779603,
     "deploySearchStartRopsten": 7465062,
+    "refreshDataPollingInterval" : 10000,
     "typeTimeout" : 600,
     "defaultCharsAmount" : 90,
     "transactionConfirmations": 0,

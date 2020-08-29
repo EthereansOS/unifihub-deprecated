@@ -20,6 +20,8 @@ var StableCoin = React.createClass({
     },
     componentWillUnmount() {
         delete this.oldStableCoin;
+        this.economicDataInterval && window.clearInterval(this.economicDataInterval);
+        delete this.economicDataInterval;
     },
     onActionChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
