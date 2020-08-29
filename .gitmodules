@@ -1,0 +1,3 @@
+[submodule "docs/build"]
+	path = docs/build
+	url = git@github.com:b-u-i-d-l/unifi-docs.git
