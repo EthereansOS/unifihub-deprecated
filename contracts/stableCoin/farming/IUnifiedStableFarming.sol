@@ -1,33 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
-
-interface IUnifiedStableFarming {
-
-    //Earn pumping uSD - Means burn uSD then swap the chosen Uniswap Pool tokens for uSD
-    function earnByPump(
-        address stableCoinAddress,
-        uint256 pairIndex,
-        uint256 pairAmount,
-        uint256 amount0,
-        uint256 amount1,
-        address tokenAddress,
-        uint256 tokenValue) external;
-
-    //Earn dumping uSD - Means mint uSD then swap uSD for the chosen Uniswap Pool tokens
-    function earnByDump(
-        address stableCoinAddress,
-        uint256 pairIndex,
-        uint256 amount0,
-        uint256 amount1,
-        uint256 amount0Min,
-        uint256 amount1Min,
-        uint256[] calldata tokenIndices,
-        uint256[] calldata stableCoinAmounts) external;
-}
+pragma solidity ^0.6.0;
 
 interface IStableCoin {
-
     function allowedPairs() external view returns (address[] memory);
 
     function fromTokenToStable(address tokenAddress, uint256 amount)
@@ -53,18 +28,85 @@ interface IStableCoin {
 
 interface IUniswapV2Pair {
     function token0() external view returns (address);
+
     function token1() external view returns (address);
 }
 
 interface IUniswapV2Router {
-    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
-    function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts);
+    function getAmountsOut(uint256 amountIn, address[] calldata path)
+        external
+        view
+        returns (uint256[] memory amounts);
+
+    function swapExactTokensForTokens(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external returns (uint256[] memory amounts);
 }
 
 interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
+
     function transfer(address recipient, uint256 amount) external returns (bool);
+
     function allowance(address owner, address spender) external view returns (uint256);
+
     function approve(address spender, uint256 amount) external returns (bool);
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+}
+
+interface IUnifiedStableFarming {
+    /**
+     * @dev Earn by pumping $uSD: Swap stablecoins for $uSD in their pools, then burn $uSD until
+     *  equilibrium.
+     * @param stableCoinAddress Address of the $uSD stablecoin
+     * @param pairIndex Index of the pair inside the whitelisted pairs array
+     * @param pairAmount
+     * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
+     * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
+     * @param tokenAddress Address of the token to swap to get $uSD
+     * @param tokenValue How much to swap for
+     */
+    function earnByPump(
+        address stableCoinAddress,
+        uint256 pairIndex,
+        uint256 pairAmount,
+        uint256 amountAMin,
+        uint256 amountBMin,
+        address tokenAddress,
+        uint256 tokenValue
+    ) external;
+
+    /**
+     * @dev Earn by dumping $uSD: Mint stablecoins obtaining $usd then swap it back for caller choice of
+     * stablecoins
+     * @param stableCoinAddress Address of the uSD stablecoin
+     * @param pairIndex Index of the pair inside the whitelisted pairs array
+     * @param amountA Amount of tokenA
+     * @param amountB Amount of tokenB
+     * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
+     * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
+     * @param tokenIndices Array of indices identifying which stablecoins to obtain as result of the
+     * arbitrage
+     * @param stableCoinAmounts Array of containing the amounts of stablecoins to get as result of the
+     * arbitrage
+     */
+    function earnByDump(
+        address stableCoinAddress,
+        uint256 pairIndex,
+        uint256 amountA,
+        uint256 amountB,
+        uint256 amountAMin,
+        uint256 amountBMin,
+        uint256[] calldata tokenIndices,
+        uint256[] calldata stableCoinAmounts
+    ) external;
 }

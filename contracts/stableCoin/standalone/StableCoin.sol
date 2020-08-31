@@ -248,6 +248,7 @@ contract StableCoin is ERC20, IStableCoin {
 
     /**
      * @inheritdoc IStableCoin
+     * @dev Burn $usd to get back stablecoins from the pools
      */
     function burn(
         uint256 pairIndex,
@@ -257,6 +258,7 @@ contract StableCoin is ERC20, IStableCoin {
     ) public override _forAllowedPair(pairIndex) returns (uint256 removedA, uint256 removedB) {
         (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
+        // Remove pooled stablecoins
         (removedA, removedB) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
             tokenA,
             tokenB,
@@ -266,6 +268,7 @@ contract StableCoin is ERC20, IStableCoin {
             msg.sender,
             block.timestamp + 1000
         );
+        // Actually burn the $uSD
         _burn(
             msg.sender,
             fromTokenToStable(tokenA, removedA) + fromTokenToStable(tokenB, removedB)
@@ -401,8 +404,6 @@ contract StableCoin is ERC20, IStableCoin {
      *  amountADesired/amountBDesired (B depreciates).
      * @param amountAMin Bounds the extent to which the B/A price can go up before the transaction reverts. Must be <= amountADesired.
      * @param amountBMin Bounds the extent to which the A/B price can go up before the transaction reverts. Must be <= amountBDesired.
-     *
-     * =====
      *
      * @return amountA The amount of tokenA sent to the pool
      * @return amountB The amount of tokenB sent to the pool

@@ -128,10 +128,11 @@ interface IStableCoin {
     ) external returns (uint256);
 
     /**
-     * Mint logic of the StableCoin.
-     * @dev Mint the $uSD token
+     * Burn logic of the StableCoin.
+     * @dev Burn the $uSD token
      *
      * @param pairIndex Index of the pair inside the allowedPairs array
+     * @param pairAmount Amount of Uniswap liquidity tokens to send back to the pool
      * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
      * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
      *
