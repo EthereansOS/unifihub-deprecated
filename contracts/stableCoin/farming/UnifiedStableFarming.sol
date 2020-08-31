@@ -8,7 +8,14 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
     address
         private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
-    //Earn pumping uSD - Means burn uSD then swap the chosen Uniswap Pool tokens for uSD
+    uint256[] private _percentage;
+
+    constructor(uint256[] memory percentage) {
+        assert(percentage.length == 2);
+        _percentage = percentage;
+    }
+
+    //Earn pumping uSD - Means swap a chosen stableCoin for uSD, then burn the difference of uSD to obtain a greater uSD value in Uniswap Pool tokens
     function earnByPump(
         address stableCoinAddress,
         uint256 pairIndex,
@@ -54,11 +61,13 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         uint256 stableCoinAmount
     ) private view returns (bool) {
         IStableCoin stableCoin = IStableCoin(stableCoinAddress);
-        uint256 cumulative = stableCoinAmount;
+        uint256 cumulative = stableCoin.fromTokenToStable(tokenAddress, tokenValue);
         cumulative += stableCoin.fromTokenToStable(token0, return0);
         cumulative += stableCoin.fromTokenToStable(token1, return1);
-        uint256 tokenValueInStable = stableCoin.fromTokenToStable(tokenAddress, tokenValue);
-        return tokenValueInStable >= cumulative;
+        uint256 percentage = (cumulative * _percentage[0]) / _percentage[1];
+        uint256 cumulativePlus = cumulative + percentage;
+        uint256 cumulativeMinus = cumulative - percentage;
+        return stableCoinAmount >= cumulativeMinus && stableCoinAmount <= cumulativePlus;
     }
 
     //Earn dumping uSD - Means mint uSD then swap uSD for the chosen Uniswap Pool tokens

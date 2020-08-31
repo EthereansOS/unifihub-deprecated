@@ -4,7 +4,7 @@ pragma solidity ^0.7.0;
 
 interface IUnifiedStableFarming {
 
-    //Earn pumping uSD - Means burn uSD then swap the chosen Uniswap Pool tokens for uSD
+    //Earn pumping uSD - Means swap a chosen stableCoin for uSD, then burn the difference of uSD to obtain a greater uSD value in Uniswap Pool tokens
     function earnByPump(
         address stableCoinAddress,
         uint256 pairIndex,
