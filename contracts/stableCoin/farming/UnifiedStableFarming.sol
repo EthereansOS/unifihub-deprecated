@@ -46,7 +46,19 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
             stableCoinAddress,
             pairIndex
         );
-        require(_isPumpOK(stableCoinAddress, tokenAddress, tokenValue, token0, return0, token1, return1, stableCoinAmount), "Values are not coherent");
+        require(
+            _isPumpOK(
+                stableCoinAddress,
+                tokenAddress,
+                tokenValue,
+                token0,
+                return0,
+                token1,
+                return1,
+                stableCoinAmount
+            ),
+            "Values are not coherent"
+        );
         _flushToSender(token0, token1, stableCoinAddress);
     }
 
@@ -61,13 +73,18 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         uint256 stableCoinAmount
     ) private view returns (bool) {
         IStableCoin stableCoin = IStableCoin(stableCoinAddress);
-        uint256 cumulative = stableCoin.fromTokenToStable(tokenAddress, tokenValue);
+        uint256 cumulative = stableCoin.fromTokenToStable(
+            tokenAddress,
+            tokenValue
+        );
         cumulative += stableCoin.fromTokenToStable(token0, return0);
         cumulative += stableCoin.fromTokenToStable(token1, return1);
         uint256 percentage = (cumulative * _percentage[0]) / _percentage[1];
         uint256 cumulativePlus = cumulative + percentage;
         uint256 cumulativeMinus = cumulative - percentage;
-        return stableCoinAmount >= cumulativeMinus && stableCoinAmount <= cumulativePlus;
+        return
+            stableCoinAmount >= cumulativeMinus &&
+            stableCoinAmount <= cumulativePlus;
     }
 
     //Earn dumping uSD - Means mint uSD then swap uSD for the chosen Uniswap Pool tokens
