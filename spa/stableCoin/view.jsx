@@ -27,21 +27,38 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var value = e.currentTarget.value;
         var _this = this;
-        _this.setState({ myBalance: null, burnValue : null }, function () {
+        _this.setState({ myBalance: null, burnValue: null }, function () {
             value === 'Burn' && _this.controller.getMyBalance().then(function (myBalance) {
                 _this.setState({ myBalance });
+            });
+        });
+    },
+    onTokenInPairsChange(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var _this = this;
+        this.setState({ selectedTokenInPairs: this.state.tokensInPairs[e.currentTarget.value], token0Approved: null, token1Approved: null }, function () {
+            _this.controller.checkApprove(_this.state.selectedTokenInPairs);
+            var value = $(_this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0].value;
+            _this.controller.calculateEarnByPumpData(_this.state.selectedTokenInPairs, _this.state.selectedFarmPair, window.toDecimals(value, _this.state.selectedTokenInPairs.decimals)).then(function (earnByPumpData) {
+                _this.setState({ earnByPumpData });
             });
         });
     },
     onPairChange(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
-        this.setState({ selectedPair: this.state.pairs[e.currentTarget.value], token0Approved: null, token1Approved: null }, function () {
+        e.currentTarget.dataset.target === 'classic' && this.setState({ selectedPair: this.state.pairs[e.currentTarget.value], token0Approved: null, token1Approved: null }, function () {
             $(_this.domRoot).children().find('input[data-token="0"]')[0].value = '0.00';
             $(_this.domRoot).children().find('input[data-token="0"]')[0].dataset.value = '0';
             $(_this.domRoot).children().find('input[data-token="1"]')[0].value = '0.00';
             $(_this.domRoot).children().find('input[data-token="1"]')[0].dataset.value = '0';
             _this.controller.checkApprove(_this.state.selectedPair);
+        });
+        e.currentTarget.dataset.target === 'farm' && this.setState({ selectedFarmPair: this.state.pairs[e.currentTarget.value] }, function () {
+            var value = $(_this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0].value;
+            _this.controller.calculateEarnByPumpData(_this.state.selectedTokenInPairs, _this.state.selectedFarmPair, window.toDecimals(value, _this.state.selectedTokenInPairs.decimals)).then(function (earnByPumpData) {
+                _this.setState({ earnByPumpData });
+            });
         });
     },
     onType(e) {
@@ -50,17 +67,20 @@ var StableCoin = React.createClass({
         var target = e.currentTarget;
         _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
         _this.onTypeTimeout = setTimeout(function () {
-            var decimals = target.dataset.token === 'stableCoin' ? window.stableCoin.decimals : _this.state.selectedPair["token" + target.dataset.token].decimals
+            var decimals = target.dataset.token === 'stableCoin' ? window.stableCoin.decimals : target.dataset.token === 'selectedTokenInPairs' ? _this.state.selectedTokenInPairs.decimals : _this.state.selectedPair["token" + target.dataset.token].decimals;
             target.dataset.value = window.toDecimals(target.value, decimals);
-            target.dataset.token !== 'stableCoin' && _this.controller.calculateOtherPair(_this.state.selectedPair, target.dataset.token, target.value, _this.actionSelect.value).then(result => {
+            (target.dataset.token === '0' || target.dataset.token === '1') && _this.controller.calculateOtherPair(_this.state.selectedPair, target.dataset.token, target.value, _this.actionSelect.value).then(result => {
                 var otherId = (target.dataset.token === "0" ? "1" : "0");
                 var otherTarget = $(_this.domRoot).children().find('input[data-token="' + otherId + '"]')[0];
                 otherTarget.dataset.value = result;
                 otherTarget.value = window.formatMoney(window.fromDecimals(result, _this.state.selectedPair["token" + otherId].decimals, true), 6);
                 _this.refreshStableCoinOutput();
             });
-            target.dataset.token === 'stableCoin' && _this.controller.calculateBurnValue(_this.state.selectedPair, target.dataset.value).then(function(burnValue) {
-                _this.setState({burnValue});
+            target.dataset.token === 'stableCoin' && _this.controller.calculateBurnValue(_this.state.selectedPair, target.dataset.value).then(function (burnValue) {
+                _this.setState({ burnValue });
+            });
+            target.dataset.token === 'selectedTokenInPairs' && _this.controller.calculateEarnByPumpData(_this.state.selectedTokenInPairs, _this.state.selectedFarmPair, target.dataset.value).then(function (earnByPumpData) {
+                _this.setState({ earnByPumpData });
             });
         }, window.context.typeTimeout);
     },
@@ -75,7 +95,7 @@ var StableCoin = React.createClass({
         if (e.currentTarget.className.toLowerCase().indexOf("disabled") !== -1) {
             return;
         }
-        if(this.actionSelect.value === 'Mint') {
+        if (this.actionSelect.value === 'Mint') {
             var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
             var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
             this.controller["perform" + this.actionSelect.value](this.state.selectedPair, token0Value, token1Value);
@@ -117,7 +137,7 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
         var token = e.currentTarget.dataset.token;
-        token !== 'stableCoin' && this.controller.getBalance(this.state.selectedPair).then(function () {
+        (token === '0' || token === '1') && this.controller.getBalance(this.state.selectedPair).then(function () {
             var input = $(_this.domRoot).children().find(`input[data-token="${token}"]`)[0];
             var max = _this.state.selectedPair["token" + token].balance;
             input.value = window.fromDecimals(max, _this.state.selectedPair["token" + token].decimals, true);
@@ -126,12 +146,20 @@ var StableCoin = React.createClass({
             });
         });
         token === 'stableCoin' && this.controller.getMyBalance().then(function (myBalance) {
-            _this.setState({myBalance}, function() {
+            _this.setState({ myBalance }, function () {
                 var input = $(_this.domRoot).children().find(`input[data-token="${token}"]`)[0];
                 input.value = window.fromDecimals(myBalance, window.stableCoin.decimals, true);
                 _this.onType({
                     currentTarget: input
                 });
+            });
+        });
+        token === 'selectedTokenInPairs' && this.controller.getBalance(this.state.selectedTokenInPairs).then(function () {
+            var input = $(_this.domRoot).children().find(`input[data-token="${token}"]`)[0];
+            var max = _this.state.selectedTokenInPairs.balance;
+            input.value = window.fromDecimals(max, _this.state.selectedTokenInPairs.decimals, true);
+            _this.onType({
+                currentTarget: input
             });
         });
     },
@@ -217,9 +245,79 @@ var StableCoin = React.createClass({
                     <p>{this.state.selectedPair.token1.symbol}</p>
                     {window.walletAddress && this.state && this.state.selectedPair && this.state.selectedPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedPair.token1.symbol}</h6>}
                 </label>
-                <br/>
+                <br />
                 {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className="StableITBTN">GO</a>}
                 {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+            </section>
+        );
+    },
+    renderDump() {
+        return (<section>Dump</section>);
+    },
+    renderPump() {
+        return (
+            <section>
+                {window.stableCoin && window.stableCoin.name && window.stableCoin.symbol && <section className="StableCoinTitle">
+                    <section className="StableCoinTitleIntern">
+                        <img src="assets/img/m4.png"></img>
+                        <article>
+                            <h2>{window.stableCoin.name.firstLetterToUpperCase()}</h2>
+                            <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
+                        </article>
+                    </section>
+                </section>}
+                <section className="UniBox">
+                    <section className="UniTierQuantity">
+                        <select onChange={this.onTokenInPairsChange}>
+                            {this.state && this.state.tokensInPairs && Object.values(this.state.tokensInPairs).map(it => <option key={it.address} value={it.address}>{it.symbol}</option>)}
+                        </select>
+                        {this.state && this.state.selectedTokenInPairs && <label className="UniDisactiveQuantityTier">
+                            <input data-token="selectedTokenInPairs" onChange={this.onType} />
+                            <img src={this.state.selectedTokenInPairs.logo} />
+                            <p>{this.state.selectedTokenInPairs.symbol}</p>
+                            {window.walletAddress && <h6><a href="javascript:;" data-token="selectedTokenInPairs" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedTokenInPairsBalance, this.state.selectedTokenInPairs.decimals)} {this.state.selectedTokenInPairs.symbol}</h6>}
+                        </label>}
+                        <label>
+                            <p> by</p>
+                            <select data-target="farm" onChange={this.onPairChange}>
+                                {this.state && this.state.pairs && this.state.pairs.map((it) => {
+                                    if (it.disabled) {
+                                        return;
+                                    }
+                                    return (<option key={it.name} value={it.index}>
+                                        {it.name}
+                                    </option>);
+                                })}
+                            </select>
+                        </label>
+                        <br />
+                        {window.walletAddress && !this.state.selectedTokenInPairsApproved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="selectedTokenInPairs" className={this.state.selectedTokenInPairsApproved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedTokenInPairs.symbol}</a>}
+                        {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
+                        {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className="StableITBTN">GO</a>}
+                        {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+                    </section>
+                </section>
+                <section className="UniSideBox">
+                    <h2>for</h2>
+                    {this.state && this.state.earnByPumpData && this.state.earnByPumpData.valueInStable && <label className="UniActiveQuantityTier">
+                        <span>{window.fromDecimals(this.state.earnByPumpData.valueInStable, window.stableCoin.decimals)}</span>
+                        <img src={window.stableCoin.logo} />
+                        <p>{window.stableCoin.symbol}</p>
+                    </label>}
+                    {this.state && this.state.selectedFarmPair && <label className="UniActiveQuantityTier">
+                        <span>{(this.state && this.state.earnByPumpData && window.fromDecimals(this.state.earnByPumpData.token0, this.state.selectedFarmPair.token0.decimals)) || '0.00'}</span>
+                        <img src={this.state.selectedFarmPair.token0.logo} />
+                        <p>{this.state.selectedFarmPair.token0.symbol}</p>
+                        {window.walletAddress && this.state && this.state.selectedFarmPair && this.state.selectedFarmPair.token0.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedFarmPair.token0.balance, this.state.selectedFarmPair.token0.decimals)}</b>{'\u00a0'}{this.state.selectedFarmPair.token0.symbol}</h6>}
+                    </label>}
+                    <h5>And</h5>
+                    {this.state && this.state.selectedFarmPair && <label className="UniDisactiveQuantityTier">
+                        <span>{(this.state && this.state.earnByPumpData && window.fromDecimals(this.state.earnByPumpData.token1, this.state.selectedFarmPair.token1.decimals)) || '0.00'}</span>
+                        <img src={this.state.selectedFarmPair.token1.logo} />
+                        <p>{this.state.selectedFarmPair.token1.symbol}</p>
+                        {window.walletAddress && this.state && this.state.selectedFarmPair && this.state.selectedFarmPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedFarmPair.token1.balance, this.state.selectedFarmPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedFarmPair.token1.symbol}</h6>}
+                    </label>}
+                </section>
             </section>
         );
     },
@@ -263,7 +361,7 @@ var StableCoin = React.createClass({
                         </label>
                         <label>
                             <p> by</p>
-                            <select onChange={this.onPairChange}>
+                            <select data-target="classic" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
                                     if (it.disabled) {
                                         return;
@@ -338,6 +436,8 @@ var StableCoin = React.createClass({
                     </section>}
                     <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
+                {this.state && this.state.priceInDollars && this.state.priceInDollars > window.context.farmingShowRuleDump && this.state.selectedPair && this.renderDump()}
+                {this.state && this.state.priceInDollars && this.state.priceInDollars < window.context.farmingShowRulePump && this.state.selectedPair && this.renderPump()}
                 {this.state && this.state.grimoire && <GrimuSD />}
             </section>
         );

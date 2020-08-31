@@ -4,6 +4,7 @@ var StableCoinController = function (view) {
 
     context.loadData = async function loadData() {
         await window.loadEthereumStuff(context.view.oldStableCoin);
+        window.stableFarming = window.newContract(window.context.UnifiedStableFarmingAbi, window.context.farmingContractAddress);
         delete window.addressBarParams.useOldStableCoin;
         context.view.forceUpdate();
         context.loadPairs();
@@ -35,6 +36,7 @@ var StableCoinController = function (view) {
     context.loadPairs = async function loadPairs() {
         context.view.setState({ pairs: null, token0Approved: null, token1Approved: null, selectedPair : null });
         var pairs = [];
+        var tokensInPairs = {};
         for (var pairAddress of await window.blockchainCall(window.stableCoin.token.methods.allowedPairs)) {
             var pair = window.newContract(window.context.UniswapV2PairAbi, pairAddress);
             var pairData = {
@@ -53,10 +55,17 @@ var StableCoinController = function (view) {
             total = parseFloat(total);
             if(total < window.context.uSDPoolLimit) {
                 pairData.disabled = true;
+            } else {
+                if(await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token0.address) !== window.voidEthereumAddress) {
+                    tokensInPairs[pairData.token0.address] = tokensInPairs[pairData.token0.address] || pairData.token0;
+                }
+                if(await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token1.address) !== window.voidEthereumAddress) {
+                    tokensInPairs[pairData.token1.address] = tokensInPairs[pairData.token1.address] || pairData.token1;
+                }
             }
             pairs.push(pairData);
         }
-        context.view.setState({ pairs, selectedPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, function () {
+        context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, function () {
             context.checkApprove(context.view.state.selectedPair);
             context.getTotalCoins();
         });
@@ -71,8 +80,9 @@ var StableCoinController = function (view) {
     };
 
     context.getBalance = async function getBalance(selectedPair) {
-        selectedPair.token0.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token0.token.methods.balanceOf, window.walletAddress);
-        selectedPair.token1.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token1.token.methods.balanceOf, window.walletAddress);
+        selectedPair.token0 && (selectedPair.token0.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token0.token.methods.balanceOf, window.walletAddress));
+        selectedPair.token1 && (selectedPair.token1.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token1.token.methods.balanceOf, window.walletAddress));
+        selectedPair.token && (selectedPair.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token.methods.balanceOf, window.walletAddress));
         context.view.setState(selectedPair);
     };
 
@@ -80,13 +90,15 @@ var StableCoinController = function (view) {
         context.getBalance(pairData);
         var token0Approved = null;
         var token1Approved = null;
-        context.view.setState({ token0Approved, token1Approved });
+        var selectedTokenInPairsApproved = null;
+        context.view.setState({ selectedTokenInPairsApproved, token0Approved, token1Approved });
         if (!window.walletAddress) {
             return;
         }
-        token0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0;
-        token1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0;
-        context.view.setState({ token0Approved, token1Approved });
+        pairData.token0 && (token0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token1 && (token1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token && (selectedTokenInPairsApproved = parseInt(await window.blockchainCall(pairData.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        context.view.setState({ selectedTokenInPairsApproved, token0Approved, token1Approved });
     };
 
     context.approve = async function approve(pairData, token) {
@@ -94,8 +106,8 @@ var StableCoinController = function (view) {
         var errorMessage;
         var state = { approving: null };
         try {
-            await window.blockchainCall(pairData["token" + token].token.methods.approve, window.stableCoin.address, window.numberToString(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff));
-            state['token' + token + 'Approved'] = true;
+            await window.blockchainCall((token !== 'selectedTokenInPairs' ? pairData["token" + token] : context.view.state.selectedTokenInPairs).token.methods.approve, (token !== 'selectedTokenInPairs' ? window.stableCoin.address : window.stableFarming.options.address), window.numberToString(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff));
+            state[(token !== 'selectedTokenInPairs' ? ('token' + token) : 'selectedTokenInPairs') + 'Approved'] = true;
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {
@@ -432,5 +444,26 @@ var StableCoinController = function (view) {
             priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
             context.view.setState({priceInDollars});
         } catch (e) {}
+    };
+
+    context.earnByPump = async function earnByPump() {
+
+    };
+
+    context.earnByDump = async function earnByDump() {
+
+    };
+
+    context.calculateEarnByPumpData = async function calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value) {
+        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+            return null;
+        }
+        var earnByPumpData = {};
+        earnByPumpData.output = (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [selectedTokenInPairs.address, window.stableCoin.address]))[1];
+        earnByPumpData.valueInStable = context.fromTokenToStable(selectedTokenInPairs.decimals, value);
+        var diff = window.web3.utils.toBN(earnByPumpData.output).sub(window.web3.utils.toBN(earnByPumpData.valueInStable)).toString();
+        var burnValueData = await context.calculateBurnValue(selectedFarmPair, diff);
+        Object.entries(burnValueData).forEach(it => earnByPumpData[it[0]] = it[1]);
+        return earnByPumpData;
     };
 };
