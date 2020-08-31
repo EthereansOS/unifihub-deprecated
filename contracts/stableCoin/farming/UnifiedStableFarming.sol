@@ -15,6 +15,10 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         _percentage = percentage;
     }
 
+    function percentage() public override view returns(uint256[] memory) {
+        return _percentage;
+    }
+
     //Earn pumping uSD - Means swap a chosen stableCoin for uSD, then burn the difference of uSD to obtain a greater uSD value in Uniswap Pool tokens
     function earnByPump(
         address stableCoinAddress,
