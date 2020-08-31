@@ -11,7 +11,7 @@ var StableCoin = React.createClass({
         return {
             'ethereum/update': this.controller.loadData,
             'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair),
-            'success/message' : this.openSuccessMessage
+            'success/message': this.openSuccessMessage
         }
     },
     componentDidMount() {
@@ -27,7 +27,7 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var value = e.currentTarget.value;
         var _this = this;
-        _this.setState({ myBalance: null }, function () {
+        _this.setState({ myBalance: null, burnValue : null }, function () {
             value === 'Burn' && _this.controller.getMyBalance().then(function (myBalance) {
                 _this.setState({ myBalance });
             });
@@ -50,13 +50,17 @@ var StableCoin = React.createClass({
         var target = e.currentTarget;
         _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
         _this.onTypeTimeout = setTimeout(function () {
-            target.dataset.value = window.toDecimals(target.value, _this.state.selectedPair["token" + target.dataset.token].decimals);
-            _this.controller.calculateOtherPair(_this.state.selectedPair, target.dataset.token, target.value, _this.actionSelect.value).then(result => {
+            var decimals = target.dataset.token === 'stableCoin' ? window.stableCoin.decimals : _this.state.selectedPair["token" + target.dataset.token].decimals
+            target.dataset.value = window.toDecimals(target.value, decimals);
+            target.dataset.token !== 'stableCoin' && _this.controller.calculateOtherPair(_this.state.selectedPair, target.dataset.token, target.value, _this.actionSelect.value).then(result => {
                 var otherId = (target.dataset.token === "0" ? "1" : "0");
                 var otherTarget = $(_this.domRoot).children().find('input[data-token="' + otherId + '"]')[0];
                 otherTarget.dataset.value = result;
                 otherTarget.value = window.formatMoney(window.fromDecimals(result, _this.state.selectedPair["token" + otherId].decimals, true), 6);
                 _this.refreshStableCoinOutput();
+            });
+            target.dataset.token === 'stableCoin' && _this.controller.calculateBurnValue(_this.state.selectedPair, target.dataset.value).then(function(burnValue) {
+                _this.setState({burnValue});
             });
         }, window.context.typeTimeout);
     },
@@ -71,9 +75,14 @@ var StableCoin = React.createClass({
         if (e.currentTarget.className.toLowerCase().indexOf("disabled") !== -1) {
             return;
         }
-        var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
-        var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
-        this.controller["perform" + this.actionSelect.value](this.state.selectedPair, token0Value, token1Value);
+        if(this.actionSelect.value === 'Mint') {
+            var token0Value = $(this.domRoot).children().find('input[data-token="0"]')[0].dataset.value;
+            var token1Value = $(this.domRoot).children().find('input[data-token="1"]')[0].dataset.value;
+            this.controller["perform" + this.actionSelect.value](this.state.selectedPair, token0Value, token1Value);
+        } else {
+            var stableCoinValue = $(this.domRoot).children().find('input[data-token="stableCoin"]')[0].dataset.value;
+            this.controller["perform" + this.actionSelect.value](this.state.selectedPair, stableCoinValue);
+        }
     },
     approve(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -108,12 +117,21 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
         var token = e.currentTarget.dataset.token;
-        this.controller.getBalance(this.state.selectedPair).then(function () {
+        token !== 'stableCoin' && this.controller.getBalance(this.state.selectedPair).then(function () {
             var input = $(_this.domRoot).children().find(`input[data-token="${token}"]`)[0];
             var max = _this.state.selectedPair["token" + token].balance;
             input.value = window.fromDecimals(max, _this.state.selectedPair["token" + token].decimals, true);
             _this.onType({
                 currentTarget: input
+            });
+        });
+        token === 'stableCoin' && this.controller.getMyBalance().then(function (myBalance) {
+            _this.setState({myBalance}, function() {
+                var input = $(_this.domRoot).children().find(`input[data-token="${token}"]`)[0];
+                input.value = window.fromDecimals(myBalance, window.stableCoin.decimals, true);
+                _this.onType({
+                    currentTarget: input
+                });
             });
         });
     },
@@ -139,16 +157,71 @@ var StableCoin = React.createClass({
     closeSuccessMessage(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.successMessageCloseTimeout && window.clearTimeout(this.successMessageCloseTimeout);
-        this.setState({successMessage : null});
+        this.setState({ successMessage: null });
     },
     openSuccessMessage(successMessage) {
         this.closeSuccessMessage();
         var _this = this;
-        _this.setState({successMessage}, function() {
-            _this.successMessageCloseTimeout = setTimeout(function() {
+        _this.setState({ successMessage }, function () {
+            _this.successMessageCloseTimeout = setTimeout(function () {
                 //_this.closeSuccessMessage();
             }, 4000);
         });
+    },
+    renderMint() {
+        return (
+            <section className="UniTierQuantity">
+                <label className="UniActiveQuantityTier">
+                    <input data-token="0" onChange={this.onType} />
+                    <img src={this.state.selectedPair.token0.logo} />
+                    <p>{this.state.selectedPair.token0.symbol}</p>
+                    {window.walletAddress && <h6><a href="javascript:;" data-token="0" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token0.balance, this.state.selectedPair.token0.decimals)} {this.state.selectedPair.token0.symbol}</h6>}
+                </label>
+                <h5>And</h5>
+                <label className="UniDisactiveQuantityTier">
+                    <input data-token="1" onChange={this.onType} />
+                    <img src={this.state.selectedPair.token1.logo} />
+                    <p>{this.state.selectedPair.token1.symbol}</p>
+                    {window.walletAddress && <h6><a href="javascript:;" data-token="1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)} {this.state.selectedPair.token1.symbol}</h6>}
+                </label>
+                <h2>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
+                {window.walletAddress && this.state && this.state.myBalance && this.actionSelect && this.actionSelect.value === 'Burn' && <h6>Balance: <b>{window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)}</b>{'\u00a0'}{window.stableCoin.symbol}</h6>}
+                {window.walletAddress && (!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedPair.token0.symbol}</a>}
+                {window.walletAddress && this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
+                {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
+                {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "StableITBTN Disabled" : "StableITBTN"}>GO</a>}
+                {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+            </section>
+        );
+    },
+    renderBurn() {
+        return (
+            <section className="UniTierQuantity">
+                <label className="UniDisactiveQuantityTier">
+                    <input data-token="stableCoin" onChange={this.onType} />
+                    <img src={window.stableCoin.logo} />
+                    <p>{window.stableCoin.symbol}</p>
+                    {window.walletAddress && <h6><a href="javascript:;" data-token="stableCoin" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>}
+                </label>
+                <h2>for</h2>
+                <label className="UniActiveQuantityTier">
+                    <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token0, this.state.selectedPair.token0.decimals)) || '0.00'}</span>
+                    <img src={this.state.selectedPair.token0.logo} />
+                    <p>{this.state.selectedPair.token0.symbol}</p>
+                    {window.walletAddress && this.state && this.state.selectedPair && this.state.selectedPair.token0.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedPair.token0.balance, this.state.selectedPair.token0.decimals)}</b>{'\u00a0'}{this.state.selectedPair.token0.symbol}</h6>}
+                </label>
+                <h5>And</h5>
+                <label className="UniDisactiveQuantityTier">
+                    <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token1, this.state.selectedPair.token1.decimals)) || '0.00'}</span>
+                    <img src={this.state.selectedPair.token1.logo} />
+                    <p>{this.state.selectedPair.token1.symbol}</p>
+                    {window.walletAddress && this.state && this.state.selectedPair && this.state.selectedPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedPair.token1.symbol}</h6>}
+                </label>
+                <br/>
+                {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className="StableITBTN">GO</a>}
+                {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+            </section>
+        );
     },
     render() {
         return (
@@ -192,7 +265,7 @@ var StableCoin = React.createClass({
                             <p> by</p>
                             <select onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
-                                    if(it.disabled) {
+                                    if (it.disabled) {
                                         return;
                                     }
                                     return (<option key={it.name} value={it.index}>
@@ -202,28 +275,7 @@ var StableCoin = React.createClass({
                             </select>
                         </label>
                     </section>
-                    <section className="UniTierQuantity">
-                        <label className="UniActiveQuantityTier">
-                            <input data-token="0" onChange={this.onType} />
-                            <img src={this.state.selectedPair.token0.logo} />
-                            <p>{this.state.selectedPair.token0.symbol}</p>
-                            {window.walletAddress && <h6><a href="javascript:;" data-token="0" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token0.balance, this.state.selectedPair.token0.decimals)} {this.state.selectedPair.token0.symbol}</h6>}
-                        </label>
-                        <h5>And</h5>
-                        <label className="UniDisactiveQuantityTier">
-                            <input data-token="1" onChange={this.onType} />
-                            <img src={this.state.selectedPair.token1.logo} />
-                            <p>{this.state.selectedPair.token1.symbol}</p>
-                            {window.walletAddress && <h6><a href="javascript:;" data-token="1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)} {this.state.selectedPair.token1.symbol}</h6>}
-                        </label>
-                        <h2>for <b ref={ref => this.stableCoinOutput = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
-                        {window.walletAddress && this.state && this.state.myBalance && this.actionSelect && this.actionSelect.value === 'Burn' && <h6>Balance: <b>{window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)}</b>{'\u00a0'}{window.stableCoin.symbol}</h6>}
-                        {window.walletAddress && (!this.state.token0Approved || this.state.token1Approved) && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="0" className={this.state.token0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedPair.token0.symbol}</a>}
-                        {window.walletAddress && this.state.token0Approved && !this.state.token1Approved && (this.state.approving === undefined || this.state.approving === null) && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="1">Approve {this.state.selectedPair.token1.symbol}</a>}
-                        {this.state.approving !== undefined && this.state.approving !== null && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
-                        {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className={!this.state.token0Approved || !this.state.token1Approved ? "StableITBTN Disabled" : "StableITBTN"}>GO</a>}
-                        {this.state.performing && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
-                    </section>
+                    {this.actionSelect && this['render' + this.actionSelect.value]()}
                 </section>}
                 {this.state && this.state.selectedPair && <section className="UniSideBox">
                     {this.state && this.state.priceInDollars && <section className="SideStandard">
