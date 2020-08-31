@@ -105,15 +105,40 @@ var StableCoinController = function (view) {
         context.view.setState(state, () => errorMessage && setTimeout(() => alert(errorMessage)));
     }
 
-    context.calculateOtherPair = async function calculateOtherPair(pairData, token, firstValue) {
+    context.calculateOtherPair = async function calculateOtherPair(pairData, token, firstValue, noDecimals) {
         var firstToken = pairData["token" + token];
-        firstValue = window.toDecimals(firstValue.split(',').join(''), firstToken.decimals);
+        firstValue = noDecimals === true ? firstValue : window.toDecimals(firstValue.split(',').join(''), firstToken.decimals);
         var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
         var firstReserve = reserves[token];
         var secondReserve = reserves[token === "0" ? "1" : "0"];
         var amount = parseInt(firstValue) / parseInt(firstReserve);
         var secondValue = window.numberToString(parseInt(secondReserve) * amount).split(',').join('').split('.')[0];
         return secondValue;
+    };
+
+    context.calculateBurnValue = async function calculateBurnValue(pairData, value) {
+        var burnValue = {
+            token0 : '0',
+            token1 : '0'
+        };
+        var reserves = await context.getComplexReservePairData(pairData);
+
+        reserves.token0AmountInStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves[0]));
+        reserves.token1AmountInStable = parseInt(context.fromTokenToStable(pairData.token1.decimals, reserves[1]));
+        reserves.firstSecond = reserves.token0AmountInStable / reserves.token1AmountInStable;
+        reserves.secondFirst = reserves.token1AmountInStable / reserves.token0AmountInStable;
+        value = parseInt(value);
+        burnValue.token0 = (value * reserves.firstSecond) / 2;
+        burnValue.token1 = (value * reserves.secondFirst) / 2;
+        burnValue.token0 = context.fromStableToToken(pairData.token0.decimals, window.numberToString(burnValue.token0).split(',').join('').split('.')[0]);
+        burnValue.token1 = context.fromStableToToken(pairData.token1.decimals, window.numberToString(burnValue.token1).split(',').join('').split('.')[0]);
+        var stableCoinOutput = await context.getStableCoinOutput(pairData, burnValue.token0, burnValue.token1);
+        var rate = value / parseInt(stableCoinOutput);
+        burnValue.token0 = parseInt(burnValue.token0) * rate;
+        burnValue.token0 = window.numberToString(burnValue.token0).split(',').join('').split('.')[0];
+        burnValue.token1 = parseInt(burnValue.token1) * rate;
+        burnValue.token1 = window.numberToString(burnValue.token1).split(',').join('').split('.')[0];
+        return burnValue;
     };
 
     context.getStableCoinOutput = function getStableCoinOutput(pairData, token0Value, token1Value) {
@@ -129,6 +154,14 @@ var StableCoinController = function (view) {
             return value;
         }
         return window.toDecimals(value, remainingDecimals);
+    };
+
+    context.fromStableToToken = function fromStableToToken(decimals, value) {
+        var remainingDecimals = parseInt(window.stableCoin.decimals) - parseInt(decimals);
+        if (remainingDecimals === 0) {
+            return value;
+        }
+        return window.fromDecimals(value, remainingDecimals, true).split('.')[0];
     };
 
     context.performMint = async function performMint(pairData, token0Value, token1Value) {
@@ -175,6 +208,10 @@ var StableCoinController = function (view) {
         context.view.setState({ approving: null, performing: true });
         var errorMessage;
         try {
+            var oldStableCoinOutput = token0Value;
+            var burnValue = await context.calculateBurnValue(pairData, token0Value);
+            token0Value = burnValue.token0;
+            token1Value = burnValue.token1;
             var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
             if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
                 throw `You must insert a positive ${pairData.token0.symbol} amount`;
@@ -187,9 +224,15 @@ var StableCoinController = function (view) {
                 throw `You have insufficient ${window.stableCoin.symbol}`;
             }
             var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
-            var amount = parseInt(token0Value) / parseInt(reserves[0]);
+            var ratePool0 = parseInt(token0Value) / parseInt(reserves[0]);
+            var ratePool1 = parseInt(token1Value) / parseInt(reserves[1]);
+            token0Value = parseInt(token0Value) * ratePool0;
+            token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
+            token1Value = parseInt(token1Value) * ratePool0;
+            token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
+            var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
             var totalSupply = await window.blockchainCall(pairData.pair.methods.totalSupply);
-            var supplyInPercentage = window.numberToString(parseInt(totalSupply) * amount).split(',').join('').split('.')[0];
+            var supplyInPercentage = window.numberToString(parseInt(totalSupply) * ratePool).split(',').join('').split('.')[0];
             var balance = await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address);
             if (parseInt(supplyInPercentage) > parseInt(balance)) {
                 throw window.stableCoin.symbol + " has insufficient balance in pool to perform this operation";
@@ -257,16 +300,7 @@ var StableCoinController = function (view) {
         var selectedPairData = context.view.state.pairs[0];
         var selectedReserves;
         for (var pairData of context.view.state.pairs) {
-            var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
-            reserves.poolBalance = parseInt(await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address));
-            var totalSupply = parseInt(await window.blockchainCall(pairData.pair.methods.totalSupply));
-            var amount = reserves.poolBalance / totalSupply;
-            reserves.token0 = parseInt(reserves[0]) * amount;
-            reserves.token1 = parseInt(reserves[1]) * amount;
-            reserves.token0 = window.numberToString(reserves.token0).split(',').join('').split('.')[0];
-            reserves.token1 = window.numberToString(reserves.token1).split(',').join('').split('.')[0];
-            reserves.token0InStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves.token0));
-            reserves.token1InStable = parseInt(context.fromTokenToStable(pairData.token1.decimals, reserves.token1));
+            var reserves = await context.getComplexReservePairData(pairData);
             var localMax = reserves.token0InStable > reserves.token1InStable ? reserves.token0InStable : reserves.token1InStable;
             if (localMax > max) {
                 max = localMax;
@@ -278,6 +312,21 @@ var StableCoinController = function (view) {
             pairData: selectedPairData,
             reserves: selectedReserves
         };
+    };
+
+    context.getComplexReservePairData = async function getComplexReservePairData(pairData) {
+        var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
+        reserves.poolBalance = parseInt(await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address));
+        var totalSupply = parseInt(await window.blockchainCall(pairData.pair.methods.totalSupply));
+        var amount = reserves.poolBalance / totalSupply;
+        reserves.token0 = parseInt(reserves[0]) * amount;
+        reserves.token1 = parseInt(reserves[1]) * amount;
+        reserves.token0 = window.numberToString(reserves.token0).split(',').join('').split('.')[0];
+        reserves.token1 = window.numberToString(reserves.token1).split(',').join('').split('.')[0];
+        reserves.token0InStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves.token0));
+        reserves.token1InStable = parseInt(context.fromTokenToStable(pairData.token1.decimals, reserves.token1));
+        reserves.amount = amount;
+        return reserves;
     };
 
     context.rebalanceByDebt = async function rebalanceByDebt(amount) {
