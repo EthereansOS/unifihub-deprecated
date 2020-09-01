@@ -373,10 +373,10 @@ var StableCoin = React.createClass({
         if (window.stableCoin && window.stableCoin.name && window.stableCoin.symbol) {
             return (<section className="StableCoinTitle">
                 <section className="StableCoinTitleIntern">
-                    <img src="assets/img/m4.png"></img>
+                    <img src="assets/img/farmer.png"></img>
                     <article>
-                        <h2>{window.stableCoin.name.firstLetterToUpperCase()}</h2>
-                        <h6><b>{window.stableCoin.symbol} is a Stable Coin based on Uniswap Liquidity Pools</b><br />Here, you can mint {window.stableCoin.symbol} by adding liquidity to whitelisted Uniswap Stable Coin Pools or redeem anytime whitelisted Stable Coins by burning {window.stableCoin.symbol}. | <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
+                        <h2>{window.stableCoin.symbol} Arbitrage Farming</h2>
+                        <h6><b>It’s time to farm stablecoins by stabilizing {window.stableCoin.symbol}!</b><br />You can see this section if {window.stableCoin.symbol} price is  greater or less to $1. | <b>What arbitrage is about?</b><br></br><br></br> If {window.stableCoin.symbol} is grater than $1, you can stabilize it and earn in a single transaction by 1- Minting uSD, by adding to a stablecoin tier; 2- Swapping your minted uSD for another stablecoin; And earning extra stablecoins from the difference. <br></br><br></br>If {window.stableCoin.symbol} is less than $1, you can stabilize it and earn in a single transaction by 1- Swapping a stablecoin for uSD; 2- Burning the excess uSD for another stablecoin; And 3- ultimately ending up with same $ amount you started with plus extra stablecoins <a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Etherscan</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Uniswap</a></h6>
                     </article>
                 </section>
             </section>);
