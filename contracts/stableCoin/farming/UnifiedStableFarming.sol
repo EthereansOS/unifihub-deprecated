@@ -4,24 +4,23 @@ pragma solidity ^0.6.0;
 
 import "./IUnifiedStableFarming.sol";
 
-/**
-* @inheritdoc IUnifiedStableFarming
-*/
 contract UnifiedStableFarming is IUnifiedStableFarming {
     address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
     uint256[] private _percentage;
 
-    constructor(uint256[] memory percentage) {
+    constructor(uint256[] memory percentage) public {
         assert(percentage.length == 2);
         _percentage = percentage;
     }
 
-    function percentage() public override view returns(uint256[] memory) {
+    function percentage() public override view returns (uint256[] memory) {
         return _percentage;
     }
 
-    //Earn pumping uSD - Means swap a chosen stableCoin for uSD, then burn the difference of uSD to obtain a greater uSD value in Uniswap Pool tokens
+    /**
+     * @inheritdoc IUnifiedStableFarming
+     */
     function earnByPump(
         address stableCoinAddress,
         uint256 pairIndex,
@@ -48,8 +47,8 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         (uint256 returnA, uint256 returnB) = IStableCoin(stableCoinAddress).burn(
             pairIndex,
             pairAmount,
-            amountA,
-            amountB
+            amountAMin,
+            amountBMin
         );
         (address tokenA, address tokenB, ) = _getPairData(stableCoinAddress, pairIndex);
         // Check that the pump was successful
@@ -81,18 +80,13 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         uint256 stableCoinAmount
     ) private view returns (bool) {
         IStableCoin stableCoin = IStableCoin(stableCoinAddress);
-        uint256 cumulative = stableCoin.fromTokenToStable(
-            tokenAddress,
-            tokenValue
-        );
+        uint256 cumulative = stableCoin.fromTokenToStable(tokenAddress, tokenValue);
         cumulative += stableCoin.fromTokenToStable(token0, return0);
         cumulative += stableCoin.fromTokenToStable(token1, return1);
         uint256 percentage = (cumulative * _percentage[0]) / _percentage[1];
         uint256 cumulativePlus = cumulative + percentage;
         uint256 cumulativeMinus = cumulative - percentage;
-        return
-            stableCoinAmount >= cumulativeMinus &&
-            stableCoinAmount <= cumulativePlus;
+        return stableCoinAmount >= cumulativeMinus && stableCoinAmount <= cumulativePlus;
     }
 
     /**
@@ -124,29 +118,29 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
             amountB
         );
         // Mint $uSD
-        IStableCoin(stableCoinAddress).mint(pairIndex, amount0, amount1, amount0Min, amount1Min);
+        IStableCoin(stableCoinAddress).mint(pairIndex, amountA, amountB, amountAMin, amountBMin);
         // For each of the chosen output pair swap $uSD to obtain the desired amount of stablecoin
         for (uint256 i = 0; i < tokenIndices.length; i++) {
             _swap(
                 stableCoinAddress,
-                tokenIndices[i] == 0 ? token0 : token1,
+                tokenIndices[i] == 0 ? tokenA : tokenB,
                 stableCoinAmounts[i],
                 msg.sender
             );
         }
         // Send the tokens back to their owner
-        _flushToSender(token0, token1, stableCoinAddress);
+        _flushToSender(tokenA, tokenB, stableCoinAddress);
     }
 
     function _transferTokens(
         address stableCoinAddress,
         uint256 pairIndex,
-        uint256 amount0,
-        uint256 amount1
+        uint256 amountA,
+        uint256 amountB
     ) private {
-        (address token0, address token1, ) = _getPairData(stableCoinAddress, pairIndex);
-        IERC20(token0).transferFrom(msg.sender, address(this), amount0);
-        IERC20(token1).transferFrom(msg.sender, address(this), amount1);
+        (address tokenA, address tokenB, ) = _getPairData(stableCoinAddress, pairIndex);
+        IERC20(tokenA).transferFrom(msg.sender, address(this), amountA);
+        IERC20(tokenB).transferFrom(msg.sender, address(this), amountB);
     }
 
     function _getPairData(address stableCoinAddress, uint256 pairIndex)
@@ -200,13 +194,13 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
     }
 
     function _flushToSender(
-        address token0,
-        address token1,
-        address token2
+        address tokenA,
+        address tokenB,
+        address tokenC
     ) private {
-        _flushToSender(token0);
-        _flushToSender(token1);
-        _flushToSender(token2);
+        _flushToSender(tokenA);
+        _flushToSender(tokenB);
+        _flushToSender(tokenC);
     }
 
     /**

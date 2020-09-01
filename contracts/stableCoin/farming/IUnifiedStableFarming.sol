@@ -64,12 +64,14 @@ interface IERC20 {
 }
 
 interface IUnifiedStableFarming {
+    function percentage() external view returns (uint256[] memory);
+
     /**
      * @dev Earn by pumping $uSD: Swap stablecoins for $uSD in their pools, then burn $uSD until
      *  equilibrium.
      * @param stableCoinAddress Address of the $uSD stablecoin
      * @param pairIndex Index of the pair inside the whitelisted pairs array
-     * @param pairAmount
+     * @param pairAmount Amount of Uniswap liquidity tokens to send back to the pool
      * @param amountAMin The minimum amount of tokenA that must be received for the transaction not to revert
      * @param amountBMin The minimum amount of tokenB that must be received for the transaction not to revert
      * @param tokenAddress Address of the token to swap to get $uSD

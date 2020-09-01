@@ -12,6 +12,8 @@ nav:
           - IMVDProxy: stableCoin/standalone/IMVDProxy.md
           - IStateHolder: stableCoin/standalone/IStateHolder.md
           - IStableCoin: stableCoin/standalone/IStableCoin.md
+      - Farming:
+          - IUnifiedStableFarming: stableCoin/farming/IUnifiedStableFarming.md
       - Microservices:
           - MintNewVotingTokensForStableCoinFunctionality: stableCoin/microservices/MintNewVotingTokensForStableCoinFunctionality.md
 
