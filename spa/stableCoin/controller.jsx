@@ -454,9 +454,24 @@ var StableCoinController = function (view) {
         if(parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
             throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
         }
+        await context.verifyPumpData();
         await window.blockchainCall(window.stableFarming.methods.earnByPump, window.stableCoin.address, earnByPumpData.pairDataIndex, earnByPumpData.supplyInPercentage, earnByPumpData.token0Slippage, earnByPumpData.token1Slippage, selectedTokenInPairs.address, value);
         context.loadEconomicData();
         context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
+    };
+
+    context.verifyPumpData = async function verifyPumpData(selectedTokenInPairs, earnByPumpData) {
+        var calculus = window.web3.utils.toBN(earnByPumpData.valueInStable)
+            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedTokenInPairs.token0.decimals, earnByPumpData.token0Value)))
+            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedTokenInPairs.token1.decimals, earnByPumpData.token1Value)))
+            .toString();
+        var percentage = await window.blockchainCall(window.stableFarming.methods.percentage);
+        var calc = (parseInt(calculus) * parseInt(percentage[0])) / parseInt(percentage[1]);
+        var minus = parseInt(calculus) - calc;
+        var plus = parseInt(calculus) - calc;
+        if(!(parseInt(earnByPumpData.output) >= minus && parseInt(earnByPumpData.output) <= plus)) {
+            throw "Values are not coherent";
+        }
     };
 
     context.calculateEarnByPumpData = async function calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value) {
