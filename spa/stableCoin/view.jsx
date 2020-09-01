@@ -257,7 +257,6 @@ var StableCoin = React.createClass({
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
     onSwapFarmTokenCheck(e) {
-        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var token = e.currentTarget.dataset.target;
         var currentTarget = this["swapFarmToken" + token];
         currentTarget.value = '0';
@@ -292,7 +291,7 @@ var StableCoin = React.createClass({
         var _this = this;
         _this.setState({ successMessage }, function () {
             _this.successMessageCloseTimeout = setTimeout(function () {
-                //_this.closeSuccessMessage();
+                _this.closeSuccessMessage();
             }, 4000);
         });
     },

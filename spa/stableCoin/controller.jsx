@@ -532,6 +532,6 @@ var StableCoinController = function (view) {
 
         await window.blockchainCall(window.stableFarming.methods.earnByDump, window.stableCoin.address, selectedFarmPair.index, token0Value, token1Value, token0Slippage, token1Slippage, indices, values);
         context.loadEconomicData();
-        context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
+        context.view.openSuccessMessage(`Dumped ${window.stableCoin.symbol} Token`);
     };
 };
