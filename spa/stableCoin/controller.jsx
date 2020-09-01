@@ -72,7 +72,7 @@ var StableCoinController = function (view) {
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
             context.view.setState({selectedFarmPairToken : context.view.state.selectedFarmPair.token0});
-            context.view.setState({selectedFarmPairTokenPrice : await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals))});
+            context.view.setState({selectedFarmPairTokenPrice : '0', selectedFarmPairTokenSinglePrice : await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals))});
         });
     };
 
@@ -496,7 +496,7 @@ var StableCoinController = function (view) {
         return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
     };
 
-    context.performEarnByDump = async function performEarnByDump(selectedFarmPair, token0Value, token1Value, swapToken0, swapToken0Value, swapToken1, swapToken1Value) {
+    context.performEarnByDump = async function performEarnByDump(selectedFarmPair, token0Value, token1Value, swapToken, swapTokenValue) {
         if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
             throw `You must insert a positive ${selectedFarmPair.token0.symbol} amount`;
         }
@@ -516,17 +516,13 @@ var StableCoinController = function (view) {
         if (availableToMint < parseInt(stableCoinOutput)) {
             throw `Cannot mint ${window.fromDecimals(stableCoinOutput, window.stableCoin.decimals)} ${window.stableCoin.symbol}`;
         }
-        var indices = [];
-        swapToken0 && indices.push(0);
-        swapToken1 && indices.push(1);
+        var indices = [swapToken];
 
         if(indices.length === 0) {
             throw `You must choose at least one of the two tokens to swap`;
         }
 
-        var values = [];
-        swapToken0 && values.push(swapToken0Value);
-        swapToken1 && values.push(swapToken1Value);
+        var values = [swapTokenValue];
 
         var calculus = '0';
 
