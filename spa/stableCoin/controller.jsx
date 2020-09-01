@@ -86,19 +86,28 @@ var StableCoinController = function (view) {
         context.view.setState(selectedPair);
     };
 
-    context.checkApprove = async function checkApprove(pairData) {
+    context.checkApprove = async function checkApprove(pairData, forFarm) {
         context.getBalance(pairData);
-        var token0Approved = null;
-        var token1Approved = null;
-        var selectedTokenInPairsApproved = null;
-        context.view.setState({ selectedTokenInPairsApproved, token0Approved, token1Approved });
+        var state = {};
+        if(!pairData.token && !forFarm) {
+            state.token0Approved = null;
+            state.token1Approved = null;
+        }
+        else {
+            pairData.token && (state.selectedTokenInPairsApproved = null);
+            !pairData.token && (state.farmToken0Approved = null);
+            !pairData.token && (state.farmToken1Approved = null);
+        }
+        context.view.setState(state);
         if (!window.walletAddress) {
             return;
         }
-        pairData.token0 && (token0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
-        pairData.token1 && (token1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
-        pairData.token && (selectedTokenInPairsApproved = parseInt(await window.blockchainCall(pairData.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
-        context.view.setState({ selectedTokenInPairsApproved, token0Approved, token1Approved });
+        pairData.token0 && !forFarm && (state.token0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token1 && !forFarm && (state.token1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token && (state.selectedTokenInPairsApproved = parseInt(await window.blockchainCall(pairData.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        pairData.token0 && forFarm && (state.farmToken0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        pairData.token1 && forFarm && (state.farmToken1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        context.view.setState(state);
     };
 
     context.approve = async function approve(pairData, token) {
