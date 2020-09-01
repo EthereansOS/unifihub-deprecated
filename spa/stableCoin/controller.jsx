@@ -69,6 +69,7 @@ var StableCoinController = function (view) {
         }
         context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, function () {
             context.checkApprove(context.view.state.selectedPair);
+            context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
         });
     };
@@ -478,7 +479,59 @@ var StableCoinController = function (view) {
         return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
     };
 
-    context.performEarnByDump = async function performEarnByDump() {
+    context.performEarnByDump = async function performEarnByDump(selectedFarmPair, token0Value, token1Value, swapToken0, swapToken0Value, swapToken1, swapToken1Value) {
+        if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
+            throw `You must insert a positive ${selectedFarmPair.token0.symbol} amount`;
+        }
+        if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
+            throw `You must insert a positive ${selectedFarmPair.token1.symbol} amount`;
+        }
+        var myBalance = await window.blockchainCall(selectedFarmPair.token0.token.methods.balanceOf, window.walletAddress);
+        if (parseInt(token0Value) > parseInt(myBalance)) {
+            throw `You have insufficient ${selectedFarmPair.token0.symbol}`;
+        }
+        myBalance = await window.blockchainCall(selectedFarmPair.token1.token.methods.balanceOf, window.walletAddress);
+        if (parseInt(token1Value) > parseInt(myBalance)) {
+            throw `You have insufficient ${selectedFarmPair.token1.symbol}`;
+        }
+        var stableCoinOutput = await context.getStableCoinOutput(selectedFarmPair, token0Value, token1Value);
+        var availableToMint = parseInt(await window.blockchainCall(window.stableCoin.token.methods.availableToMint));
+        if (availableToMint < parseInt(stableCoinOutput)) {
+            throw `Cannot mint ${window.fromDecimals(stableCoinOutput, window.stableCoin.decimals)} ${window.stableCoin.symbol}`;
+        }
+        var indices = [];
+        swapToken0 && indices.push(0);
+        swapToken1 && indices.push(1);
 
+        if(indices.length === 0) {
+            throw `You must choose at least one of the two tokens to swap`;
+        }
+
+        var values = [];
+        swapToken0 && values.push(swapToken0Value);
+        swapToken1 && values.push(swapToken1Value);
+
+        var calculus = '0';
+
+        for(var i = 0; i < values.length; i++) {
+            var val = values[i];
+            if(isNaN(parseInt(val)) || parseInt(val) <= 0) {
+                throw `The ${selectedFarmPair['token' + indices[i]].symbol} amount must be a number greater than 0`;
+            }
+            calculus = window.web3.utils.toBN(calculus).add(window.web3.utils.toBN(val)).toString();
+        }
+
+        if(parseInt(calculus) > parseInt(stableCoinOutput)) {
+            throw `The total value of ${window.stableCoin.symbol} to swap is greater than the one that will be minted`
+        }
+
+        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
+        token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
+
+        await window.blockchainCall(window.stableFarming.methods.earnByDump, window.stableCoin.address, selectedFarmPair.index, token0Value, token1Value, token0Slippage, token1Slippage, indices, values);
+        context.loadEconomicData();
+        context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
     };
 };

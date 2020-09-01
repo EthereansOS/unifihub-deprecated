@@ -141,6 +141,17 @@ var StableCoin = React.createClass({
                 $(this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0].dataset.value
             ];
         }
+        if (performing === 'EarnByDump') {
+            args = [
+                this.state.selectedFarmPair,
+                $(this.domRoot).children().find('input[data-token="farm0"]')[0].dataset.value,
+                $(this.domRoot).children().find('input[data-token="farm1"]')[0].dataset.value,
+                this.swapFarmToken0Check.checked,
+                this.swapFarmToken0.dataset.value,
+                this.swapFarmToken1Check.checked,
+                this.swapFarmToken1.dataset.value
+            ];
+        }
         var _this = this;
         _this.setState({ approving: null, performing: null }, function () {
             var end = function end(errorMessage) {
