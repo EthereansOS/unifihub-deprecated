@@ -48,11 +48,18 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         var _this = this;
         e.currentTarget.dataset.target === 'classic' && this.setState({ selectedPair: this.state.pairs[e.currentTarget.value], token0Approved: null, token1Approved: null }, function () {
-            $(_this.domRoot).children().find('input[data-token="0"]')[0].value = '0.00';
-            $(_this.domRoot).children().find('input[data-token="0"]')[0].dataset.value = '0';
-            $(_this.domRoot).children().find('input[data-token="1"]')[0].value = '0.00';
-            $(_this.domRoot).children().find('input[data-token="1"]')[0].dataset.value = '0';
+            try {
+                $(_this.domRoot).children().find('input[data-token="0"]')[0].value = '0.00';
+                $(_this.domRoot).children().find('input[data-token="0"]')[0].dataset.value = '0';
+                $(_this.domRoot).children().find('input[data-token="1"]')[0].value = '0.00';
+                $(_this.domRoot).children().find('input[data-token="1"]')[0].dataset.value = '0';
+            } catch(e) {
+            }
             _this.controller.checkApprove(_this.state.selectedPair);
+            var stableCoin = $(_this.domRoot).children().find('input[data-token="stableCoin"]')[0];
+            stableCoin && _this.onType({
+                currentTarget : stableCoin
+            });
         });
         e.currentTarget.dataset.target === 'farm' && this.setState({ selectedFarmPair: this.state.pairs[e.currentTarget.value] }, function () {
             var input = $(_this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0];
