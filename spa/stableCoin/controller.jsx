@@ -71,8 +71,8 @@ var StableCoinController = function (view) {
             context.checkApprove(context.view.state.selectedPair);
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
-            context.view.setState({selectedFarmPairToken : context.view.state.selectedFarmPair.token0});
-            context.view.setState({selectedFarmPairTokenPrice : '0', selectedFarmPairTokenSinglePrice : await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals))});
+            context.view.setState({ selectedFarmPairToken: context.view.state.selectedFarmPair.token0 });
+            context.view.setState({ selectedFarmPairTokenPrice: '0', selectedFarmPairTokenSinglePrice: await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals)) });
         });
     };
 
@@ -94,7 +94,7 @@ var StableCoinController = function (view) {
     context.checkApprove = async function checkApprove(pairData, forFarm) {
         context.getBalance(pairData);
         var state = {};
-        if(!pairData.token && !forFarm) {
+        if (!pairData.token && !forFarm) {
             state.token0Approved = null;
             state.token1Approved = null;
         }
@@ -147,10 +147,10 @@ var StableCoinController = function (view) {
 
     context.calculateBurnValue = async function calculateBurnValue(pairData, value) {
         var burnValue = {
-            token0 : '0',
-            token1 : '0'
+            token0: '0',
+            token1: '0'
         };
-        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+        if (isNaN(parseInt(value)) || parseInt(value) === 0) {
             return burnValue;
         }
         var reserves = await context.getComplexReservePairData(pairData);
@@ -443,17 +443,36 @@ var StableCoinController = function (view) {
     };
 
     context.calculatePriceInDollars = async function calculatePriceInDollars() {
+        context.view.setState({ priceInDollars: await context.getPriceInDollars(window.stableCoin) });
+    };
+
+    context.getPriceInDollars = async function getPriceInDollars(token, value) {
         var ethereumPrice = await window.getEthereumPrice();
         try {
-            var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, window.toDecimals('1', window.stableCoin.decimals), [window.stableCoin.address, window.wethAddress]))[1], 18, true);
+            var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value || window.toDecimals('1', token.decimals), [token.address, window.wethAddress]))[1], 18, true);
             priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
-            context.view.setState({ priceInDollars });
+            return priceInDollars;
         } catch (e) { }
+        return 0;
+    }
+
+    context.setDumpPricesInDollars = async function setDumpPricesInDollars(pairToken, token0Value, token1Value, outputStable, outputToken, outputTokenPrice) {
+        var token0ValueInDollars = await context.getPriceInDollars(pairToken.token0, token0Value);
+        var token1ValueInDollars = await context.getPriceInDollars(pairToken.token1, token1Value);
+
+        var input = token0ValueInDollars + token1ValueInDollars;
+        context.view.setState({farmDumpPay : window.formatMoney(input)});
+
+        var outputStableInDollars = await context.getPriceInDollars(window.stableCoin, window.toDecimals(outputStable.split(',').join(''), window.stableCoin.decimals));
+        var outputTokenInDollars = await context.getPriceInDollars(outputToken, outputTokenPrice);
+
+        var output = outputStableInDollars + outputTokenInDollars;
+        context.view.setState({farmDumpDifference : window.formatMoney(output - input)});
     };
 
     context.performEarnByPump = async function performEarnByPump(selectedTokenInPairs, selectedFarmPair, value) {
         var earnByPumpData = await context.calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value);
-        if(parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
+        if (parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
             throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
         }
         await context.verifyPumpData();
@@ -471,7 +490,7 @@ var StableCoinController = function (view) {
         var calc = (parseInt(calculus) * parseInt(percentage[0])) / parseInt(percentage[1]);
         var minus = parseInt(calculus) - calc;
         var plus = parseInt(calculus) - calc;
-        if(!(parseInt(earnByPumpData.output) >= minus && parseInt(earnByPumpData.output) <= plus)) {
+        if (!(parseInt(earnByPumpData.output) >= minus && parseInt(earnByPumpData.output) <= plus)) {
             throw "Values are not coherent";
         }
     };
@@ -490,7 +509,7 @@ var StableCoinController = function (view) {
     };
 
     context.calculateFarmDumpValue = async function calculateFarmDumpValue(selectedFarmPair, token, value) {
-        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+        if (isNaN(parseInt(value)) || parseInt(value) === 0) {
             return '0';
         }
         return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
@@ -518,7 +537,7 @@ var StableCoinController = function (view) {
         }
         var indices = [swapToken];
 
-        if(indices.length === 0) {
+        if (indices.length === 0) {
             throw `You must choose at least one of the two tokens to swap`;
         }
 
@@ -526,15 +545,15 @@ var StableCoinController = function (view) {
 
         var calculus = '0';
 
-        for(var i = 0; i < values.length; i++) {
+        for (var i = 0; i < values.length; i++) {
             var val = values[i];
-            if(isNaN(parseInt(val)) || parseInt(val) <= 0) {
+            if (isNaN(parseInt(val)) || parseInt(val) <= 0) {
                 throw `The ${selectedFarmPair['token' + indices[i]].symbol} amount must be a number greater than 0`;
             }
             calculus = window.web3.utils.toBN(calculus).add(window.web3.utils.toBN(val)).toString();
         }
 
-        if(parseInt(calculus) > parseInt(stableCoinOutput)) {
+        if (parseInt(calculus) > parseInt(stableCoinOutput)) {
             throw `The total value of ${window.stableCoin.symbol} to swap is greater than the one that will be minted`
         }
 

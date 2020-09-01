@@ -10,9 +10,13 @@ var StableCoin = React.createClass({
     getDefaultSubscriptions() {
         return {
             'ethereum/update': this.controller.loadData,
-            'ethereum/ping': () => this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair),
+            'ethereum/ping': this.onPing,
             'success/message': this.openSuccessMessage
         }
+    },
+    onPing() {
+        this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair);
+        this.state && this.state.selectedFarmPair && this.controller.checkApprove(this.state.selectedFarmPair, true);
     },
     componentDidMount() {
         this.oldStableCoin = this.props.oldStableCoin || window.consumeAddressBarParam("useOldStableCoin") !== undefined
@@ -134,6 +138,7 @@ var StableCoin = React.createClass({
         result = window.formatMoney(window.fromDecimals(result, window.stableCoin.decimals, true), 0);
         (ref || this.stableCoinOutput).innerHTML = result;
         this.farmStableCoinSwap && (this.farmStableCoinSwap.innerHTML = result);
+        result = result.split(',').join('');
         this.farmDumpRange && (this.farmDumpRange.max = result);
         this.farmDumpRange && (this.farmDumpRange.value = result);
         this.farmDumpRange && this.onFarmDumpSliderChange({
@@ -146,9 +151,21 @@ var StableCoin = React.createClass({
         var _this = this;
         var token = _this.dumpPairSelection.value;
         var dumpFinalStable = window.formatMoney(parseFloat(e.currentTarget.max) - parseFloat(e.currentTarget.value));
-        _this.controller.calculateFarmDumpValue(_this.state.selectedFarmPair, token, window.toDecimals(e.currentTarget.value, window.stableCoin.decimals)).then(function (selectedFarmPairTokenPrice) {
-            _this.setState({ selectedFarmPairTokenPrice, dumpFinalStable });
-        });
+        var currentTarget = e.currentTarget;
+        _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
+        _this.onTypeTimeout = setTimeout(function () {
+            _this.controller.calculateFarmDumpValue(_this.state.selectedFarmPair, token, window.toDecimals(currentTarget.value, window.stableCoin.decimals)).then(function (selectedFarmPairTokenPrice) {
+                _this.setState({ selectedFarmPairTokenPrice, dumpFinalStable });
+                _this.controller.setDumpPricesInDollars(
+                    _this.state.selectedFarmPair,
+                    $(_this.domRoot).children().find('input[data-token="farm0"]')[0].dataset.value,
+                    $(_this.domRoot).children().find('input[data-token="farm1"]')[0].dataset.value,
+                    dumpFinalStable,
+                    _this.state.selectedFarmPair['token' + token],
+                    selectedFarmPairTokenPrice
+                );
+            });
+        }, 230);
     },
     farmDumpRangeMax(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
@@ -455,14 +472,22 @@ var StableCoin = React.createClass({
                         <p>{window.stableCoin.symbol}</p>
                         <img src={this.state.selectedFarmPairToken.logo} />
                         <p>{this.state.selectedFarmPairToken.symbol}</p>
-                        {this.state.selectedFarmPairTokenSinglePrice && <h6>1 {window.stableCoin.symbol} = {window.fromDecimals(this.state.selectedFarmPairTokenSinglePrice, this.state.selectedFarmPairToken.decimals, true)} {this.state.selectedFarmPairToken.symbol}</h6>}
+                        {this.state.selectedFarmPairTokenSinglePrice && <h6>1 {window.stableCoin.symbol} = {window.fromDecimals(this.state.selectedFarmPairTokenSinglePrice, this.state.selectedFarmPairToken.decimals)} {this.state.selectedFarmPairToken.symbol}</h6>}
                     </label>
+                    {this.state.farmDumpPay && <label className="UniActiveQuantityTier">
+                        <h6>You will pay:</h6>
+                        {this.state.farmDumpPay} $
+                    </label>}
                     <label className="UniActiveQuantityTier">
                         <h6>You will receive:</h6>
                         {this.state.dumpFinalStable && this.state.dumpFinalStable !== '0' && <span>{this.state.dumpFinalStable} {window.stableCoin.symbol}</span>}
                         <br />
-                        {this.state.selectedFarmPairTokenPrice && <span>{window.fromDecimals(this.state.selectedFarmPairTokenPrice, this.state.selectedFarmPairToken.decimals, true)} {this.state.selectedFarmPairToken.symbol}</span>}
+                        {this.state.selectedFarmPairTokenPrice && <span>{window.fromDecimals(this.state.selectedFarmPairTokenPrice, this.state.selectedFarmPairToken.decimals)} {this.state.selectedFarmPairToken.symbol}</span>}
                     </label>
+                    {this.state.farmDumpDifference && <label className="UniActiveQuantityTier">
+                        <h6>Difference earned:</h6>
+                        {this.state.farmDumpDifference} $
+                    </label>}
                     <label className="UniActiveQuantityTier">
                         {window.walletAddress && (!this.state.farmToken0Approved || this.state.farmToken1Approved) && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="farm0" className={this.state.farmToken0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedFarmPair.token0.symbol}</a>}
                         {window.walletAddress && this.state.farmToken0Approved && !this.state.farmToken1Approved && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="farm1">Approve {this.state.selectedFarmPair.token1.symbol}</a>}
