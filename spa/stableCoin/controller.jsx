@@ -58,9 +58,11 @@ var StableCoinController = function (view) {
             } else {
                 if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token0.address) !== window.voidEthereumAddress) {
                     tokensInPairs[pairData.token0.address] = tokensInPairs[pairData.token0.address] || pairData.token0;
+                    pairData.token0.pairWithStable = true;
                 }
                 if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token1.address) !== window.voidEthereumAddress) {
                     tokensInPairs[pairData.token1.address] = tokensInPairs[pairData.token1.address] || pairData.token1;
+                    pairData.token1.pairWithStable = true;
                 }
             }
             pairs.push(pairData);
@@ -114,9 +116,12 @@ var StableCoinController = function (view) {
         context.view.setState({ approving: token, performing: null });
         var errorMessage;
         var state = { approving: null };
+        var isFarm = token.indexOf('farm') !== -1;
+        token = token.split('farm').join('');
         try {
-            await window.blockchainCall((token !== 'selectedTokenInPairs' ? pairData["token" + token] : context.view.state.selectedTokenInPairs).token.methods.approve, (token !== 'selectedTokenInPairs' ? window.stableCoin.address : window.stableFarming.options.address), window.numberToString(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff));
-            state[(token !== 'selectedTokenInPairs' ? ('token' + token) : 'selectedTokenInPairs') + 'Approved'] = true;
+            await window.blockchainCall((token !== 'selectedTokenInPairs' ? pairData["token" + token] : context.view.state.selectedTokenInPairs).token.methods.approve, ((token === 'selectedTokenInPairs' || isFarm) ? window.stableFarming.options.address : window.stableCoin.address), window.numberToString(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff));
+            !isFarm && (state[(token !== 'selectedTokenInPairs' ? ('token' + token) : 'selectedTokenInPairs') + 'Approved'] = true);
+            isFarm && (state['farmToken' + token + 'Approved'] = true);
         } catch (e) {
             var message = e.message || e;
             if (message.toLowerCase().indexOf('user denied') === -1) {
@@ -453,10 +458,6 @@ var StableCoinController = function (view) {
         context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
     };
 
-    context.performEarnByDump = async function performEarnByDump() {
-
-    };
-
     context.calculateEarnByPumpData = async function calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value) {
         if (isNaN(parseInt(value)) || parseInt(value) === 0) {
             return null;
@@ -468,5 +469,16 @@ var StableCoinController = function (view) {
         var burnValueData = await context.getBurnData(selectedFarmPair, diff);
         Object.entries(burnValueData).forEach(it => earnByPumpData[it[0]] = it[1]);
         return earnByPumpData;
+    };
+
+    context.calculateFarmDumpValue = async function calculateFarmDumpValue(selectedFarmPair, token, value) {
+        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+            return '0';
+        }
+        return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
+    };
+
+    context.performEarnByDump = async function performEarnByDump() {
+
     };
 };

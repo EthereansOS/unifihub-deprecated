@@ -53,17 +53,17 @@ var StableCoin = React.createClass({
                 $(_this.domRoot).children().find('input[data-token="0"]')[0].dataset.value = '0';
                 $(_this.domRoot).children().find('input[data-token="1"]')[0].value = '0.00';
                 $(_this.domRoot).children().find('input[data-token="1"]')[0].dataset.value = '0';
-            } catch(e) {
+            } catch (e) {
             }
             _this.controller.checkApprove(_this.state.selectedPair);
             var stableCoin = $(_this.domRoot).children().find('input[data-token="stableCoin"]')[0];
             stableCoin && _this.onType({
-                currentTarget : stableCoin
+                currentTarget: stableCoin
             });
         });
         e.currentTarget.dataset.target === 'farm' && this.setState({ selectedFarmPair: this.state.pairs[e.currentTarget.value] }, function () {
             var input = $(_this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0];
-            if(input) {
+            if (input) {
                 var value = input.value;
                 _this.controller.calculateEarnByPumpData(_this.state.selectedTokenInPairs, _this.state.selectedFarmPair, window.toDecimals(value, _this.state.selectedTokenInPairs.decimals)).then(function (earnByPumpData) {
                     _this.setState({ earnByPumpData });
@@ -245,6 +245,32 @@ var StableCoin = React.createClass({
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.setState({ grimoire: !(this.state && this.state.grimoire) });
     },
+    onSwapFarmTokenCheck(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var token = e.currentTarget.dataset.target;
+        var currentTarget = this["swapFarmToken" + token];
+        currentTarget.value = '0';
+        currentTarget.dataset.value = '0';
+        currentTarget.disabled = !e.currentTarget.checked;
+        this['swapFarmToken' + token + 'Output'].innerHTML = '0.00';
+        this.onFarmDumpChange({currentTarget});
+    },
+    onFarmDumpChange(e) {
+        e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
+        var _this = this;
+        var element = e.currentTarget;
+        var token = element.dataset.target;
+        _this['swapFarmToken' + token + 'Output'].innerHTML = '0.00';
+        _this.onTypeTimeout && window.clearTimeout(_this.onTypeTimeout);
+        _this.onTypeTimeout = setTimeout(function () {
+            var value = element.value;
+            value = window.toDecimals(value, window.stableCoin.decimals);
+            element.dataset.value = value;
+            _this.controller.calculateFarmDumpValue(_this.state.selectedFarmPair, token, value).then(function(farmDumpValue) {
+                _this['swapFarmToken' + token + 'Output'].innerHTML = window.fromDecimals(farmDumpValue, _this.state.selectedFarmPair['token' + token].decimals, true);
+            });
+        }, window.context.typeTimeout);
+    },
     closeSuccessMessage(e) {
         e && e.preventDefault && e.preventDefault(true) && e.stopPropagation && e.stopPropagation(true);
         this.successMessageCloseTimeout && window.clearTimeout(this.successMessageCloseTimeout);
@@ -263,14 +289,14 @@ var StableCoin = React.createClass({
         return (
             <section className="UniTierQuantity">
                 <label className="UniActiveQuantityTier">
-                    <input data-token="0" onChange={this.onType} />
+                    <input data-token="0" onKeyUp={this.onType} />
                     <img src={this.state.selectedPair.token0.logo} />
                     <p>{this.state.selectedPair.token0.symbol}</p>
                     {window.walletAddress && <h6><a href="javascript:;" data-token="0" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token0.balance, this.state.selectedPair.token0.decimals)} {this.state.selectedPair.token0.symbol}</h6>}
                 </label>
                 <h5>And</h5>
                 <label className="UniDisactiveQuantityTier">
-                    <input data-token="1" onChange={this.onType} />
+                    <input data-token="1" onKeyUp={this.onType} />
                     <img src={this.state.selectedPair.token1.logo} />
                     <p>{this.state.selectedPair.token1.symbol}</p>
                     {window.walletAddress && <h6><a href="javascript:;" data-token="1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)} {this.state.selectedPair.token1.symbol}</h6>}
@@ -289,7 +315,7 @@ var StableCoin = React.createClass({
         return (
             <section className="UniTierQuantity">
                 <label className="UniDisactiveQuantityTier">
-                    <input data-token="stableCoin" onChange={this.onType} />
+                    <input data-token="stableCoin" onKeyUp={this.onType} />
                     <img src={window.stableCoin.logo} />
                     <p>{window.stableCoin.symbol}</p>
                     {window.walletAddress && <h6><a href="javascript:;" data-token="stableCoin" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>}
@@ -330,7 +356,7 @@ var StableCoin = React.createClass({
                             <p> by</p>
                             <select data-target="farm" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
-                                    if (it.disabled) {
+                                    if (it.disabled || !it.token0.pairWithStable || !it.token1.pairWithStable) {
                                         return;
                                     }
                                     return (<option key={it.name} value={it.index}>
@@ -342,14 +368,14 @@ var StableCoin = React.createClass({
                     </section>
                     <section className="UniTierQuantity">
                         <label className="UniActiveQuantityTier">
-                            <input data-token="farm0" onChange={this.onType} />
+                            <input data-token="farm0" onKeyUp={this.onType} />
                             <img src={this.state.selectedFarmPair.token0.logo} />
                             <p>{this.state.selectedFarmPair.token0.symbol}</p>
                             {window.walletAddress && <h6><a href="javascript:;" data-token="farm0" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedFarmPair.token0.balance, this.state.selectedFarmPair.token0.decimals)} {this.state.selectedFarmPair.token0.symbol}</h6>}
                         </label>
                         <h5>And</h5>
                         <label className="UniDisactiveQuantityTier">
-                            <input data-token="farm1" onChange={this.onType} />
+                            <input data-token="farm1" onKeyUp={this.onType} />
                             <img src={this.state.selectedFarmPair.token1.logo} />
                             <p>{this.state.selectedFarmPair.token1.symbol}</p>
                             {window.walletAddress && <h6><a href="javascript:;" data-token="farm1" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedFarmPair.token1.balance, this.state.selectedFarmPair.token1.decimals)} {this.state.selectedFarmPair.token1.symbol}</h6>}
@@ -362,7 +388,30 @@ var StableCoin = React.createClass({
                         {this.state.performing === 'EarnByDump' && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                     </section>
                 </section>
-                <section className="UniSideBox"></section>
+                <section className="UniSideBox">
+                    <h5>Swap:</h5>
+                    <input type="checkbox" data-target="0" ref={ref => this.swapFarmToken0Check = ref} onChange={this.onSwapFarmTokenCheck}/>
+                    <label className="UniActiveQuantityTier">
+                        <input type="text" data-target="0" ref={ref => this.swapFarmToken0 = ref} disabled={!this.swapFarmToken0Check || !this.swapFarmToken0Check.checked} onKeyUp={this.onFarmDumpChange}/>
+                        <img src={window.stableCoin.logo} />
+                        <p>{window.stableCoin.symbol}</p>
+                        <h6>for</h6>
+                        <span ref={ref => this.swapFarmToken0Output = ref}>0</span>
+                        <img src={this.state.selectedFarmPair.token0.logo} />
+                        <p>{this.state.selectedFarmPair.token0.symbol}</p>
+                    </label>
+                    <h5>And</h5>
+                    <input type="checkbox" data-target="1" ref={ref => this.swapFarmToken1Check = ref} onChange={this.onSwapFarmTokenCheck}/>
+                    <label className="UniDisactiveQuantityTier">
+                        <input type="text" data-target="1" ref={ref => this.swapFarmToken1 = ref} disabled={!this.swapFarmToken1Check || !this.swapFarmToken1Check.checked} onKeyUp={this.onFarmDumpChange}/>
+                        <img src={window.stableCoin.logo} />
+                        <p>{window.stableCoin.symbol}</p>
+                        <h6>for</h6>
+                        <span ref={ref => this.swapFarmToken1Output = ref}>0</span>
+                        <img src={this.state.selectedFarmPair.token1.logo} />
+                        <p>{this.state.selectedFarmPair.token1.symbol}</p>
+                    </label>
+                </section>
             </section>
         );
     },
@@ -384,7 +433,7 @@ var StableCoin = React.createClass({
                             {this.state && this.state.tokensInPairs && Object.values(this.state.tokensInPairs).map(it => <option key={it.address} value={it.address}>{it.symbol}</option>)}
                         </select>
                         {this.state && this.state.selectedTokenInPairs && <label className="UniDisactiveQuantityTier">
-                            <input data-token="selectedTokenInPairs" onChange={this.onType} />
+                            <input data-token="selectedTokenInPairs" onKeyUp={this.onType} />
                             <img src={this.state.selectedTokenInPairs.logo} />
                             <p>{this.state.selectedTokenInPairs.symbol}</p>
                             {window.walletAddress && <h6><a href="javascript:;" data-token="selectedTokenInPairs" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedTokenInPairs.balance, this.state.selectedTokenInPairs.decimals)} {this.state.selectedTokenInPairs.symbol}</h6>}
