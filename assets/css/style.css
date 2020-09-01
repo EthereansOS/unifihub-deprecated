@@ -128,6 +128,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .Boh {position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 5;}
 
 .UniTitle select, .UniTierQuantity label input {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
+.FARMSPECSELECT {padding: 2px 5px; font-size: 15px; font-weight: bold; margin: 7px; vertical-align: middle;}
 .UniTitle p {font-size: 17px;margin: 7px; font-weight: normal;}
 .UniTitle h6 {display: inline-block; width: 90%; text-align: center; font-size: 11px; margin: 5px auto;}
 .UniTitle label {display: inline-block; width: 100%;}
@@ -189,12 +190,13 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniSideBox .UniActiveQuantityTier {width: 100%;}
 .UniSideBox .UniActiveQuantityTier img {width: 20px; height: 20px; margin: 5px; vertical-align: middle;}
 .UniSideBox .UniDisactiveQuantityTier img {width: 20px; height: 20px;margin: 5px; vertical-align: middle;}
+.SideFarmMaxBTN {font-size: 10px; background-color: #000000; color: #ffffff; font-weight: bold; padding: 2px 4px;}
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
 .Boomer .UniSideBox {border-radius: 20px; color: #000000; width: 100%; background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .Boomer {background: linear-gradient(29deg, rgba(255,255,255,1) 0%, rgba(228,228,228,1) 66%);font-family: "Inter var", sans-serif;}
 .Boomer > .explainer {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);font-family: "Myriad Pro";}
-.Boomer .UniTitle select, .Boomer .UniActiveQuantityTier input, .Boomer .UniDisactiveQuantityTier input, .Boomer .RebalanceEmergency label input {background-color: #e7e7e7; color: #000000; border: 5px solid #e7e7e7; border-radius: 5px;}
+.Boomer .UniTitle select,.Boomer .FARMSPECSELECT, .Boomer .UniActiveQuantityTier input, .Boomer .UniDisactiveQuantityTier input, .Boomer .RebalanceEmergency label input {background-color: #e7e7e7; color: #000000; border: 5px solid #e7e7e7; border-radius: 5px;}
 .Boomer .UniTitle {color: #000000;}
 .Boomer .menuOpener, .Boomer .connectOpener {background-color: #bab9b9; color: #000000;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .Boomer .unifiDapp .MenuOpen .coverMenu {background-color: #bab9b9; border-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
@@ -239,7 +241,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .RPG .UniBox, .RPG .grimoireBox {position: initial;background: rgb(33, 36, 41); border-radius: 20px; color: rgb(195, 197, 203);box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .UniSideBox {border-radius: 20px; color: #bab9b9; width: 100%; background-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG {background: linear-gradient(29deg, rgba(80,80,80,1) 0%, rgba(46,46,46,1) 66%);font-family: "Myriad Pro";}
-.RPG .UniTitle select, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RPG .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
+.RPG .UniTitle select, .RPG .FARMSPECSELECT, .RPG .UniActiveQuantityTier input, .RPG .UniDisactiveQuantityTier input, .RPG .RebalanceEmergency label input {background-color: #000000; color: #f1f1f1; border: 5px solid #000000; border-radius: 5px;}
 .RPG .UniTitle {color: #bab9b9;}
 .RPG .menuOpener, .RPG .connectOpener {background-color: #c7ac97; color: #444444;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
 .RPG .unifiDapp .MenuOpen .coverMenu {background-color: #2b2622; border-color: #2b2622;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}

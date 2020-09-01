@@ -396,7 +396,7 @@ var StableCoin = React.createClass({
                     <img src="assets/img/farmer.png"></img>
                     <article>
                         <h2>{window.stableCoin.symbol} Arbitrage Farming</h2>
-                        <h6><b>It’s time to farm stablecoins by stabilizing {window.stableCoin.symbol}!</b><br />You can see this section if {window.stableCoin.symbol} price is  greater or less to $1.<br></br><b>What {window.stableCoin.symbol} Arbitrage Farming is about?</b><br></br><br></br> If {window.stableCoin.symbol} is grater than $1, you can stabilize it and earn in a single transaction by 1- Minting uSD, by adding to a stablecoin tier; 2- Swapping your minted uSD for another stablecoin; And earning extra stablecoins from the difference. <br></br><br></br>If {window.stableCoin.symbol} is less than $1, you can stabilize it and earn in a single transaction by 1- Swapping a stablecoin for uSD; 2- Burning the excess uSD for another stablecoin; And 3- ultimately ending up with same $ amount you started with plus extra stablecoins <b></b><a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Contract</a> <a href={"https://uniswap.info/token/" + window.stableCoin.address} target="_blank">Documentation</a></h6>
+                        <h6><b>It’s time to farm stablecoins by stabilizing {window.stableCoin.symbol}!</b><br />You can see this section if {window.stableCoin.symbol} price is  greater or less to $1.<br></br><b>What {window.stableCoin.symbol} Arbitrage Farming is about?</b><br></br><br></br> If {window.stableCoin.symbol} is grater than $1, you can stabilize it and earn in a single transaction by 1- Minting uSD, by adding to a stablecoin tier; 2- Swapping your minted uSD for another stablecoin; And earning extra stablecoins from the difference. <br></br><br></br>If {window.stableCoin.symbol} is less than $1, you can stabilize it and earn in a single transaction by 1- Swapping a stablecoin for uSD; 2- Burning the excess uSD for another stablecoin; And 3- ultimately ending up with same $ amount you started with plus extra stablecoins <b></b><a href={window.getNetworkElement("etherscanURL") + "token/" + window.stableCoin.address} target="_blank">Contract</a> <a href="https://b-u-i-d-l.github.io/unifi-docs/stableCoin/farming/IUnifiedStableFarming/" target="_blank">Documentation</a></h6>
                     </article>
                 </section>
             </section>);
@@ -443,10 +443,10 @@ var StableCoin = React.createClass({
                 <section className="UniSideBox">
                     <h2>Swap <b ref={ref => this.farmStableCoinSwap = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
                     <input ref={ref => this.farmDumpRange = ref} type="range" min="0" max="0" step="0.5" onChange={this.onFarmDumpSliderChange} />
-                    <a href="javascript:;" onClick={this.farmDumpRangeMax}>Max</a>
+                    <a className="SideFarmMaxBTN" href="javascript:;" onClick={this.farmDumpRangeMax}>Max</a>
                     <br />
                     <h2>for</h2>
-                    <select ref={ref => this.dumpPairSelection = ref} onChange={this.onDumpPairChange}>
+                    <select className="FARMSPECSELECT" ref={ref => this.dumpPairSelection = ref} onChange={this.onDumpPairChange}>
                         <option value="0">{this.state.selectedFarmPair.token0.symbol}</option>
                         <option value="1">{this.state.selectedFarmPair.token1.symbol}</option>
                     </select>
@@ -480,18 +480,21 @@ var StableCoin = React.createClass({
                 {this.renderPumpDumpBanner()}
                 <section className="UniBox">
                     <section className="UniTierQuantity">
-                        <select onChange={this.onTokenInPairsChange}>
+                        <select className="FARMSPECSELECT" onChange={this.onTokenInPairsChange}>
                             {this.state && this.state.tokensInPairs && Object.values(this.state.tokensInPairs).map(it => <option key={it.address} value={it.address}>{it.symbol}</option>)}
                         </select>
+                        <br></br>
                         {this.state && this.state.selectedTokenInPairs && <label className="UniDisactiveQuantityTier">
                             <input data-token="selectedTokenInPairs" onKeyUp={this.onType} />
                             <img src={this.state.selectedTokenInPairs.logo} />
                             <p>{this.state.selectedTokenInPairs.symbol}</p>
                             {window.walletAddress && <h6><a href="javascript:;" data-token="selectedTokenInPairs" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedTokenInPairs.balance, this.state.selectedTokenInPairs.decimals)} {this.state.selectedTokenInPairs.symbol}</h6>}
                         </label>}
+                        <br></br>
                         <label>
                             <p> by</p>
-                            <select data-target="farm" onChange={this.onPairChange}>
+                            <br></br>
+                            <select className="FARMSPECSELECT" data-target="farm" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
                                     if (it.disabled) {
                                         return;
