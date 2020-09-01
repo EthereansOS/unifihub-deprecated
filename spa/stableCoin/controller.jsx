@@ -69,6 +69,7 @@ var StableCoinController = function (view) {
         }
         context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, async function () {
             context.checkApprove(context.view.state.selectedPair);
+            context.checkApprove(context.view.state.selectedTokenInPairs);
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
             context.view.setState({ selectedFarmPairToken: context.view.state.selectedFarmPair.token0 });
@@ -475,16 +476,16 @@ var StableCoinController = function (view) {
         if (parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
             throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
         }
-        await context.verifyPumpData();
+        await context.verifyPumpData(selectedFarmPair, earnByPumpData);
         await window.blockchainCall(window.stableFarming.methods.earnByPump, window.stableCoin.address, earnByPumpData.pairDataIndex, earnByPumpData.supplyInPercentage, earnByPumpData.token0Slippage, earnByPumpData.token1Slippage, selectedTokenInPairs.address, value);
         context.loadEconomicData();
         context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
     };
 
-    context.verifyPumpData = async function verifyPumpData(selectedTokenInPairs, earnByPumpData) {
+    context.verifyPumpData = async function verifyPumpData(selectedFarmPair, earnByPumpData) {
         var calculus = window.web3.utils.toBN(earnByPumpData.valueInStable)
-            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedTokenInPairs.token0.decimals, earnByPumpData.token0Value)))
-            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedTokenInPairs.token1.decimals, earnByPumpData.token1Value)))
+            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedFarmPair.token0.decimals, earnByPumpData.token0Value)))
+            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedFarmPair.token1.decimals, earnByPumpData.token1Value)))
             .toString();
         var percentage = await window.blockchainCall(window.stableFarming.methods.percentage);
         var calc = (parseInt(calculus) * parseInt(percentage[0])) / parseInt(percentage[1]);
