@@ -13,10 +13,10 @@ var StableCoinController = function (view) {
     };
 
     context.loadEconomicData = async function loadEconomicData() {
-        context.view.setState({ differences : await context.loadDifferences() });
+        context.view.setState({ differences: await context.loadDifferences() });
         context.view.setState({ totalSupply: await window.blockchainCall(window.stableCoin.token.methods.totalSupply) });
         context.view.setState({ availableToMint: await window.blockchainCall(window.stableCoin.token.methods.availableToMint) });
-        context.view.setState({myBalance : await context.getMyBalance()});
+        context.view.setState({ myBalance: await context.getMyBalance() });
         context.getTotalCoins();
         context.calculatePriceInDollars();
         context.view.state && context.view.state.selectedPair && context.getBalance(context.view.state.selectedPair);
@@ -24,17 +24,17 @@ var StableCoinController = function (view) {
 
     context.loadDifferences = async function loadDifferences() {
         var differences = await window.blockchainCall(window.stableCoin.token.methods.differences);
-        if(parseInt(differences[0]) < (10**parseInt(window.stableCoin.decimals))) {
+        if (parseInt(differences[0]) < (10 ** parseInt(window.stableCoin.decimals))) {
             differences[0] = '0';
         }
-        if(parseInt(differences[1]) < (10**parseInt(window.stableCoin.decimals))) {
+        if (parseInt(differences[1]) < (10 ** parseInt(window.stableCoin.decimals))) {
             differences[1] = '0';
         }
         return differences;
     }
 
     context.loadPairs = async function loadPairs() {
-        context.view.setState({ pairs: null, token0Approved: null, token1Approved: null, selectedPair : null });
+        context.view.setState({ pairs: null, token0Approved: null, token1Approved: null, selectedPair: null });
         var pairs = [];
         var tokensInPairs = {};
         for (var pairAddress of await window.blockchainCall(window.stableCoin.token.methods.allowedPairs)) {
@@ -53,13 +53,13 @@ var StableCoinController = function (view) {
             var total = window.web3.utils.toBN(reserves[0]).add(window.web3.utils.toBN(reserves[1])).toString();
             total = window.fromDecimals(total, window.stableCoin.decimals, true);
             total = parseFloat(total);
-            if(total < window.context.uSDPoolLimit) {
+            if (total < window.context.uSDPoolLimit) {
                 pairData.disabled = true;
             } else {
-                if(await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token0.address) !== window.voidEthereumAddress) {
+                if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token0.address) !== window.voidEthereumAddress) {
                     tokensInPairs[pairData.token0.address] = tokensInPairs[pairData.token0.address] || pairData.token0;
                 }
-                if(await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token1.address) !== window.voidEthereumAddress) {
+                if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token1.address) !== window.voidEthereumAddress) {
                     tokensInPairs[pairData.token1.address] = tokensInPairs[pairData.token1.address] || pairData.token1;
                 }
             }
@@ -72,8 +72,8 @@ var StableCoinController = function (view) {
     };
 
     context.firstNonDisabledPair = function firstNonDisabledPair(pairs) {
-        for(var pairData of pairs) {
-            if(!pairData.disabled) {
+        for (var pairData of pairs) {
+            if (!pairData.disabled) {
                 return pairData;
             }
         }
@@ -141,9 +141,8 @@ var StableCoinController = function (view) {
         reserves.secondFirst = reserves.token1AmountInStable / reserves.token0AmountInStable;
         value = parseInt(value);
         burnValue.token0 = (value * reserves.firstSecond) / 2;
-        burnValue.token1 = (value * reserves.secondFirst) / 2;
         burnValue.token0 = context.fromStableToToken(pairData.token0.decimals, window.numberToString(burnValue.token0).split(',').join('').split('.')[0]);
-        burnValue.token1 = context.fromStableToToken(pairData.token1.decimals, window.numberToString(burnValue.token1).split(',').join('').split('.')[0]);
+        burnValue.token1 = await context.calculateOtherPair(pairData, '0', burnValue.token0, true);
         var stableCoinOutput = await context.getStableCoinOutput(pairData, burnValue.token0, burnValue.token1);
         var rate = value / parseInt(stableCoinOutput);
         burnValue.token0 = parseInt(burnValue.token0) * rate;
@@ -177,92 +176,78 @@ var StableCoinController = function (view) {
     };
 
     context.performMint = async function performMint(pairData, token0Value, token1Value) {
-        context.view.setState({ approving: null, performing: true });
-        var errorMessage;
-        try {
-            if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
-                throw `You must insert a positive ${pairData.token0.symbol} amount`;
-            }
-            if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
-                throw `You must insert a positive ${pairData.token1.symbol} amount`;
-            }
-            var myBalance = await window.blockchainCall(pairData.token0.token.methods.balanceOf, window.walletAddress);
-            if (parseInt(token0Value) > parseInt(myBalance)) {
-                throw `You have insufficient ${pairData.token0.symbol}`;
-            }
-            myBalance = await window.blockchainCall(pairData.token1.token.methods.balanceOf, window.walletAddress);
-            if (parseInt(token1Value) > parseInt(myBalance)) {
-                throw `You have insufficient ${pairData.token1.symbol}`;
-            }
-            var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
-            var availableToMint = parseInt(await window.blockchainCall(window.stableCoin.token.methods.availableToMint));
-            if (availableToMint < parseInt(stableCoinOutput)) {
-                throw `Cannot mint ${window.fromDecimals(stableCoinOutput, window.stableCoin.decimals)} ${window.stableCoin.symbol}`;
-            }
-
-            var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-            var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-            token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
-            token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
-            await window.blockchainCall(window.stableCoin.token.methods.mint, pairData.index, token0Value, token1Value, token0Slippage, token1Slippage);
-            context.loadEconomicData();
-            context.view.openSuccessMessage(`minted new ${window.stableCoin.symbol} tokens`);
-        } catch (e) {
-            var message = e.message || e;
-            if (message.toLowerCase().indexOf('user denied') === -1) {
-                errorMessage = message;
-            }
+        if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
+            throw `You must insert a positive ${pairData.token0.symbol} amount`;
         }
-        context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
+        if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
+            throw `You must insert a positive ${pairData.token1.symbol} amount`;
+        }
+        var myBalance = await window.blockchainCall(pairData.token0.token.methods.balanceOf, window.walletAddress);
+        if (parseInt(token0Value) > parseInt(myBalance)) {
+            throw `You have insufficient ${pairData.token0.symbol}`;
+        }
+        myBalance = await window.blockchainCall(pairData.token1.token.methods.balanceOf, window.walletAddress);
+        if (parseInt(token1Value) > parseInt(myBalance)) {
+            throw `You have insufficient ${pairData.token1.symbol}`;
+        }
+        var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
+        var availableToMint = parseInt(await window.blockchainCall(window.stableCoin.token.methods.availableToMint));
+        if (availableToMint < parseInt(stableCoinOutput)) {
+            throw `Cannot mint ${window.fromDecimals(stableCoinOutput, window.stableCoin.decimals)} ${window.stableCoin.symbol}`;
+        }
+
+        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
+        token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
+        await window.blockchainCall(window.stableCoin.token.methods.mint, pairData.index, token0Value, token1Value, token0Slippage, token1Slippage);
+        context.loadEconomicData();
+        context.view.openSuccessMessage(`minted new ${window.stableCoin.symbol} tokens`);
     };
 
-    context.performBurn = async function performBurn(pairData, token0Value, token1Value) {
-        context.view.setState({ approving: null, performing: true });
-        var errorMessage;
-        try {
-            var oldStableCoinOutput = token0Value;
-            var burnValue = await context.calculateBurnValue(pairData, token0Value);
-            token0Value = burnValue.token0;
-            token1Value = burnValue.token1;
-            var stableCoinOutput = await context.getStableCoinOutput(pairData, token0Value, token1Value);
-            if (isNaN(parseInt(token0Value)) || parseInt(token0Value) <= 0) {
-                throw `You must insert a positive ${pairData.token0.symbol} amount`;
-            }
-            if (isNaN(parseInt(token1Value)) || parseInt(token1Value) <= 0) {
-                throw `You must insert a positive ${pairData.token1.symbol} amount`;
-            }
-            var myBalance = await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress);
-            if (parseInt(stableCoinOutput) > parseInt(myBalance)) {
-                throw `You have insufficient ${window.stableCoin.symbol}`;
-            }
-            var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
-            var ratePool0 = parseInt(token0Value) / parseInt(reserves[0]);
-            var ratePool1 = parseInt(token1Value) / parseInt(reserves[1]);
-            token0Value = parseInt(token0Value) * ratePool0;
-            token0Value = window.numberToString(token0Value).split(',').join('').split('.')[0];
-            token1Value = parseInt(token1Value) * ratePool0;
-            token1Value = window.numberToString(token1Value).split(',').join('').split('.')[0];
-            var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
-            var totalSupply = await window.blockchainCall(pairData.pair.methods.totalSupply);
-            var supplyInPercentage = window.numberToString(parseInt(totalSupply) * ratePool).split(',').join('').split('.')[0];
-            var balance = await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address);
-            if (parseInt(supplyInPercentage) > parseInt(balance)) {
-                throw window.stableCoin.symbol + " has insufficient balance in pool to perform this operation";
-            }
-            var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-            var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
-            token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
-            token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
-            await window.blockchainCall(window.stableCoin.token.methods.burn, pairData.index, supplyInPercentage, token0Slippage, token1Slippage);
-            context.loadEconomicData();
-            context.view.openSuccessMessage(`burnt your ${window.stableCoin.symbol} tokens`);
-        } catch (e) {
-            var message = e.message || e;
-            if (message.toLowerCase().indexOf('user denied') === -1) {
-                errorMessage = message;
-            }
+    context.performBurn = async function performBurn(pairData, stableCoinOutput) {
+        var burnData = await context.getBurnData(pairData, stableCoinOutput);
+        if (isNaN(parseInt(burnData.token0Value)) || parseInt(burnData.token0Value) <= 0) {
+            throw `You must insert a positive ${pairData.token0.symbol} amount`;
         }
-        context.view.setState({ approving: null, performing: null }, () => errorMessage && setTimeout(() => alert(errorMessage)));
+        if (isNaN(parseInt(burnData.token1Value)) || parseInt(burnData.token1Value) <= 0) {
+            throw `You must insert a positive ${pairData.token1.symbol} amount`;
+        }
+        var myBalance = await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress);
+        if (parseInt(stableCoinOutput) > parseInt(myBalance)) {
+            throw `You have insufficient ${window.stableCoin.symbol}`;
+        }
+        var balance = await window.blockchainCall(pairData.pair.methods.balanceOf, window.stableCoin.address);
+        if (parseInt(burnData.supplyInPercentage) > parseInt(balance)) {
+            throw window.stableCoin.symbol + " has insufficient balance in pool to perform this operation";
+        }
+        await window.blockchainCall(window.stableCoin.token.methods.burn, burnData.pairDataIndex, burnData.supplyInPercentage, burnData.token0Slippage, burnData.token1Slippage);
+        context.loadEconomicData();
+        context.view.openSuccessMessage(`burnt your ${window.stableCoin.symbol} tokens`);
+    };
+
+    context.getBurnData = async function getBurnData(pairData, stableCoinOutput) {
+        var burnValue = await context.calculateBurnValue(pairData, stableCoinOutput);
+        var token0Value = burnValue.token0;
+        var token1Value = burnValue.token1;
+        var reserves = await window.blockchainCall(pairData.pair.methods.getReserves);
+        var ratePool0 = parseInt(token0Value) / parseInt(reserves[0]);
+        var ratePool1 = parseInt(token1Value) / parseInt(reserves[1]);
+        var ratePool = ratePool0 < ratePool1 ? ratePool0 : ratePool1;
+        var totalSupply = await window.blockchainCall(pairData.pair.methods.totalSupply);
+        var supplyInPercentage = window.numberToString(parseInt(totalSupply) * ratePool).split(',').join('').split('.')[0];
+        var token0Slippage = window.numberToString(parseInt(token0Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        var token1Slippage = window.numberToString(parseInt(token1Value) * window.context.slippageAmount).split(',').join('').split('.')[0];
+        token0Slippage = window.web3.utils.toBN(token0Value).sub(window.web3.utils.toBN(token0Slippage)).toString();
+        token1Slippage = window.web3.utils.toBN(token1Value).sub(window.web3.utils.toBN(token1Slippage)).toString();
+        return {
+            pairDataIndex: pairData.index,
+            supplyInPercentage,
+            token0Value,
+            token1Value,
+            token0Slippage,
+            token1Slippage
+        };
     };
 
     context.rebalanceByCredit = async function rebalanceByCredit() {
@@ -344,16 +329,16 @@ var StableCoinController = function (view) {
     context.rebalanceByDebt = async function rebalanceByDebt(amount) {
         try {
             amount = window.toDecimals(amount.split(',').join(''), window.stableCoin.decimals);
-            if(isNaN(parseInt(amount)) || parseInt(amount) <= 0) {
+            if (isNaN(parseInt(amount)) || parseInt(amount) <= 0) {
                 throw `Inserted amount must be a positive number`;
             }
             var differences = await context.loadDifferences();
             var debt = parseInt(differences[1]);
-            if(parseInt(amount) > debt) {
+            if (parseInt(amount) > debt) {
                 throw `Inserted amount is greater than the debt`;
             }
             var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
-            if(parseInt(amount) > balanceOf) {
+            if (parseInt(amount) > balanceOf) {
                 throw `You don't have enough ${window.stableCoin.symbol} to perform this operation`;
             }
             await window.blockchainCall(window.stableCoin.token.methods.rebalanceByDebt, amount);
@@ -368,7 +353,7 @@ var StableCoinController = function (view) {
     };
 
     context.getMyBalance = async function getMyBalance() {
-        if(!window.walletAddress) {
+        if (!window.walletAddress) {
             return null;
         }
         return await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress);
@@ -380,12 +365,12 @@ var StableCoinController = function (view) {
     };
 
     context.getTotalCoins = async function getTotalCoins() {
-        if(!context.view.state || !context.view.state.pairs) {
+        if (!context.view.state || !context.view.state.pairs) {
             return;
         }
         var totalCoins = {
-            balanceOf : '0',
-            list : {
+            balanceOf: '0',
+            list: {
             }
         };
         for (var pairData of context.view.state.pairs) {
@@ -403,16 +388,16 @@ var StableCoinController = function (view) {
             totalCoins.list[pairData.token0.address] = totalCoins.list[pairData.token0.address] || {
                 symbol: pairData.token0.symbol,
                 name: pairData.token0.name,
-                balanceOf : '0',
-                address : pairData.token0.address,
+                balanceOf: '0',
+                address: pairData.token0.address,
                 decimals: pairData.token0.decimals
             };
             totalCoins.list[pairData.token0.address].balanceOf = window.web3.utils.toBN(reserves.token0InStable).add(window.web3.utils.toBN(totalCoins.list[pairData.token0.address].balanceOf)).toString();
-            totalCoins.list[pairData.token1.address] = totalCoins.list[pairData.token1.address] ||  {
+            totalCoins.list[pairData.token1.address] = totalCoins.list[pairData.token1.address] || {
                 symbol: pairData.token1.symbol,
                 name: pairData.token1.name,
-                balanceOf : '0',
-                address : pairData.token1.address,
+                balanceOf: '0',
+                address: pairData.token1.address,
                 decimals: pairData.token1.decimals
             };
             totalCoins.list[pairData.token1.address].balanceOf = window.web3.utils.toBN(reserves.token1InStable).add(window.web3.utils.toBN(totalCoins.list[pairData.token1.address].balanceOf)).toString();
@@ -430,11 +415,11 @@ var StableCoinController = function (view) {
         totalCoins.healthPercentage = window.numberToString(percentage / 2).split(',').join('').split('.')[0];
         parseInt(totalCoins.regularPercentage) > 200 && (totalCoins.regularPercentage = '200+');
         parseInt(totalCoins.healthPercentage) > 100 && (totalCoins.healthPercentage = '100');
-        if(isNaN(parseInt(totalCoins.regularPercentage)) || (balanceOf === 0 && totalSupply === 0)) {
+        if (isNaN(parseInt(totalCoins.regularPercentage)) || (balanceOf === 0 && totalSupply === 0)) {
             totalCoins.regularPercentage = '100';
             totalCoins.healthPercentage = '50';
         }
-        context.view.setState({totalCoins});
+        context.view.setState({ totalCoins });
     };
 
     context.calculatePriceInDollars = async function calculatePriceInDollars() {
@@ -442,27 +427,33 @@ var StableCoinController = function (view) {
         try {
             var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, window.toDecimals('1', window.stableCoin.decimals), [window.stableCoin.address, window.wethAddress]))[1], 18, true);
             priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
-            context.view.setState({priceInDollars});
-        } catch (e) {}
+            context.view.setState({ priceInDollars });
+        } catch (e) { }
     };
 
-    context.earnByPump = async function earnByPump() {
-
+    context.performEarnByPump = async function performEarnByPump(selectedTokenInPairs, selectedFarmPair, value) {
+        var earnByPumpData = await context.calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value);
+        if(parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
+            throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
+        }
+        await window.blockchainCall(window.stableFarming.methods.earnByPump, window.stableCoin.address, earnByPumpData.pairDataIndex, earnByPumpData.supplyInPercentage, earnByPumpData.token0Slippage, earnByPumpData.token1Slippage, selectedTokenInPairs.address, value);
+        context.loadEconomicData();
+        context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
     };
 
-    context.earnByDump = async function earnByDump() {
+    context.performEarnByDump = async function performEarnByDump() {
 
     };
 
     context.calculateEarnByPumpData = async function calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value) {
-        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+        if (isNaN(parseInt(value)) || parseInt(value) === 0) {
             return null;
         }
         var earnByPumpData = {};
         earnByPumpData.output = (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [selectedTokenInPairs.address, window.stableCoin.address]))[1];
         earnByPumpData.valueInStable = context.fromTokenToStable(selectedTokenInPairs.decimals, value);
         var diff = window.web3.utils.toBN(earnByPumpData.output).sub(window.web3.utils.toBN(earnByPumpData.valueInStable)).toString();
-        var burnValueData = await context.calculateBurnValue(selectedFarmPair, diff);
+        var burnValueData = await context.getBurnData(selectedFarmPair, diff);
         Object.entries(burnValueData).forEach(it => earnByPumpData[it[0]] = it[1]);
         return earnByPumpData;
     };
