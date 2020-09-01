@@ -67,10 +67,12 @@ var StableCoinController = function (view) {
             }
             pairs.push(pairData);
         }
-        context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, function () {
+        context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, async function () {
             context.checkApprove(context.view.state.selectedPair);
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
+            context.view.setState({selectedFarmPairToken : context.view.state.selectedFarmPair.token0});
+            context.view.setState({selectedFarmPairTokenPrice : await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals))});
         });
     };
 
