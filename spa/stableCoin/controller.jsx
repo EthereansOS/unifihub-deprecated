@@ -142,6 +142,9 @@ var StableCoinController = function (view) {
             token0 : '0',
             token1 : '0'
         };
+        if(isNaN(parseInt(value)) || parseInt(value) === 0) {
+            return burnValue;
+        }
         var reserves = await context.getComplexReservePairData(pairData);
 
         reserves.token0AmountInStable = parseInt(context.fromTokenToStable(pairData.token0.decimals, reserves[0]));
