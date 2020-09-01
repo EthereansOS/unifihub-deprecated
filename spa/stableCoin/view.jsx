@@ -299,14 +299,12 @@ var StableCoin = React.createClass({
                     <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token0, this.state.selectedPair.token0.decimals, true)) || '0.00'}</span>
                     <img src={this.state.selectedPair.token0.logo} />
                     <p>{this.state.selectedPair.token0.symbol}</p>
-                    
                 </label>
                 <h5>And</h5>
                 <label className="UniDisactiveQuantityTier UniActiveQuantityTierBurn">
                     <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token1, this.state.selectedPair.token1.decimals, true)) || '0.00'}</span>
                     <img src={this.state.selectedPair.token1.logo} />
                     <p>{this.state.selectedPair.token1.symbol}</p>
-                    
                 </label>
                 <br />
                 {window.walletAddress && this.state.performing !== 'Burn' && <a href="javascript:;" data-action="Burn" onClick={this.doAction} className="StableITBTN">GO</a>}
