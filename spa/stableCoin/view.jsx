@@ -607,8 +607,10 @@ var StableCoin = React.createClass({
                     </section>}
                     <p className="Disclamerone">This protocol is built using a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a> approach. But it's new, so use it at your own risk and remember, in Ethereum transactions are irreversible.</p>
                 </section>}
-                {this.state && this.state.priceInDollars && this.state.priceInDollars > window.context.farmingShowRuleDump && this.state.selectedPair && this.renderDump()}
-                {this.state && this.state.priceInDollars && this.state.priceInDollars < window.context.farmingShowRulePump && this.state.selectedPair && this.renderPump()}
+                {false && this.state && this.state.priceInDollars && this.state.priceInDollars > window.context.farmingShowRuleDump && this.state.selectedPair && this.renderDump()}
+                {false && this.state && this.state.priceInDollars && this.state.priceInDollars < window.context.farmingShowRulePump && this.state.selectedPair && this.renderPump()}
+                {this.state && this.state.selectedPair && this.renderDump()}
+                {this.state && this.state.selectedPair && this.renderPump()}
                 {this.state && this.state.grimoire && <GrimuSD />}
             </section>
         );
