@@ -186,6 +186,9 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .coverMenu li:hover .menuArrow {width: 20px; height: 20px; position: absolute; left: -15px; top: 15px; display: block;}
 .coverMenu .menuArrow img {width: 20px; height: 20px;}
 .UniActiveQuantityTierBurn {text-align: center !important;}
+.UniSideBox .UniActiveQuantityTier {width: 100%;}
+.UniSideBox .UniActiveQuantityTier img {width: 20px; height: 20px; margin: 5px; vertical-align: middle;}
+.UniSideBox .UniDisactiveQuantityTier img {width: 20px; height: 20px;margin: 5px; vertical-align: middle;}
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
 .Boomer .UniSideBox {border-radius: 20px; color: #000000; width: 100%; background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}
