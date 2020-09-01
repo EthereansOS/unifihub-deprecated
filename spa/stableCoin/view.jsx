@@ -232,18 +232,18 @@ var StableCoin = React.createClass({
                     {window.walletAddress && <h6><a href="javascript:;" data-token="stableCoin" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.myBalance, window.stableCoin.decimals)} {window.stableCoin.symbol}</h6>}
                 </label>
                 <h2>for</h2>
-                <label className="UniActiveQuantityTier">
+                <label className="UniActiveQuantityTier UniActiveQuantityTierBurn">
                     <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token0, this.state.selectedPair.token0.decimals)) || '0.00'}</span>
                     <img src={this.state.selectedPair.token0.logo} />
                     <p>{this.state.selectedPair.token0.symbol}</p>
-                    {window.walletAddress && this.state && this.state.selectedPair && this.state.selectedPair.token0.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedPair.token0.balance, this.state.selectedPair.token0.decimals)}</b>{'\u00a0'}{this.state.selectedPair.token0.symbol}</h6>}
+                    
                 </label>
                 <h5>And</h5>
-                <label className="UniDisactiveQuantityTier">
+                <label className="UniDisactiveQuantityTier UniActiveQuantityTierBurn">
                     <span>{(this.state && this.state.burnValue && window.fromDecimals(this.state.burnValue.token1, this.state.selectedPair.token1.decimals)) || '0.00'}</span>
                     <img src={this.state.selectedPair.token1.logo} />
                     <p>{this.state.selectedPair.token1.symbol}</p>
-                    {window.walletAddress && this.state && this.state.selectedPair && this.state.selectedPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedPair.token1.balance, this.state.selectedPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedPair.token1.symbol}</h6>}
+                    
                 </label>
                 <br />
                 {window.walletAddress && !this.state.performing && <a href="javascript:;" onClick={this.doAction} className="StableITBTN">GO</a>}
