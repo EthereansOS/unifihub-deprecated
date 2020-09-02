@@ -3,7 +3,12 @@ var StableCoinController = function (view) {
     context.view = view;
 
     context.loadData = async function loadData() {
-        await window.loadEthereumStuff(context.view.oldStableCoin);
+        context.view.setState({connectionUnavailable : null});
+        try {
+            await window.loadEthereumStuff(context.view.oldStableCoin);
+        } catch(e) {
+            return context.view.setState({connectionUnavailable : true, selectedPair : null});
+        }
         window.stableFarming = window.newContract(window.context.UnifiedStableFarmingAbi, window.context.farmingContractAddress);
         delete window.addressBarParams.useOldStableCoin;
         context.view.forceUpdate();

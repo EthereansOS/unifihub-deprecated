@@ -52,10 +52,10 @@ var SwapBazar = React.createClass({
             if ((!_this.state.inputToken || !_this.state.outputToken) && _this.state.uniswap) {
                 _this.setState({ uniswap: null });
             }
-            if(!token) {
+            if (!token) {
                 return;
             }
-            _this.controller.calculatePriceInDollars(token).then(function(priceInDollars) {
+            _this.controller.calculatePriceInDollars(token).then(function (priceInDollars) {
                 var state = {};
                 state[tokenPrice] = priceInDollars;
                 _this.setState(state);
@@ -71,7 +71,7 @@ var SwapBazar = React.createClass({
     },
     componentDidUpdate() {
         var _this = this;
-        _this.state && _this.state.uniswap && _this.uniswapLoader && setTimeout(function() {
+        _this.state && _this.state.uniswap && _this.uniswapLoader && setTimeout(function () {
             $(_this.uniswapLoader).css('display', 'none');
         }, 2000);
     },
@@ -95,15 +95,17 @@ var SwapBazar = React.createClass({
                     </article>
                 </section>
             </section>
-            {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && 
-            <section className="ArrivaUniswapQuelloVero">
+            {this.state && this.state.uniswap && this.state.inputToken && this.state.outputToken && <section className="ArrivaUniswapQuelloVero">
                 <a className="SeneVaUniswap" href="javascript:;" onClick={this.closeUniswap}>X</a>
                 <iframe src={this.renderUniswapLink()}></iframe>
                 <section ref={ref => this.uniswapLoader = ref} className="ArrivaUniswap">
                     <img src="assets/img/loader2.gif"></img>
                 </section>
             </section>}
-            {(!this.state || !this.state.tokensList) && <Loader />}
+            {this.state && this.state.connectionUnavailable && <section>
+                <h2>You need to connect your wallet to proceed.</h2>
+            </section>}
+            {(!this.state || (!this.state.tokensList && !this.state.connectionUnavailable)) && <Loader />}
             {this.state && this.state.tokensList && <section className="UniBox">
                 <section className="UniTitle">
                 </section>
@@ -126,7 +128,7 @@ var SwapBazar = React.createClass({
                     <p className={"BazzPreDesc" + ((!this.state || !this.state.inputToken || !this.state.outputToken) ? " ActiveDesc" : "Disabled")}>Select Tiers to Swap or Manage Liquidity</p>
                 </section>
             </section>}
-                {this.state && this.state.grimoire && <GrimBazar/>}
+            {this.state && this.state.grimoire && <GrimBazar />}
         </section>);
     }
 });

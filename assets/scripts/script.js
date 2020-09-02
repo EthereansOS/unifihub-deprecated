@@ -120,7 +120,11 @@ window.onEthereumUpdate = function onEthereumUpdate(millis) {
                 $.publish('ethereum/ping');
                 return ok(window.web3);
             } catch (e) {
-                ko(e);
+                if((e.message || e).toLowerCase().indexOf('daily request count') === -1) {
+                    ko(e);
+                } else {
+                    ok();
+                }
             }
         }, !isNaN(millis) ? millis : 550);
     });

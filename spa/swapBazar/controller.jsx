@@ -11,7 +11,12 @@ var SwapBazarController = function (view) {
     context.newDfoDeployedEvent = "DFODeployed(address_indexed,address_indexed,address,address)";
 
     context.loadData = async function loadData() {
-        await window.loadEthereumStuff();
+        context.view.setState({connectionUnavailable : null});
+        try {
+            await window.loadEthereumStuff();
+        } catch(e) {
+            return context.view.setState({connectionUnavailable : true, tokensList : null});
+        }
         context.view.setState({inputToken : null, outputToken : null, inputPrice : null, outputPrice: null, uniswap: null});
         try {
             context.view.setState({

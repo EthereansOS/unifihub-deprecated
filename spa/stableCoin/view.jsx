@@ -592,7 +592,10 @@ var StableCoin = React.createClass({
                         You have successfully {this.state.successMessage}!
                     </p>
                 </section>}
-                {(!this.state || !this.state.selectedPair) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
+                {this.state && this.state.connectionUnavailable && <section>
+                    <h2>You need to connect your wallet to proceed.</h2>
+                </section>}
+                {(!this.state || (!this.state.selectedPair && !this.state.connectionUnavailable)) && <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")} />}
                 {this.state && this.state.selectedPair && <section className="UniBox">
                     <section className="UniTitle">
                         <label>
