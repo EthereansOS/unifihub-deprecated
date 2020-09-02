@@ -44,6 +44,7 @@ var StableCoin = React.createClass({
             _this.controller.checkApprove(_this.state.selectedTokenInPairs);
             $(_this.domRoot).children().find('input[data-token="selectedTokenInPairs"]')[0].value = '';
             _this.controller.calculateEarnByPumpData(_this.state.selectedTokenInPairs, _this.state.selectedFarmPair, '0').then(function (earnByPumpData) {
+                _this.controller.checkApprove(_this.state.selectedTokenInPairs);
                 _this.setState({ earnByPumpData });
             });
         });
@@ -554,7 +555,7 @@ var StableCoin = React.createClass({
                         {window.walletAddress && this.state && this.state.selectedFarmPair && this.state.selectedFarmPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedFarmPair.token1.balance, this.state.selectedFarmPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedFarmPair.token1.symbol}</h6>}
                     </label>}
                     <label className="UniActiveQuantityTier">
-                        {window.walletAddress && !this.state.selectedTokenInPairsApproved && this.state.approving !== 'selectedTokenInPairs' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="selectedTokenInPairs" className={"approveBTN" + (this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>Approve {this.state.selectedTokenInPairs.symbol}</a>}
+                        {window.walletAddress && this.state.approving !== 'selectedTokenInPairs' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="selectedTokenInPairs" className={"approveBTN" + (this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>Approve {this.state.selectedTokenInPairs.symbol}</a>}
                         {this.state && this.state.approving === 'selectedTokenInPairs' && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
                         {window.walletAddress && this.state.performing !== 'EarnByPump' && <a href="javascript:;" data-action="EarnByPump" onClick={this.doAction} className={"StableITBTN" + (!this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>GO</a>}
                         {this.state && this.state.performing === 'EarnByPump' && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
