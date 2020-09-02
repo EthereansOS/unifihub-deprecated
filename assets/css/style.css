@@ -111,7 +111,7 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .StableITBTN, .approveBTN {font-size: 15px; font-weight: bold; padding: 12px 18px; display: inline-block; color: #f1f1f1; text-decoration: none; border-radius: 6px; margin: 15px 5px;}
 .approveBTN {background-color: #5549c9; color: #f1f1f1;}
 .StableITBTN {background-color: #b030df; color: #f1f1f1;}
-.UniTierQuantity .Disabled {background-color: #444444;}
+.UniTierQuantity .Disabled, .UniActiveQuantityTier .Disabled {background-color: #444444;} 
 .SideRebelanceBro {margin: 10px auto;}
 .SideRebelanceBro label {width: 100%;}
 .SideRebelanceBro label h5 {font-size: 14px; width: 100%; font-weight: normal;}
@@ -191,6 +191,11 @@ footer p a, footer h5 a {color: #c7ac97; font-weight: bold;}
 .UniSideBox .UniActiveQuantityTier img {width: 20px; height: 20px; margin: 5px; vertical-align: middle;}
 .UniSideBox .UniDisactiveQuantityTier img {width: 20px; height: 20px;margin: 5px; vertical-align: middle;}
 .SideFarmMaxBTN {font-size: 10px; background-color: #000000; color: #ffffff; font-weight: bold; padding: 2px 4px;}
+.WOOOOOOOOOOOOW {font-size:16px !important; color: #128b03 !important;}
+.WOOOOOOOOOOOOW b {font-size: 21px;}
+.BOHBOH {margin: 10px auto; display: inline-block;}
+.StableCoinTitleALWAYS .StableCoinTitleIntern {display: inline-block !important;padding: 5%; border-radius: 23px;}
+.StableCoinTitleALWAYS {width: 90%; margin: 0 auto;}
 
 .Boomer .UniBox, .Boomer .grimoireBox {position: initial;background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px; border-radius: 30px; color: #000000;}
 .Boomer .UniSideBox {border-radius: 20px; color: #000000; width: 100%; background-color: #bab9b9;box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;}

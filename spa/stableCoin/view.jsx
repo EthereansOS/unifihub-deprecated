@@ -408,7 +408,7 @@ var StableCoin = React.createClass({
     },
     renderPumpDumpBanner() {
         if (window.stableCoin && window.stableCoin.name && window.stableCoin.symbol) {
-            return (<section className="StableCoinTitle">
+            return (<section className="StableCoinTitle StableCoinTitleALWAYS">
                 <section className="StableCoinTitleIntern">
                     <img src="assets/img/farmer.png"></img>
                     <article>
@@ -427,7 +427,7 @@ var StableCoin = React.createClass({
                 <section className="UniBox">
                     <section className="UniTitle">
                         <label>
-                            <p> by</p>
+                            <p>Farm $ by Mint using</p>
                             <select data-target="farm" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
                                     if (it.disabled || !it.token0.pairWithStable || !it.token1.pairWithStable) {
@@ -458,7 +458,7 @@ var StableCoin = React.createClass({
                     </section>
                 </section>
                 <section className="UniSideBox">
-                    <h2>Swap <b ref={ref => this.farmStableCoinSwap = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
+                    <h2>Then Swap <b ref={ref => this.farmStableCoinSwap = ref}>0</b>{'\u00a0'}{window.stableCoin.symbol}</h2>
                     <input ref={ref => this.farmDumpRange = ref} type="range" min="0" max="0" step="0.5" onChange={this.onFarmDumpSliderChange} />
                     <a className="SideFarmMaxBTN" href="javascript:;" onClick={this.farmDumpRangeMax}>Max</a>
                     <br />
@@ -484,9 +484,9 @@ var StableCoin = React.createClass({
                         <br />
                         {this.state.selectedFarmPairTokenPrice && <span>{window.fromDecimals(this.state.selectedFarmPairTokenPrice, this.state.selectedFarmPairToken.decimals)} {this.state.selectedFarmPairToken.symbol}</span>}
                     </label>
-                    {this.state.farmDumpDifference && <label className="UniActiveQuantityTier">
-                        <h6>Difference earned:</h6>
-                        {this.state.farmDumpDifference} $
+                    {this.state.farmDumpDifference && <label className="UniActiveQuantityTier WOOOOOOOOOOOOW">
+                        <h6 className="WOOOOOOOOOOOOW">Arbitrage Earns:</h6>
+                        <b>{this.state.farmDumpDifference} $</b>
                     </label>}
                     <label className="UniActiveQuantityTier">
                         {window.walletAddress && (!this.state.farmToken0Approved || this.state.farmToken1Approved) && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="farm0" className={this.state.farmToken0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedFarmPair.token0.symbol}</a>}
@@ -505,6 +505,7 @@ var StableCoin = React.createClass({
                 {this.renderPumpDumpBanner()}
                 <section className="UniBox">
                     <section className="UniTierQuantity">
+                        <p>Farm $ by swapping uSD from</p>
                         <select className="FARMSPECSELECT" onChange={this.onTokenInPairsChange}>
                             {this.state && this.state.tokensInPairs && Object.values(this.state.tokensInPairs).map(it => <option key={it.address} value={it.address}>{it.symbol}</option>)}
                         </select>
@@ -517,7 +518,7 @@ var StableCoin = React.createClass({
                         </label>}
                         <br></br>
                         <label>
-                            <p> by</p>
+                            <p className="BOHBOH">then burn uSD for</p>
                             <br></br>
                             <select className="FARMSPECSELECT" data-target="farm" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
