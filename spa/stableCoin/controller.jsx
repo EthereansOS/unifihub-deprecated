@@ -170,6 +170,7 @@ var StableCoinController = function (view) {
         burnValue.token0 = context.fromStableToToken(pairData.token0.decimals, window.numberToString(burnValue.token0).split(',').join('').split('.')[0]);
         burnValue.token1 = await context.calculateOtherPair(pairData, '0', burnValue.token0, true);
         var stableCoinOutput = await context.getStableCoinOutput(pairData, burnValue.token0, burnValue.token1);
+        burnValue.stableCoinOutput = stableCoinOutput;
         var rate = value / parseInt(stableCoinOutput);
         burnValue.token0 = parseInt(burnValue.token0) * rate;
         burnValue.token0 = window.numberToString(burnValue.token0).split(',').join('').split('.')[0];
@@ -463,17 +464,17 @@ var StableCoinController = function (view) {
     }
 
     context.setDumpPricesInDollars = async function setDumpPricesInDollars(pairToken, token0Value, token1Value, outputStable, outputToken, outputTokenPrice) {
-        var token0ValueInDollars = await context.getPriceInDollars(pairToken.token0, token0Value);
-        var token1ValueInDollars = await context.getPriceInDollars(pairToken.token1, token1Value);
+        var token0ValueInDollars = parseInt(await context.fromTokenToStable(pairToken.token0.decimals, token0Value));
+        var token1ValueInDollars = parseInt(await context.fromTokenToStable(pairToken.token1.decimals, token1Value));
 
         var input = token0ValueInDollars + token1ValueInDollars;
-        context.view.setState({farmDumpPay : window.formatMoney(input)});
+        context.view.setState({farmDumpPay : window.fromDecimals(input, window.stableCoin.decimals)});
 
-        var outputStableInDollars = await context.getPriceInDollars(window.stableCoin, window.toDecimals(outputStable.split(',').join(''), window.stableCoin.decimals));
-        var outputTokenInDollars = await context.getPriceInDollars(outputToken, outputTokenPrice);
+        var outputStableInDollars = parseInt(window.toDecimals(outputStable.split(',').join(''), window.stableCoin.decimals));
+        var outputTokenInDollars = parseInt(await context.fromTokenToStable(outputToken.decimals, outputTokenPrice));
 
         var output = outputStableInDollars + outputTokenInDollars;
-        context.view.setState({farmDumpDifference : window.formatMoney(output - input)});
+        context.view.setState({farmDumpDifference : window.fromDecimals(output - input, window.stableCoin.decimals)});
     };
 
     context.performEarnByPump = async function performEarnByPump(selectedTokenInPairs, selectedFarmPair, value) {
@@ -495,7 +496,7 @@ var StableCoinController = function (view) {
         var percentage = await window.blockchainCall(window.stableFarming.methods.percentage);
         var calc = (parseInt(calculus) * parseInt(percentage[0])) / parseInt(percentage[1]);
         var minus = parseInt(calculus) - calc;
-        var plus = parseInt(calculus) - calc;
+        var plus = parseInt(calculus) + calc;
         if (!(parseInt(earnByPumpData.output) >= minus && parseInt(earnByPumpData.output) <= plus)) {
             throw "Values are not coherent";
         }
@@ -509,8 +510,21 @@ var StableCoinController = function (view) {
         earnByPumpData.output = (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [selectedTokenInPairs.address, window.stableCoin.address]))[1];
         earnByPumpData.valueInStable = context.fromTokenToStable(selectedTokenInPairs.decimals, value);
         var diff = window.web3.utils.toBN(earnByPumpData.output).sub(window.web3.utils.toBN(earnByPumpData.valueInStable)).toString();
+        earnByPumpData.diff = diff;
         var burnValueData = await context.getBurnData(selectedFarmPair, diff);
         Object.entries(burnValueData).forEach(it => earnByPumpData[it[0]] = it[1]);
+
+        var input = parseInt(await context.fromTokenToStable(selectedTokenInPairs, value));
+
+        earnByPumpData.farmPumpPay = window.fromDecimals(input, window.stableCoin.decimals);
+
+        var outputStableInDollars = parseInt(earnByPumpData.valueInStable);
+        var token0ValueInDollars = parseInt(await context.fromTokenToStable(selectedFarmPair.token0.decimals, earnByPumpData.token0Value));
+        var token1ValueInDollars = parseInt(await context.fromTokenToStable(selectedFarmPair.token1.decimals, earnByPumpData.token1Value));
+
+        var output = outputStableInDollars + token0ValueInDollars + token1ValueInDollars;
+        earnByPumpData.farmPumpDifference = window.fromDecimals(output - input, window.stableCoin.decimals);
+
         return earnByPumpData;
     };
 
