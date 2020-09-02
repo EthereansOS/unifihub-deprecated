@@ -16,6 +16,7 @@ var StableCoin = React.createClass({
     },
     onPing() {
         this.state && this.state.selectedPair && this.controller.checkApprove(this.state.selectedPair);
+        this.state && this.state.selectedFarmPair && this.controller.checkApprove(this.state.selectedTokenInPairs);
         this.state && this.state.selectedFarmPair && this.controller.checkApprove(this.state.selectedFarmPair, true);
     },
     componentDidMount() {
@@ -490,7 +491,7 @@ var StableCoin = React.createClass({
                         <b>{this.state.farmDumpDifference} $</b>
                     </label>}
                     <label className="UniActiveQuantityTier">
-                        {window.walletAddress && (!this.state.farmToken0Approved || this.state.farmToken1Approved) && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="farm0" className={this.state.farmToken0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedFarmPair.token0.symbol}</a>}
+                        {window.walletAddress && (!this.state.farmToken0Approved || this.state.farmToken1Approved) && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a href="javascript:;" onClick={this.approve} data-token="farm0" className={this.state.farmToken0Approved ? "approveBTN Disabled" : "approveBTN"}>Approve {this.state.selectedFarmPair.token0.symbol}</a>}
                         {window.walletAddress && this.state.farmToken0Approved && !this.state.farmToken1Approved && this.state.approving !== 'farm0' && this.state.approving !== 'farm1' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="farm1">Approve {this.state.selectedFarmPair.token1.symbol}</a>}
                         {(this.state.approving === 'farm0' || this.state.approving === 'farm1') && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
                         {window.walletAddress && this.state.performing !== 'EarnByDump' && <a href="javascript:;" data-action="EarnByDump" onClick={this.doAction} className={!this.state.farmToken0Approved || !this.state.farmToken1Approved ? "StableITBTN Disabled" : "StableITBTN"}>GO</a>}
@@ -555,7 +556,7 @@ var StableCoin = React.createClass({
                         {window.walletAddress && this.state && this.state.selectedFarmPair && this.state.selectedFarmPair.token1.balance && <h6>Balance: <b>{window.fromDecimals(this.state.selectedFarmPair.token1.balance, this.state.selectedFarmPair.token1.decimals)}</b>{'\u00a0'}{this.state.selectedFarmPair.token1.symbol}</h6>}
                     </label>}
                     <label className="UniActiveQuantityTier">
-                        {window.walletAddress && this.state.approving !== 'selectedTokenInPairs' && <a className="approveBTN" href="javascript:;" onClick={this.approve} data-token="selectedTokenInPairs" className={"approveBTN" + (this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>Approve {this.state.selectedTokenInPairs.symbol}</a>}
+                        {window.walletAddress && this.state.approving !== 'selectedTokenInPairs' && <a href="javascript:;" onClick={this.approve} data-token="selectedTokenInPairs" className={"approveBTN" + (this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>Approve {this.state.selectedTokenInPairs.symbol}</a>}
                         {this.state && this.state.approving === 'selectedTokenInPairs' && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader4", "gif")} />}
                         {window.walletAddress && this.state.performing !== 'EarnByPump' && <a href="javascript:;" data-action="EarnByPump" onClick={this.doAction} className={"StableITBTN" + (!this.state.selectedTokenInPairsApproved ? " Disabled" : "")}>GO</a>}
                         {this.state && this.state.performing === 'EarnByPump' && <Loader loaderClass="loaderMini" loaderImg={window.resolveImageURL("loader3", "gif")} />}
