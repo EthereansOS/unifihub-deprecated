@@ -478,6 +478,13 @@ var StableCoinController = function (view) {
     };
 
     context.performEarnByPump = async function performEarnByPump(selectedTokenInPairs, selectedFarmPair, value) {
+        if(isNaN(parseInt(value)) || parseInt(value) <= 0) {
+            throw `The ${selectedTokenInPairs.symbol} amount must be a number greater than 0`;
+        }
+        var myBalance = await window.blockchainCall(selectedTokenInPairs.token.methods.balanceOf, window.walletAddress);
+        if(parseInt(value) > parseInt(myBalance)) {
+            throw `You don't have sufficient ${selectedTokenInPairs.symbol} to swap`;
+        }
         var earnByPumpData = await context.calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value);
         if (parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
             throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
