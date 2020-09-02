@@ -135,7 +135,7 @@ window.loadEthereumStuff = async function loadEthereumStuff(oldStableCoin) {
         window.doubleProxy = window.newContract(window.context.DoubleProxyAbi, await window.blockchainCall(window.stableCoin.methods.doubleProxy))
         window.dfo = window.web3.eth.dfoHub.load(await window.blockchainCall(window.doubleProxy.methods.proxy));
         window.stableCoin = await window.loadTokenInfos(window.stableCoin.options.address, window.context.StableCoinAbi);
-        window.stableCoin.logo = 'assets/img/stableLogo.png';
+        window.stableCoin.logo = 'assets/img/StableLogo.png';
         window.votingToken = await window.loadTokenInfos((await (window.dfo = await window.dfo).votingToken).options.address);
     } catch(e) {
     }
