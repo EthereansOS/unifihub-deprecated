@@ -14,7 +14,7 @@ interface IUnifiedStableFarming {
         uint256 amount0,
         uint256 amount1,
         address tokenAddress,
-        uint256 tokenValue) external;
+        uint256 tokenValue) external payable;
 
     //Earn dumping uSD - Means mint uSD then swap uSD for the chosen Uniswap Pool tokens
     function earnByDump(
@@ -59,8 +59,10 @@ interface IUniswapV2Pair {
 }
 
 interface IUniswapV2Router {
+    function WETH() external pure returns (address);
     function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
     function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts);
+    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline) external payable returns (uint[] memory amounts);
 }
 
 interface IERC20 {

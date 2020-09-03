@@ -39,9 +39,9 @@ var StableCoinController = function (view) {
     }
 
     context.loadPairs = async function loadPairs() {
+        context.loadTokensInPairs(window.stableCoin);
         context.view.setState({ pairs: null, token0Approved: null, token1Approved: null, selectedPair: null });
         var pairs = [];
-        var tokensInPairs = {};
         for (var pairAddress of await window.blockchainCall(window.stableCoin.token.methods.allowedPairs)) {
             var pair = window.newContract(window.context.UniswapV2PairAbi, pairAddress);
             var pairData = {
@@ -62,23 +62,33 @@ var StableCoinController = function (view) {
                 pairData.disabled = true;
             } else {
                 if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token0.address) !== window.voidEthereumAddress) {
-                    tokensInPairs[pairData.token0.address] = tokensInPairs[pairData.token0.address] || pairData.token0;
                     pairData.token0.pairWithStable = true;
                 }
                 if (await window.blockchainCall(window.uniswapV2Factory.methods.getPair, window.stableCoin.address, pairData.token1.address) !== window.voidEthereumAddress) {
-                    tokensInPairs[pairData.token1.address] = tokensInPairs[pairData.token1.address] || pairData.token1;
                     pairData.token1.pairWithStable = true;
                 }
             }
             pairs.push(pairData);
         }
-        context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0], pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, async function () {
+        context.view.setState({pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, async function () {
             context.checkApprove(context.view.state.selectedPair);
-            context.checkApprove(context.view.state.selectedTokenInPairs);
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
             context.view.setState({ selectedFarmPairToken: context.view.state.selectedFarmPair.token0 });
             context.view.setState({ selectedFarmPairTokenPrice: '0', selectedFarmPairTokenSinglePrice: await context.calculateFarmDumpValue(context.view.state.selectedFarmPair, "0", window.toDecimals("1", window.stableCoin.decimals)) });
+        });
+    };
+
+    context.loadTokensInPairs = async function loadTokensInPairs(token) {
+        var uniswapTokens = await window.loadUniswapPairs(token);
+        var tokensInPairs = {};
+        for(var uniswapToken of uniswapTokens) {
+            tokensInPairs[window.web3.utils.toChecksumAddress(uniswapToken.token0.address)] = uniswapToken.token0;
+            tokensInPairs[window.web3.utils.toChecksumAddress(uniswapToken.token1.address)] = uniswapToken.token1;
+        }
+        delete tokensInPairs[window.web3.utils.toChecksumAddress(token.address)];
+        context.view.setState({ tokensInPairs, selectedTokenInPairs: Object.values(tokensInPairs)[0]}, function () {
+            context.checkApprove(context.view.state.selectedTokenInPairs);
         });
     };
 
@@ -91,33 +101,32 @@ var StableCoinController = function (view) {
     };
 
     context.getBalance = async function getBalance(selectedPair) {
-        selectedPair.token0 && (selectedPair.token0.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token0.token.methods.balanceOf, window.walletAddress));
-        selectedPair.token1 && (selectedPair.token1.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token1.token.methods.balanceOf, window.walletAddress));
-        selectedPair.token && (selectedPair.balance = !window.walletAddress ? '0' : await window.blockchainCall(selectedPair.token.methods.balanceOf, window.walletAddress));
+        selectedPair.token0 && (selectedPair.token0.balance = !window.walletAddress ? '0' : selectedPair.token0.address === window.wethAddress ? await window.web3.eth.getBalance(window.walletAddress) : await window.blockchainCall(selectedPair.token0.token.methods.balanceOf, window.walletAddress));
+        selectedPair.token1 && (selectedPair.token1.balance = !window.walletAddress ? '0' : selectedPair.token1.address === window.wethAddress ? await window.web3.eth.getBalance(window.walletAddress) : await window.blockchainCall(selectedPair.token1.token.methods.balanceOf, window.walletAddress));
+        selectedPair.token && (selectedPair.balance = !window.walletAddress ? '0' : (selectedPair.token.address || selectedPair.address) === window.wethAddress ? await window.web3.eth.getBalance(window.walletAddress) : await window.blockchainCall(selectedPair.token.methods.balanceOf, window.walletAddress));
         context.view.setState(selectedPair);
     };
 
     context.checkApprove = async function checkApprove(pairData, forFarm) {
         context.getBalance(pairData);
         var state = {};
-        if (!pairData.token && !forFarm) {
-            state.token0Approved = null;
-            state.token1Approved = null;
-        }
-        else {
-            pairData.token && (state.selectedTokenInPairsApproved = null);
-            !pairData.token && (state.farmToken0Approved = null);
-            !pairData.token && (state.farmToken1Approved = null);
-        }
-        context.view.setState(state);
         if (!window.walletAddress) {
-            return;
+            if (!pairData.token && !forFarm) {
+                state.token0Approved = null;
+                state.token1Approved = null;
+            }
+            else {
+                pairData.token && (state.selectedTokenInPairsApproved = null);
+                !pairData.token && (state.farmToken0Approved = null);
+                !pairData.token && (state.farmToken1Approved = null);
+            }
+            return context.view.setState(state);
         }
-        pairData.token0 && !forFarm && (state.token0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
-        pairData.token1 && !forFarm && (state.token1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
-        pairData.token && (state.selectedTokenInPairsApproved = parseInt(await window.blockchainCall(pairData.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
-        pairData.token0 && forFarm && (state.farmToken0Approved = parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
-        pairData.token1 && forFarm && (state.farmToken1Approved = parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        pairData.token0 && !forFarm && (state.token0Approved = pairData.token0.address === window.wethAddress ? true : parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token1 && !forFarm && (state.token1Approved = pairData.token1.address === window.wethAddress ? true : parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableCoin.address)) > 0);
+        pairData.token && (state.selectedTokenInPairsApproved = (pairData.token.address || pairData.address) === window.wethAddress ? true : parseInt(await window.blockchainCall(pairData.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        pairData.token0 && forFarm && (state.farmToken0Approved = pairData.token0.address === window.wethAddress ? true : parseInt(await window.blockchainCall(pairData.token0.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
+        pairData.token1 && forFarm && (state.farmToken1Approved = pairData.token1.address === window.wethAddress ? true : parseInt(await window.blockchainCall(pairData.token1.token.methods.allowance, window.walletAddress, window.stableFarming.options.address)) > 0);
         context.view.setState(state);
     };
 
@@ -456,7 +465,7 @@ var StableCoinController = function (view) {
     context.getPriceInDollars = async function getPriceInDollars(token, value) {
         var ethereumPrice = await window.getEthereumPrice();
         try {
-            var priceInDollars = window.fromDecimals((await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value || window.toDecimals('1', token.decimals), [token.address, window.wethAddress]))[1], 18, true);
+            var priceInDollars = window.fromDecimals(token.address === window.wethAddress ? value || window.toDecimals(1, 18) : (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value || window.toDecimals('1', token.decimals), [token.address, window.wethAddress]))[1], 18, true);
             priceInDollars = parseFloat(priceInDollars) * ethereumPrice;
             return priceInDollars;
         } catch (e) { }
@@ -481,7 +490,7 @@ var StableCoinController = function (view) {
         if(isNaN(parseInt(value)) || parseInt(value) <= 0) {
             throw `The ${selectedTokenInPairs.symbol} amount must be a number greater than 0`;
         }
-        var myBalance = await window.blockchainCall(selectedTokenInPairs.token.methods.balanceOf, window.walletAddress);
+        var myBalance = (selectedTokenInPairs.token.address || selectedTokenInPairs.address) === window.wethAddress ? await window.web3.eth.getBalance(window.walletAddress) : await window.blockchainCall(selectedTokenInPairs.token.methods.balanceOf, window.walletAddress);
         if(parseInt(value) > parseInt(myBalance)) {
             throw `You don't have sufficient ${selectedTokenInPairs.symbol} to swap`;
         }
@@ -489,24 +498,13 @@ var StableCoinController = function (view) {
         if (parseInt(earnByPumpData.token0) < 1 || parseInt(earnByPumpData.token1) < 1) {
             throw `Cannot pump: ${window.stableCoin.symbol} value is higher than ${selectedTokenInPairs.symbol}`;
         }
-        await context.verifyPumpData(selectedFarmPair, earnByPumpData);
-        await window.blockchainCall(window.stableFarming.methods.earnByPump, window.stableCoin.address, earnByPumpData.pairDataIndex, earnByPumpData.supplyInPercentage, earnByPumpData.token0Slippage, earnByPumpData.token1Slippage, selectedTokenInPairs.address, value);
+        if(earnByPumpData.farmPumpDifference.indexOf("-") !== -1 || earnByPumpData.token0Value.indexOf("-") !== -1 || earnByPumpData.token1Value.indexOf("-") !== -1) {
+            throw `Arbitrage earns cannot be negative`;
+        }
+        var eth = (selectedTokenInPairs.token.address || selectedTokenInPairs.address) === window.wethAddress ? value : undefined;
+        await window.blockchainCall(eth, window.stableFarming.methods.earnByPump, window.stableCoin.address, earnByPumpData.pairDataIndex, earnByPumpData.supplyInPercentage, earnByPumpData.token0Slippage, earnByPumpData.token1Slippage, selectedTokenInPairs.address, eth ? '0' : value);
         context.loadEconomicData();
         context.view.openSuccessMessage(`Pumped ${window.stableCoin.symbol} Token`);
-    };
-
-    context.verifyPumpData = async function verifyPumpData(selectedFarmPair, earnByPumpData) {
-        var calculus = window.web3.utils.toBN(earnByPumpData.valueInStable)
-            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedFarmPair.token0.decimals, earnByPumpData.token0Value)))
-            .add(window.web3.utils.toBN(context.fromTokenToStable(selectedFarmPair.token1.decimals, earnByPumpData.token1Value)))
-            .toString();
-        var percentage = await window.blockchainCall(window.stableFarming.methods.percentage);
-        var calc = (parseInt(calculus) * parseInt(percentage[0])) / parseInt(percentage[1]);
-        var minus = parseInt(calculus) - calc;
-        var plus = parseInt(calculus) + calc;
-        if (!(parseInt(earnByPumpData.output) >= minus && parseInt(earnByPumpData.output) <= plus)) {
-            throw "Values are not coherent";
-        }
     };
 
     context.calculateEarnByPumpData = async function calculateEarnByPumpData(selectedTokenInPairs, selectedFarmPair, value) {
@@ -514,23 +512,19 @@ var StableCoinController = function (view) {
             return null;
         }
         var earnByPumpData = {};
+        earnByPumpData.inputInDollars = await context.getPriceInDollars(selectedTokenInPairs, value);
+        earnByPumpData.input = window.toDecimals(window.numberToString(earnByPumpData.inputInDollars).split(',').join(''), window.stableCoin.decimals);
         earnByPumpData.output = (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [selectedTokenInPairs.address, window.stableCoin.address]))[1];
         earnByPumpData.valueInStable = context.fromTokenToStable(selectedTokenInPairs.decimals, value);
-        var diff = window.web3.utils.toBN(earnByPumpData.output).sub(window.web3.utils.toBN(earnByPumpData.valueInStable)).toString();
-        earnByPumpData.diff = diff;
-        var burnValueData = await context.getBurnData(selectedFarmPair, diff);
+        earnByPumpData.diff = window.web3.utils.toBN(earnByPumpData.output).sub(window.web3.utils.toBN(earnByPumpData.input)).toString();//.split('-').join('');
+        var burnValueData = await context.getBurnData(selectedFarmPair, earnByPumpData.diff);
         Object.entries(burnValueData).forEach(it => earnByPumpData[it[0]] = it[1]);
 
-        var input = parseInt(await context.fromTokenToStable(selectedTokenInPairs, value));
-
-        earnByPumpData.farmPumpPay = window.fromDecimals(input, window.stableCoin.decimals);
-
-        var outputStableInDollars = parseInt(earnByPumpData.valueInStable);
         var token0ValueInDollars = parseInt(await context.fromTokenToStable(selectedFarmPair.token0.decimals, earnByPumpData.token0Value));
         var token1ValueInDollars = parseInt(await context.fromTokenToStable(selectedFarmPair.token1.decimals, earnByPumpData.token1Value));
 
-        var output = outputStableInDollars + token0ValueInDollars + token1ValueInDollars;
-        earnByPumpData.farmPumpDifference = window.fromDecimals(output - input, window.stableCoin.decimals);
+        var output = token0ValueInDollars + token1ValueInDollars;
+        earnByPumpData.farmPumpDifference = window.fromDecimals(output, window.stableCoin.decimals);
 
         return earnByPumpData;
     };

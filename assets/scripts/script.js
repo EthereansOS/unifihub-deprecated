@@ -246,16 +246,18 @@ window.consumeAddressBarParam = function consumeAddressBarParam(paramName) {
     return param;
 };
 
-window.getSendingOptions = function getSendingOptions(transaction) {
+window.getSendingOptions = function getSendingOptions(transaction, value) {
     return new Promise(async function(ok, ko) {
         if (transaction) {
             var address = await window.getAddress();
             return window.bypassEstimation ? ok({
                 from: address,
-                gas: window.gasLimit || '7900000'
+                gas: window.gasLimit || '7900000',
+                value
             }) : transaction.estimateGas({
                     from: address,
-                    gasPrice: window.web3.utils.toWei("13", "gwei")
+                    gasPrice: window.web3.utils.toWei("13", "gwei"),
+                    value
                 },
                 function(error, gas) {
                     if (error) {
@@ -263,7 +265,8 @@ window.getSendingOptions = function getSendingOptions(transaction) {
                     }
                     return ok({
                         from: address,
-                        gas: gas || window.gasLimit || '7900000'
+                        gas: gas || window.gasLimit || '7900000',
+                        value
                     });
                 });
         }
@@ -463,7 +466,19 @@ window.toDecimals = function toDecimals(n, d) {
     var decimals = (typeof d).toLowerCase() === 'string' ? parseInt(d) : d;
     var symbol = window.toEthereumSymbol(decimals);
     if (symbol) {
-        return window.web3.utils.toWei((typeof n).toLowerCase() === 'string' ? n : window.numberToString(n), symbol);
+        var input = (typeof n).toLowerCase() === 'string' ? n : window.numberToString(n);
+        var output = undefined;
+        while(!output) {
+            try {
+                output = window.web3.utils.toWei(input, symbol);
+            } catch(e) {
+                if((e.message || e).indexOf('places') === -1) {
+                    throw e;
+                }
+                input = input.substring(0, input.length - 1);
+            }
+        }
+        return output;
     }
     var number = (typeof n).toLowerCase() === 'string' ? parseInt(n) : n;
     if (!number || this.isNaN(number)) {
@@ -1250,6 +1265,9 @@ window.loadTokenInfos = async function loadTokenInfos(addresses, abi, noLogo) {
             decimals: address === window.wethAddress ? '18' : await window.blockchainCall(token.methods.decimals),
             logo: noLogo ? undefined : await window.loadLogo(address === window.wethAddress ? window.voidEthereumAddress : address)
         });
+        if(!window.tokenInfosCache[address].logo && noLogo !== true) {
+            window.tokenInfosCache[address].logo = await window.loadLogo(address === window.wethAddress ? window.voidEthereumAddress : address);
+        }
     }
     return single ? tokens[0] : tokens;
 };
@@ -1344,10 +1362,11 @@ window.loadUniswapPairs = async function loadUniswapPairs(token, indexes) {
             var pairToken = await window.loadTokenInfos(pairTokenAddress, window.context.UniswapV2PairAbi, true);
             var token0 = window.web3.utils.toChecksumAddress(await window.blockchainCall(pairToken.token.methods.token0));
             var token1 = window.web3.utils.toChecksumAddress(await window.blockchainCall(pairToken.token.methods.token1));
-            pairToken.token0 = token0 === address ? token : await window.loadTokenInfos(token0, undefined, true);
-            pairToken.token1 = token1 === address ? token : await window.loadTokenInfos(token1, undefined, true);
+            pairToken.token0 = token0 === address ? token : await window.loadTokenInfos(token0, undefined, indexes ? true : false);
+            pairToken.token1 = token1 === address ? token : await window.loadTokenInfos(token1, undefined, indexes ? true : false);
             pairToken.key = `${token0}_${token1}-${token1}_${token0}`;
-            uniswapPairs.push(indexes[pairToken.key] = pairToken);
+            indexes && (indexes[pairToken.key] = pairToken);
+            uniswapPairs.push(pairToken);
         }
     }
     return uniswapPairs;

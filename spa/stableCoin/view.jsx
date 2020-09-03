@@ -510,6 +510,9 @@ var StableCoin = React.createClass({
         );
     },
     renderPump() {
+        if(!this.state.selectedTokenInPairs) {
+            return ([<br/>, <Loader loaderClass="loaderRegular" loaderImg={window.resolveImageURL("loader3", "gif")}/>]);
+        }
         return (
             <section>
                 {this.renderPumpDumpBanner()}
@@ -519,17 +522,17 @@ var StableCoin = React.createClass({
                         <select className="FARMSPECSELECT" onChange={this.onTokenInPairsChange}>
                             {this.state && this.state.tokensInPairs && Object.values(this.state.tokensInPairs).map(it => <option key={it.address} value={it.address}>{it.symbol}</option>)}
                         </select>
-                        <br></br>
+                        <br/>
                         {this.state && this.state.selectedTokenInPairs && <label className="UniDisactiveQuantityTier">
                             <input data-token="selectedTokenInPairs" onKeyUp={this.onType} />
                             <img src={this.state.selectedTokenInPairs.logo} />
                             <p>{this.state.selectedTokenInPairs.symbol}</p>
                             {window.walletAddress && <h6><a href="javascript:;" data-token="selectedTokenInPairs" onClick={this.max}>Max</a> Balance: {window.fromDecimals(this.state.selectedTokenInPairs.balance, this.state.selectedTokenInPairs.decimals)} {this.state.selectedTokenInPairs.symbol}</h6>}
                         </label>}
-                        <br></br>
+                        <br/>
                         <label>
-                            <p className="BOHBOH">then burn uSD for</p>
-                            <br></br>
+                            <p className="BOHBOH">Value in $: {this.state && this.state.earnByPumpData && window.formatMoney(this.state.earnByPumpData.inputInDollars)}. Swap it for {(this.state && this.state.earnByPumpData && window.fromDecimals(this.state.earnByPumpData.output, window.stableCoin.decimals)) || '0'} {window.stableCoin.symbol}, then burn the diff to</p>
+                            <br/>
                             <select className="FARMSPECSELECT" data-target="farm" onChange={this.onPairChange}>
                                 {this.state && this.state.pairs && this.state.pairs.map((it) => {
                                     if (it.disabled) {
@@ -544,13 +547,9 @@ var StableCoin = React.createClass({
                     </section>
                 </section>
                 <section className="UniSideBox">
-                    {false && this.state.earnByPumpData && this.state.earnByPumpData.farmPumpPay && <label className="UniActiveQuantityTier">
-                        <h6>You will pay:</h6>
-                        $ {this.state.earnByPumpData.farmPumpPay}
-                    </label>}
-                    <h2>for</h2>
+                    <h2>result</h2>
                     <label className="UniActiveQuantityTier">
-                        <span>{(this.state && this.state.earnByPumpData && this.state.earnByPumpData.valueInStable && window.fromDecimals(this.state.earnByPumpData.valueInStable, window.stableCoin.decimals)) || '0.00'}</span>
+                        <span>{(this.state && this.state.earnByPumpData && this.state.earnByPumpData.inputInDollars && window.formatMoney(this.state.earnByPumpData.inputInDollars)) || '0.00'}</span>
                         <img src={window.stableCoin.logo} />
                         <p>{window.stableCoin.symbol}</p>
                     </label>
@@ -565,8 +564,8 @@ var StableCoin = React.createClass({
                         <img src={this.state.selectedFarmPair.token1.logo} />
                         <p>{this.state.selectedFarmPair.token1.symbol}</p>
                     </label>}
-                    {this.state.earnByPumpData && this.state.earnByPumpData.farmPumpDifference && <label className="UniActiveQuantityTier WOOOOOOOOOOOOW">
-                        <h6 className="WOOOOOOOOOOOOW">Arbitrage Earns:</h6>
+                    {this.state.earnByPumpData && this.state.earnByPumpData.farmPumpDifference && <label className={"UniActiveQuantityTier " + (this.state.earnByPumpData.farmPumpDifference.indexOf("-") === -1 ? "WOOOOOOOOOOOOW" : "NOOOOOOOOOOOOO")}>
+                        <h6 className={(this.state.earnByPumpData.farmPumpDifference.indexOf("-") === -1 ? "WOOOOOOOOOOOOW" : "NOOOOOOOOOOOOO")}>Arbitrage Earns:</h6>
                         <b>$ {this.state.earnByPumpData.farmPumpDifference}</b>
                     </label>}
                     <label className="UniActiveQuantityTier">

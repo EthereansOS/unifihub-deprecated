@@ -25,7 +25,7 @@
     "stableCoinAddress" : "0x44086035439E676c02D411880FcCb9837CE37c57",
     "oldStableCoinAddressRopsten" : "0xba6d34a9c638270a5393772b0b45b528e12eb9a4",
     "oldStableCoinAddress" : "0x84841e552A021224de716b7Be89747bb2D62D642",
-    "farmingContractAddress" : "0x9a54a7d214157035Da0C02B00F4312d126e719DE",
+    "farmingContractAddress" : "0xBce9f63920f34c32872048810C216a18aC53d40d",
     "farmingShowRulePump" : 1,
     "farmingShowRuleDump" : 1,
     "infuraNode" : "https://mainnet.infura.io/v3/5e302428cc5e41a188dc717dc6f34a5b",
