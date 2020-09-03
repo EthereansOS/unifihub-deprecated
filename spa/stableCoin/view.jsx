@@ -494,8 +494,8 @@ var StableCoin = React.createClass({
                         <br />
                         {this.state.selectedFarmPairTokenPrice && <span>{window.fromDecimals(this.state.selectedFarmPairTokenPrice, this.state.selectedFarmPairToken.decimals)} {this.state.selectedFarmPairToken.symbol}</span>}
                     </label>
-                    {this.state.farmDumpDifference && <label className="UniActiveQuantityTier WOOOOOOOOOOOOW">
-                        <h6 className="WOOOOOOOOOOOOW">Arbitrage Earns:</h6>
+                    {this.state.farmDumpDifference && <label className={"UniActiveQuantityTier " + (this.state.farmDumpDifference.indexOf("-") === -1 ? "WOOOOOOOOOOOOW" : "NOOOOOOOOOOOOO")}>
+                        <h6 className={(this.state.farmDumpDifference.indexOf("-") === -1 ? "WOOOOOOOOOOOOW" : "NOOOOOOOOOOOOO")}>Arbitrage Earns:</h6>
                         <b>$ {this.state.farmDumpDifference}</b>
                     </label>}
                     <label className="UniActiveQuantityTier">
