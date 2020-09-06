@@ -7,9 +7,12 @@ import "./IUnifiedStableFarming.sol";
 contract UnifiedStableFarming is IUnifiedStableFarming {
     address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
+    address private WETH_ADDRESS;
+
     uint256[] private _percentage;
 
-    constructor(uint256[] memory percentage) public {
+    constructor(uint256[] memory percentage) {
+        WETH_ADDRESS = IUniswapV2Router(UNISWAP_V2_ROUTER).WETH();
         assert(percentage.length == 2);
         _percentage = percentage;
     }
@@ -29,18 +32,21 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         uint256 amountBMin,
         address tokenAddress,
         uint256 tokenValue
-    ) public override {
-        require(
-            _isValidPairToken(stableCoinAddress, tokenAddress),
-            "Chosen token address is not in a valid pair"
-        );
-        // Transfer stablecoin to the contract
-        _transferToMeAndCheckAllowance(tokenAddress, tokenValue, UNISWAP_V2_ROUTER);
-        // Swap stablecoin for $uSD
+    ) public override payable {
+        if(tokenAddress != WETH_ADDRESS) {
+            _transferToMeAndCheckAllowance(
+                tokenAddress,
+                tokenValue,
+                UNISWAP_V2_ROUTER
+            );
+        }
+        uint256 realTokenValue = tokenAddress == WETH_ADDRESS
+            ? msg.value
+            : tokenValue;
         uint256 stableCoinAmount = _swap(
             tokenAddress,
             stableCoinAddress,
-            tokenValue,
+            realTokenValue,
             address(this)
         );
         // Swap stablecoin for $uSD
@@ -51,43 +57,10 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
             amountBMin
         );
         (address tokenA, address tokenB, ) = _getPairData(stableCoinAddress, pairIndex);
-        // Check that the pump was successful
-        require(
-            _isPumpOK(
-                stableCoinAddress,
-                tokenAddress,
-                tokenValue,
-                tokenA,
-                returnA,
-                tokenB,
-                returnB,
-                stableCoinAmount
-            ),
-            "Values are not coherent"
-        );
         // Send the tokens back to their owner
         _flushToSender(tokenA, tokenB, stableCoinAddress);
     }
 
-    function _isPumpOK(
-        address stableCoinAddress,
-        address tokenAddress,
-        uint256 tokenValue,
-        address token0,
-        uint256 return0,
-        address token1,
-        uint256 return1,
-        uint256 stableCoinAmount
-    ) private view returns (bool) {
-        IStableCoin stableCoin = IStableCoin(stableCoinAddress);
-        uint256 cumulative = stableCoin.fromTokenToStable(tokenAddress, tokenValue);
-        cumulative += stableCoin.fromTokenToStable(token0, return0);
-        cumulative += stableCoin.fromTokenToStable(token1, return1);
-        uint256 percentage = (cumulative * _percentage[0]) / _percentage[1];
-        uint256 cumulativePlus = cumulative + percentage;
-        uint256 cumulativeMinus = cumulative - percentage;
-        return stableCoinAmount >= cumulativeMinus && stableCoinAmount <= cumulativePlus;
-    }
 
     /**
      * @inheritdoc IUnifiedStableFarming
@@ -129,7 +102,7 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
             );
         }
         // Send the tokens back to their owner
-        _flushToSender(tokenA, tokenB, stableCoinAddress);
+        _flushToSender(tokenA, tokenB, stableCoinAddress, address(0));
     }
 
     function _transferTokens(
@@ -196,11 +169,14 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
     function _flushToSender(
         address tokenA,
         address tokenB,
-        address tokenC
+        address tokenC,
+        address tokenD,
     ) private {
         _flushToSender(tokenA);
         _flushToSender(tokenB);
         _flushToSender(tokenC);
+        _flushToSender(tokenD);
+
     }
 
     /**
@@ -208,6 +184,10 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
      */
     function _flushToSender(address tokenAddress) private {
         if (tokenAddress == address(0)) {
+            return;
+        }
+        if(tokenAddress == WETH_ADDRESS) {
+            payable(msg.sender).transfer(address(this).balance);
             return;
         }
         IERC20 token = IERC20(tokenAddress);
@@ -237,6 +217,15 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         address[] memory path = new address[](2);
         path[0] = tokenIn;
         path[1] = tokenOut;
+        if (path[0] == WETH_ADDRESS) {
+            return
+                uniswapV2Router.swapExactETHForTokens{value: amountIn}(
+                    uniswapV2Router.getAmountsOut(amountIn, path)[1],
+                    path,
+                    receiver,
+                    block.timestamp + 1000
+                )[1];
+        }
         return
             uniswapV2Router.swapExactTokensForTokens(
                 amountIn,
@@ -245,23 +234,5 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
                 receiver,
                 block.timestamp + 1000
             )[1];
-    }
-
-    function _isValidPairToken(address stableCoinAddress, address tokenAddress)
-        private
-        view
-        returns (bool)
-    {
-        address[] memory allowedPairs = IStableCoin(stableCoinAddress).allowedPairs();
-        for (uint256 i = 0; i < allowedPairs.length; i++) {
-            IUniswapV2Pair pair = IUniswapV2Pair(allowedPairs[i]);
-            if (pair.token0() == tokenAddress) {
-                return true;
-            }
-            if (pair.token1() == tokenAddress) {
-                return true;
-            }
-        }
-        return false;
     }
 }
