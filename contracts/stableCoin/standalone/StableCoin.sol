@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.7.0 <0.8.0;
 
-import "./ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 import "./IStableCoin.sol";
 import "./IMVDFunctionalitiesManager.sol";
 import "./IMVDProxy.sol";
 import "./IDoubleProxy.sol";
 import "./IStateHolder.sol";
-import "./IUniswapV2Pair.sol";
-import "./IUniswapV2Router.sol";
 
 /**
  * @title StableCoin
@@ -188,7 +188,7 @@ contract StableCoin is ERC20, IStableCoin {
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getToken();
-        reward = IUniswapV2Router(UNISWAP_V2_ROUTER).getAmountsOut(burnt, path)[1];
+        reward = IUniswapV2Router02(UNISWAP_V2_ROUTER).getAmountsOut(burnt, path)[1];
         reward = (reward * _rebalanceRewardMultiplier[0]) / _rebalanceRewardMultiplier[1];
     }
 
@@ -259,7 +259,7 @@ contract StableCoin is ERC20, IStableCoin {
         (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
         // Remove pooled stablecoins
-        (removedA, removedB) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
+        (removedA, removedB) = IUniswapV2Router02(UNISWAP_V2_ROUTER).removeLiquidity(
             tokenA,
             tokenB,
             pairAmount,
@@ -301,7 +301,8 @@ contract StableCoin is ERC20, IStableCoin {
         (uint256 credit, ) = differences();
         (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
-        (uint256 removed0, uint256 removed1) = IUniswapV2Router(UNISWAP_V2_ROUTER).removeLiquidity(
+        (uint256 removed0, uint256 removed1) = IUniswapV2Router02(UNISWAP_V2_ROUTER)
+            .removeLiquidity(
             tokenA,
             tokenB,
             pairAmount,
@@ -425,7 +426,7 @@ contract StableCoin is ERC20, IStableCoin {
             uint256 liquidity
         )
     {
-        (amountA, amountB, liquidity) = IUniswapV2Router(UNISWAP_V2_ROUTER).addLiquidity(
+        (amountA, amountB, liquidity) = IUniswapV2Router02(UNISWAP_V2_ROUTER).addLiquidity(
             tokenA,
             tokenB,
             amountADesired,

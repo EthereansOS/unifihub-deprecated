@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.7.0 <0.8.0;
 
 import "./IUnifiedStableFarming.sol";
+import "../standalone/IStableCoin.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
 contract UnifiedStableFarming is IUnifiedStableFarming {
     address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
@@ -11,8 +14,8 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
 
     uint256[] private _percentage;
 
-    constructor(uint256[] memory percentage) {
-        WETH_ADDRESS = IUniswapV2Router(UNISWAP_V2_ROUTER).WETH();
+    constructor(uint256[] memory percentage) public {
+        WETH_ADDRESS = IUniswapV2Router02(UNISWAP_V2_ROUTER).WETH();
         assert(percentage.length == 2);
         _percentage = percentage;
     }
@@ -33,34 +36,17 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         address tokenAddress,
         uint256 tokenValue
     ) public override payable {
-        if(tokenAddress != WETH_ADDRESS) {
-            _transferToMeAndCheckAllowance(
-                tokenAddress,
-                tokenValue,
-                UNISWAP_V2_ROUTER
-            );
+        if (tokenAddress != WETH_ADDRESS) {
+            _transferToMeAndCheckAllowance(tokenAddress, tokenValue, UNISWAP_V2_ROUTER);
         }
-        uint256 realTokenValue = tokenAddress == WETH_ADDRESS
-            ? msg.value
-            : tokenValue;
-        uint256 stableCoinAmount = _swap(
-            tokenAddress,
-            stableCoinAddress,
-            realTokenValue,
-            address(this)
-        );
+        uint256 realTokenValue = tokenAddress == WETH_ADDRESS ? msg.value : tokenValue;
+        _swap(tokenAddress, stableCoinAddress, realTokenValue, address(this));
         // Swap stablecoin for $uSD
-        (uint256 returnA, uint256 returnB) = IStableCoin(stableCoinAddress).burn(
-            pairIndex,
-            pairAmount,
-            amountAMin,
-            amountBMin
-        );
+        IStableCoin(stableCoinAddress).burn(pairIndex, pairAmount, amountAMin, amountBMin);
         (address tokenA, address tokenB, ) = _getPairData(stableCoinAddress, pairIndex);
         // Send the tokens back to their owner
-        _flushToSender(tokenA, tokenB, stableCoinAddress);
+        _flushToSender(tokenA, tokenB, stableCoinAddress, address(0));
     }
-
 
     /**
      * @inheritdoc IUnifiedStableFarming
@@ -170,13 +156,12 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         address tokenA,
         address tokenB,
         address tokenC,
-        address tokenD,
+        address tokenD
     ) private {
         _flushToSender(tokenA);
         _flushToSender(tokenB);
         _flushToSender(tokenC);
         _flushToSender(tokenD);
-
     }
 
     /**
@@ -186,7 +171,7 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         if (tokenAddress == address(0)) {
             return;
         }
-        if(tokenAddress == WETH_ADDRESS) {
+        if (tokenAddress == WETH_ADDRESS) {
             payable(msg.sender).transfer(address(this).balance);
             return;
         }
@@ -212,7 +197,7 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
     ) private returns (uint256) {
         _checkAllowance(tokenIn, amountIn, UNISWAP_V2_ROUTER);
 
-        IUniswapV2Router uniswapV2Router = IUniswapV2Router(UNISWAP_V2_ROUTER);
+        IUniswapV2Router02 uniswapV2Router = IUniswapV2Router02(UNISWAP_V2_ROUTER);
 
         address[] memory path = new address[](2);
         path[0] = tokenIn;

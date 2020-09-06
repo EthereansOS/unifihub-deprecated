@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.7.0 <0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /**
  * @title Interface for the $uSD aka unified Stable Dollar.
@@ -11,7 +13,8 @@ pragma solidity ^0.6.0;
  * rebalancing schemes, $uSD is able reduce an holder exposure to a stable-coin failure.
  *
  */
-interface IStableCoin {
+
+interface IStableCoin is IERC20 {
     /**
      * Initialize the StableCoin.
      * @dev Constructor signature

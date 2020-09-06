@@ -6,6 +6,9 @@
   "author": "BUIDL <buidlers@dfohub.com>",
   "license": "MIT",
   "devDependencies": {
+    "@openzeppelin/contracts": "^3.1.0",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "prettier": "^2.1.0",
     "prettier-plugin-solidity": "^1.0.0-alpha.56",
     "solc": "^0.7.0",

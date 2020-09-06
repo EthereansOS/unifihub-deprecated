@@ -1,31 +1,38 @@
 /* Discussion:
  * https://github.com/b-u-i-d-l/unifi
  */
+
 /* Description:
- * When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50). If the stablecoin totally fails, the other stablecoins effectively pump in correlation.
+ * When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50).
+ * If the stablecoin totally fails, the other stablecoins effectively pump in correlation.
  *
- * DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the UniFi DFO then pays off by minting UniFi. Let’s look at how this plays out, step by step:
+ * DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the UniFi DFO
+ * then pays off by minting UniFi. Let’s look at how this plays out, step by step:
  *
  * 1 - A stablecoin collateralized by uSD loses value or fails altogether.
  *
- * 2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.
+ * 2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.
+ * The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.
  *
- * 3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.
+ * 3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a
+ * 50% discount of the uSD/UniFi Uniswap pool mid-price ratio.
  *
- * The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.
+ * The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD's security.
+ * Thus there is an economic disincentive to whitelist insecure stablecoins.
  */
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.7.0 <0.8.0;
 
-import "./IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 import "./IMVDFunctionalitiesManager.sol";
 import "./IMVDProxy.sol";
 import "./IStateHolder.sol";
 
 /**
  * @title Mint Voting Tokens ($unifi) by burning Stable Coin ($uSD)
- * @dev This contract adds unifi minting capabilies to uSD
+ * @dev This contract adds unifi minting capabilities to uSD
  */
 contract MintNewVotingTokensForStableCoinFunctionality {
     function onStart(address, address) public {
