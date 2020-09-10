@@ -2,6 +2,7 @@
 /**/spa/**/style.css
 
 docs/md-build
+docs/tmp
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,solidity,visualstudiocode,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,solidity,visualstudiocode,react

@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.7.0 <0.8.0;
+pragma solidity ^0.7.0;
 
 import "./IUnifiedStableFarming.sol";
-import "../standalone/IStableCoin.sol";
-import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
 contract UnifiedStableFarming is IUnifiedStableFarming {
-    address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
+    address
+        private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
     address private WETH_ADDRESS;
 
     uint256[] private _percentage;
 
-    constructor(uint256[] memory percentage) public {
+    constructor(uint256[] memory percentage) {
         WETH_ADDRESS = IUniswapV2Router02(UNISWAP_V2_ROUTER).WETH();
         assert(percentage.length == 2);
         _percentage = percentage;
@@ -42,7 +40,12 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         uint256 realTokenValue = tokenAddress == WETH_ADDRESS ? msg.value : tokenValue;
         _swap(tokenAddress, stableCoinAddress, realTokenValue, address(this));
         // Swap stablecoin for $uSD
-        IStableCoin(stableCoinAddress).burn(pairIndex, pairAmount, amountAMin, amountBMin);
+        IStableCoin(stableCoinAddress).burn(
+            pairIndex,
+            pairAmount,
+            amountAMin,
+            amountBMin
+        );
         (address tokenA, address tokenB, ) = _getPairData(stableCoinAddress, pairIndex);
         // Send the tokens back to their owner
         _flushToSender(tokenA, tokenB, stableCoinAddress, address(0));
@@ -77,7 +80,13 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
             amountB
         );
         // Mint $uSD
-        IStableCoin(stableCoinAddress).mint(pairIndex, amountA, amountB, amountAMin, amountBMin);
+        IStableCoin(stableCoinAddress).mint(
+            pairIndex,
+            amountA,
+            amountB,
+            amountAMin,
+            amountBMin
+        );
         // For each of the chosen output pair swap $uSD to obtain the desired amount of stablecoin
         for (uint256 i = 0; i < tokenIndices.length; i++) {
             _swap(
@@ -204,7 +213,7 @@ contract UnifiedStableFarming is IUnifiedStableFarming {
         path[1] = tokenOut;
         if (path[0] == WETH_ADDRESS) {
             return
-                uniswapV2Router.swapExactETHForTokens{value: amountIn}(
+                uniswapV2Router.swapExactETHForTokens{ value: amountIn }(
                     uniswapV2Router.getAmountsOut(amountIn, path)[1],
                     path,
                     receiver,

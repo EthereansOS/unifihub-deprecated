@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.7.0 <0.8.0;
+pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
+import "./ERC20.sol";
 import "./IStableCoin.sol";
-import "./IMVDFunctionalitiesManager.sol";
-import "./IMVDProxy.sol";
-import "./IDoubleProxy.sol";
-import "./IStateHolder.sol";
 
 /**
  * @title StableCoin
@@ -21,7 +15,8 @@ contract StableCoin is ERC20, IStableCoin {
     // | ----- ATTRIBUTES ----- |
     // |------------------------------------------------------------------------------------------|
 
-    address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
+    address
+        private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
 
     address private _doubleProxy;
 
@@ -50,7 +45,7 @@ contract StableCoin is ERC20, IStableCoin {
         uint256[] memory rebalanceRewardMultiplier,
         uint256[] memory timeWindows,
         uint256[] memory mintables
-    ) public {
+    ) {
         if (doubleProxy == address(0)) {
             return;
         }
@@ -103,8 +98,13 @@ contract StableCoin is ERC20, IStableCoin {
      * @inheritdoc IStableCoin
      */
     function availableToMint() public override view returns (uint256) {
-        uint256 mintable = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
-        if (_timeWindows.length > 0 && block.number < _timeWindows[_timeWindows.length - 1]) {
+
+            uint256 mintable
+         = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
+        if (
+            _timeWindows.length > 0 &&
+            block.number < _timeWindows[_timeWindows.length - 1]
+        ) {
             for (uint256 i = 0; i < _timeWindows.length; i++) {
                 if (block.number < _timeWindows[i]) {
                     mintable = _mintables[i];
@@ -147,7 +147,12 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
-    function tierData() public override view returns (uint256[] memory, uint256[] memory) {
+    function tierData()
+        public
+        override
+        view
+        returns (uint256[] memory, uint256[] memory)
+    {
         return (_timeWindows, _mintables);
     }
 
@@ -158,7 +163,11 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * @inheritdoc IStableCoin
      */
-    function setAllowedPairs(address[] memory newAllowedPairs) public override _byCommunity {
+    function setAllowedPairs(address[] memory newAllowedPairs)
+        public
+        override
+        _byCommunity
+    {
         _allowedPairs = newAllowedPairs;
     }
 
@@ -226,8 +235,12 @@ contract StableCoin is ERC20, IStableCoin {
     ) public override _forAllowedPair(pairIndex) returns (uint256 minted) {
         // NOTE: Use DFO protocol to check for authorization
         require(
-            IStateHolder(IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getStateHolderAddress())
-                .getBool(_toStateHolderKey("stablecoin.authorized", _toString(address(this)))),
+            IStateHolder(
+                IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getStateHolderAddress()
+            )
+                .getBool(
+                _toStateHolderKey("stablecoin.authorized", _toString(address(this)))
+            ),
             "Unauthorized action!"
         );
         (address tokenA, address tokenB, ) = _getPairData(pairIndex);
@@ -241,8 +254,13 @@ contract StableCoin is ERC20, IStableCoin {
             amountAMin,
             amountBMin
         );
-        minted = fromTokenToStable(tokenA, firstAmount) + fromTokenToStable(tokenB, secondAmount);
-        require(minted <= availableToMint(), "Minting amount is greater than availability!");
+        minted =
+            fromTokenToStable(tokenA, firstAmount) +
+            fromTokenToStable(tokenB, secondAmount);
+        require(
+            minted <= availableToMint(),
+            "Minting amount is greater than availability!"
+        );
         _mint(msg.sender, minted);
     }
 
@@ -255,7 +273,12 @@ contract StableCoin is ERC20, IStableCoin {
         uint256 pairAmount,
         uint256 amountAMin,
         uint256 amountBMin
-    ) public override _forAllowedPair(pairIndex) returns (uint256 removedA, uint256 removedB) {
+    )
+        public
+        override
+        _forAllowedPair(pairIndex)
+        returns (uint256 removedA, uint256 removedB)
+    {
         (address tokenA, address tokenB, address pairAddress) = _getPairData(pairIndex);
         _checkAllowance(pairAddress, pairAmount);
         // Remove pooled stablecoins
@@ -292,7 +315,8 @@ contract StableCoin is ERC20, IStableCoin {
             block.number >=
                 _lastRedeemBlock +
                     IStateHolder(
-                        IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getStateHolderAddress()
+                        IMVDProxy(IDoubleProxy(_doubleProxy).proxy())
+                            .getStateHolderAddress()
                     )
                         .getUint256("stablecoin.rebalancebycredit.block.interval"),
             "Unauthorized action!"
@@ -311,7 +335,9 @@ contract StableCoin is ERC20, IStableCoin {
             IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getMVDWalletAddress(),
             block.timestamp + 1000
         );
-        redeemed = fromTokenToStable(tokenA, removed0) + fromTokenToStable(tokenB, removed1);
+        redeemed =
+            fromTokenToStable(tokenA, removed0) +
+            fromTokenToStable(tokenB, removed1);
         require(redeemed <= credit, "Cannot redeem given pair amount");
     }
 
@@ -325,7 +351,12 @@ contract StableCoin is ERC20, IStableCoin {
         _burn(msg.sender, amount);
         IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).submit(
             "mintNewVotingTokensForStableCoin",
-            abi.encode(address(0), 0, reward = calculateRebalanceByDebtReward(amount), msg.sender)
+            abi.encode(
+                address(0),
+                0,
+                reward = calculateRebalanceByDebtReward(amount),
+                msg.sender
+            )
         );
     }
 
@@ -337,7 +368,8 @@ contract StableCoin is ERC20, IStableCoin {
     modifier _byCommunity() {
         require(
             IMVDFunctionalitiesManager(
-                IMVDProxy(IDoubleProxy(_doubleProxy).proxy()).getMVDFunctionalitiesManagerAddress()
+                IMVDProxy(IDoubleProxy(_doubleProxy).proxy())
+                    .getMVDFunctionalitiesManagerAddress()
             )
                 .isAuthorizedFunctionality(msg.sender),
             "Unauthorized Action!"
@@ -375,7 +407,9 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * // DOCUMENT
      */
-    function _transferTokensAndCheckAllowance(address tokenAddress, uint256 value) private {
+    function _transferTokensAndCheckAllowance(address tokenAddress, uint256 value)
+        private
+    {
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), value);
         _checkAllowance(tokenAddress, value);
     }
@@ -426,7 +460,8 @@ contract StableCoin is ERC20, IStableCoin {
             uint256 liquidity
         )
     {
-        (amountA, amountB, liquidity) = IUniswapV2Router02(UNISWAP_V2_ROUTER).addLiquidity(
+        (amountA, amountB, liquidity) = IUniswapV2Router02(UNISWAP_V2_ROUTER)
+            .addLiquidity(
             tokenA,
             tokenB,
             amountADesired,
@@ -447,7 +482,11 @@ contract StableCoin is ERC20, IStableCoin {
     /**
      * // DOCUMENT
      */
-    function _getPairAmount(uint256 i) private view returns (uint256 amount0, uint256 amount1) {
+    function _getPairAmount(uint256 i)
+        private
+        view
+        returns (uint256 amount0, uint256 amount1)
+    {
         (address token0, address token1, address pairAddress) = _getPairData(i);
         IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
         uint256 pairAmount = pair.balanceOf(address(this));
@@ -491,7 +530,9 @@ contract StableCoin is ERC20, IStableCoin {
     function _toLowerCase(string memory str) private pure returns (string memory) {
         bytes memory bStr = bytes(str);
         for (uint256 i = 0; i < bStr.length; i++) {
-            bStr[i] = bStr[i] >= 0x41 && bStr[i] <= 0x5A ? bytes1(uint8(bStr[i]) + 0x20) : bStr[i];
+            bStr[i] = bStr[i] >= 0x41 && bStr[i] <= 0x5A
+                ? bytes1(uint8(bStr[i]) + 0x20)
+                : bStr[i];
         }
         return string(bStr);
     }
