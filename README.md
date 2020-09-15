@@ -2,7 +2,7 @@
 ## Decentralized Finance on top of Uniswap, doing fantastic things securely
 ### UniFi is a new Decentralized Flexible Organization (DFO) that researches and develops a responsible Decentralized Finance layer on top of Uniswap. A DFO protocol powered DeFi set of tools built on top of Uniswap
 
-### Website: <a href="https://unifihub.com">https://unifihub.com</a>
+### Website: <a href="https://www.unifihub.com/">https://www.unifihub.com/</a>
 
 # Unified Stable Dollar
 
