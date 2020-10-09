@@ -533,7 +533,11 @@ var StableCoinController = function (view) {
         if (isNaN(parseInt(value)) || parseInt(value) === 0) {
             return '0';
         }
-        return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
+        try {
+            return (await window.blockchainCall(window.uniswapV2Router.methods.getAmountsOut, value, [window.stableCoin.address, selectedFarmPair['token' + token].address]))[1];
+        } catch(e) {
+            return "0";
+        }
     };
 
     context.performEarnByDump = async function performEarnByDump(selectedFarmPair, token0Value, token1Value, swapToken, swapTokenValue) {
