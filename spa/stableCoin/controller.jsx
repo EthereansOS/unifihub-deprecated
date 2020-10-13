@@ -94,7 +94,7 @@ var StableCoinController = function (view) {
 
     context.firstNonDisabledPair = function firstNonDisabledPair(pairs) {
         for (var pairData of pairs) {
-            if (!pairData.disabled) {
+            if (!pairData.disabled && pairData.token0.pairWithStable && pairData.token1.pairWithStable) {
                 return pairData;
             }
         }
