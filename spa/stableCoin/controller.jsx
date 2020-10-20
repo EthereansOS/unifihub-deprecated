@@ -70,7 +70,7 @@ var StableCoinController = function (view) {
             }
             pairs.push(pairData);
         }
-        context.view.setState({pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs), token0Approved: null, token1Approved: null }, async function () {
+        context.view.setState({pairs, selectedPair: context.firstNonDisabledPair(pairs), selectedFarmPair: context.firstNonDisabledPair(pairs, true), token0Approved: null, token1Approved: null }, async function () {
             context.checkApprove(context.view.state.selectedPair);
             context.checkApprove(context.view.state.selectedFarmPair, true);
             context.getTotalCoins();
@@ -92,10 +92,16 @@ var StableCoinController = function (view) {
         });
     };
 
-    context.firstNonDisabledPair = function firstNonDisabledPair(pairs) {
+    context.firstNonDisabledPair = function firstNonDisabledPair(pairs, forFarm) {
         for (var pairData of pairs) {
-            if (!pairData.disabled && ((pairData.token0.pairWithStable && pairData.token1.pairWithStable) || (!pairData.token0.pairWithStable && !pairData.token1.pairWithStable))) {
-                return pairData;
+            if(forFarm) {
+                if (!pairData.disabled && (pairData.token0.pairWithStable || pairData.token1.pairWithStable)) {
+                    return pairData;
+                }
+            } else {
+                if (!pairData.disabled && ((pairData.token0.pairWithStable && pairData.token1.pairWithStable) || (!pairData.token0.pairWithStable && !pairData.token1.pairWithStable))) {
+                    return pairData;
+                }
             }
         }
     };
