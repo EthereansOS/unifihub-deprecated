@@ -33,6 +33,7 @@
     "indexesURL" : "https://raw.githubusercontent.com/b-u-i-d-l/bazar-tokens-list/master/dist/indexes.json",
     "programmableEquitiesURL" : "https://raw.githubusercontent.com/b-u-i-d-l/bazar-tokens-list/master/dist/programmableEquities.json",
     "uniswapTokensURL" : "https://raw.githubusercontent.com/b-u-i-d-l/bazar-tokens-list/master/dist/uniswapTokens.json",
+    "itemsListURL" : "https://raw.githubusercontent.com/b-u-i-d-l/ITEMswap/master/src/constants/ethItemLists/dist/tokensList.json",
     "uniswapV2RouterAddress" : "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
     "uniswapV2FactoryAddress" : "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
     "dfoAddress": "0xc3BE549499f1e504c793a6c89371Bd7A98229500",

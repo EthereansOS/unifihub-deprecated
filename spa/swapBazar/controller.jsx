@@ -22,8 +22,9 @@ var SwapBazarController = function (view) {
             context.view.setState({
                 tokensList: {
                     "Prog. Equities": (await window.AJAXRequest(window.context.programmableEquitiesURL)).tokens.map(it => it.chainId === window.networkId && it),
+                    "Items" : (await window.AJAXRequest(window.context.itemsListURL)).tokens.map(it => it.chainId === window.networkId && it),
                     "Tokens": (await window.AJAXRequest(window.context.uniswapTokensURL)).tokens.map(it => it.chainId === window.networkId && it),
-                    Indexes: (await window.AJAXRequest(window.context.indexesURL)).tokens.map(it => it.chainId === window.networkId && it)
+                    "Indexes": (await window.AJAXRequest(window.context.indexesURL)).tokens.map(it => it.chainId === window.networkId && it)
                 }
             });
         } catch (e) {
