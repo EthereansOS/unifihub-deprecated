@@ -64,7 +64,7 @@ var Explainer = React.createClass({
                             <a target="_blank" href="https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c">UniFi Stake</a>
                             <a target="_blank" href="https://discord.gg/gtYHrN9">Discord</a>
                             <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responsible DeFi</a>
-                            <a target="_blank" href="https://twitter.com/dfohub">Twitter</a>
+                            <a target="_blank" href="https://twitter.com/ethereansOS">Twitter</a>
                             <a target="_blank" href="https://uniswap.info/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Uniswap</a>
                             <a target="_blank" href="https://defipulse.io">DeFi Pulse</a>
                             <a target="_blank" href="https://etherscan.io/token/0x9E78b8274e1D6a76a0dBbf90418894DF27cBCEb5">Etherscan</a>
