@@ -1,10 +1,50 @@
 # unifi
+
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Decentralized Finance on top of Uniswap, doing fantastic things securely](#decentralized-finance-on-top-of-uniswap-doing-fantastic-thingssecurely)
+- [Website: <a href="https://unifihub.com">https://unifihub.com</a>](#website-httpsunifihubcom)
+- [Unified Stable Dollar](#unified-stabledollar)
+  - [Example:](#example)
+  - [Example:](#example-1)
+  - [Rebalancing](#rebalancing)
+    - [DFO Debit](#dfo-debit)
+    - [DFO Credit](#dfo-credit)
+  - [UniFi has a number of measures in place to ensure uSD's security.](#unifi-has-a-number-of-measures-in-place-to-ensure-usds-security)
+  - [Resilience, Decentralization and Independence](#resilience-decentralization-and-independence)
+  - [Allowed Stable Coins](#allowed-stablecoins)
+  - [APIs and Documentation](#apis-and-documentation)
+  - [Responsible DeFi Limits](#responsible-defilimits)
+- [Craft and Initial Liquidity Offerings (ILOs)](#craft-and-initial-liquidity-offerings-ilos)
+  - [How Does It Work?](#how-does-it-work)
+  - [Programmable Liquidity Rules](#programmable-liquidity-rules)
+    - [Let's play out that aforementioned example.](#lets-play-out-that-aforementioned-example)
+  - [Initial Liquidity Offering (ILO)](#initial-liquidity-offeringilo)
+    - [Securing Initial Liquidity for AMMs With Fixed Inflation/Liquidity Staking](#securing-initial-liquidity-for-amms-with-fixed-inflationliquidity-staking)
+    - [Disarming Sniper Bots](#disarming-sniper-bots)
+    - [Securing Long Term Locked Investors](#securing-long-term-locked-investors)
+    - [How ILOs work:](#how-ilos-work)
+      - [Example](#example-2)
+- [UniFi DFO Tax](#unifi-dfo-tax)
+- [Releases](#releases)
+- [The Bazar](#thebazar)
+  - [Listing](#listing)
+    - [Index Funds](#index-funds)
+    - [Programmable Equities](#programmable-equities)
+    - [Non-Fungible Tokens (NFTs)](#non-fungible-tokens-nfts)
+    - [Swappable ERC 1155 Release](#swappable-erc-1155-release)
+- [UniFi Token Distribution](#unifi-token-distribution)
+  - [UniFi Fair Inflation](#unifi-fair-inflation)
+  - [UniFi Liquidity Staking](#unifi-liquidity-staking)
+- [UniFi Earning System](#unifi-earningsystem)
+
 ## Decentralized Finance on top of Uniswap, doing fantastic things securely
-### UniFi is a new Decentralized Flexible Organization (DFO) that researches and develops a responsible Decentralized Finance layer on top of Uniswap. A DFO protocol powered DeFi set of tools built on top of Uniswap
 
-### Website: <a href="https://unifihub.com">https://unifihub.com</a>
+UniFi is a new Decentralized Flexible Organization (DFO) that researches and develops a responsible Decentralized Finance layer on top of Uniswap. A DFO protocol powered DeFi set of tools built on top of Uniswap
 
-# Unified Stable Dollar
+## Website: <a href="https://unifihub.com">https://unifihub.com</a>
+
+## Unified Stable Dollar
 
 uSD is a stablecoin based on Uniswap Liquidity Pools Minted by the magic rainbow of Uniswap stablecoin pools, and backed by the power of the Unicorn, uSD is the most secure and resilient stablecoin on Ethereum - ever. The only way it could be destabilized is if the entire stablecoin industry crashed.
 Independent from any off-chain issuer, it is fortified against every risk inherent to all other stablecoins, and free of the anxiety that pervades the industry.
@@ -22,13 +62,13 @@ Mint 2x uSD by adding 1x Stablecoin A and 1x Stablecoin B And by burning uSD, an
 
 Burn 2x uSD and receive 1x Stablecoin A and 1x Stablecoin C
 
-# Rebalancing
+### Rebalancing
 
 Sometimes, collateralization is not enough, and uSD must rebalance in one of two ways.
 
-### DFO Debit
+#### DFO Debit
 
-When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50). 
+When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50).
 
 If the stablecoin totally fails, the other stablecoins effectively pump in correlation.DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the UniFi DFO then pays off by minting UniFi. Let’s look at how this plays out, step by step:
 
@@ -40,9 +80,9 @@ If the stablecoin totally fails, the other stablecoins effectively pump in corre
 
 The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.
 
-### DFO Credit
+#### DFO Credit
 
-As established, uSD is backed by Uniswap stablecoin pools liquidity. 
+As established, uSD is backed by Uniswap stablecoin pools liquidity.
 
 This raises an issue; Uniswap pools earn 0.3% of trading fees. This could destabilize uSD by creating an excess of collateralized stablecoins in the pools.DFO Credit, the second rebalancing function of the UniFi DFO, resolves this by removing that excess from the pools and sending it in the DFO wallet managed by $UniFi holders.
 
@@ -84,7 +124,7 @@ Because we take a Responsible DeFi Approach, UniFi uSD minting is limited in its
 - 10,000,000 uSD mintable for the first four months (until block n 11541929)
 - 20,000,000 uSD mintable for the first five months (until block n 11741929)
 
-# Craft and Initial Liquidity Offerings (ILOs)
+## Craft and Initial Liquidity Offerings (ILOs)
 
 Craft makes it possible to provide liquidity that is programmable with advanced rules. Using Unicorn magic, pools can balance tokens diversely, and with unprecedented security.
 
@@ -98,7 +138,7 @@ The Uniswap protocol allows for liquidity pools composed of 50:50 asset ratios. 
 
 Anyone can create a Craft order, customize the liquidity setup and deploy it by contributing initial liquidity. Others can then contribute the rest of the liquidity required to pool the order on Uniswap. Later, after the predetermined block, any of the participants can trigger removal of the liquidity. It is then distributed to all participants based on the predetermined rules.
 
-## Programmable Liquidity Rules
+### Programmable Liquidity Rules
 
 With Crafting, Uniswap liquidity providers can program a liquidity order by customizing the following:
 
@@ -108,7 +148,7 @@ With Crafting, Uniswap liquidity providers can program a liquidity order by cust
 - Liquidity Ratio: The ratio of liquidity, e.g. 10% DAI - 90% ETH or 0% DAI - 100 ETH. Once deployed by the creator, others can add the required liquidity. If the creator sets the ratio at 10% DAI - 90% ETH, the others can add the rest at 90% DAI - 10% ETH.
 - Liquidity Exit/Discount: An advanced feature for orders that allows for the creation of a different ratio or even a discount for the exit.
 
-### Let's play out that aforementioned example.
+#### Let's play out that aforementioned example.
 
 Person A creates an order for USDC - DAI, with a min block length of 543055 Blocks and a ratio of 10% DAI - 90% USDC. He adds 100 DAI and 900 USDC, and also decides to set the exit liquidity at 30% DAI and 70% USDC (read on to see exactly how exit liquidity works).
 
@@ -130,29 +170,29 @@ A receives 600 DAI and 1,400 USDC (at the Exit Ratio of 30% DAI and 70% USDC).
 
 Based on how much they individually contributed, B, C and D receive their respective proportion of 1,400 DAI and 600 USDC (at the Exit Ratio of 70% DAI and 30% USDC).
 
-# Initial Liquidity Offering (ILO)
+### Initial Liquidity Offering (ILO)
 
 ILOs are a way for Ethereum-based startups to configure "Crafting" - i.e, Programmable Liquidity - rules to secure long term funding by providing Uniswap liquidity.
 
 ILOs are helpful for three specific reasons:
 
-### Securing Initial Liquidity for AMMs With Fixed Inflation/Liquidity Staking
+#### Securing Initial Liquidity for AMMs With Fixed Inflation/Liquidity Staking
 
 Providers can offer liquidity with fixed inflation without dumping on new holders. They also help new investors reduce slippage and become holders with a large amount of capital.
 
-### Disarming Sniper Bots
+#### Disarming Sniper Bots
 
 Sniper Bots track new low liquidity Uniswap pools for sizable capital before liquidity even comes in, making it (until now) impossible for startups to offer liquidity with low collateral.
 
-### Securing Long Term Locked Investors
+#### Securing Long Term Locked Investors
 
 Investors lock their funds for the long run.
 
-### How ILOs work:
+#### How ILOs work:
 
 Before distributing their tokens, startups can set crafting orders with fixed pre-values, adding the token and requesting the collateral required to fill the order. Investors provide that collateral, and if the startup chooses, investors get an Exit/Discount to mitigate the high risk.
 
-### Example
+##### Example
 
 The token creator sets a Crafting order with low liquidity, e.g. 1,000,000 of the token and 1 ETH, with a 90% - 10% ratio, or even 1,000,000 of token and 0 ETH, with a 100% - 0% ratio (adding a pre-value of the token, if the liquidity pool is not open yet) for one year. Setting the Liquidity Exit/Discount 10%/20%, investors will receive at the end of the order 90%/80%.
 
@@ -160,45 +200,45 @@ In this case, investors invest their own Ethereum for a new token that is not al
 
 ILOs enable new Ethereum fundraising rules that solve liquidity issues in early stages, while also helping legitimate projects set Fixed Inflation. This empowers projects and investors in the long run.UniFi DFO Tax:
 
-### UniFi DFO Tax
+## UniFi DFO Tax
 
 The UniFi DFO earns via the Crafting function; 0.1% of the total Uniswap pool tokens in a Craft order is taxed and paid directly when a participant calls the remove function.
 
-### Release
+## Releases
 
 The release Of Crafting and ILOs is expected for early October 2020.
 
-# The Bazar
+## The Bazar
 
 Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities and Token Index Funds (and soon NFTs, including ERC1155s, thanks to ethArt V2) can now be swapped on the new Bazar DEX.
 
 The UniFi Bazar unleashes the true potential of Decentralized Finance on the top of Uniswap, by enabling Ethereans to trade these more easily than ever before.
 
-## Listing
+### Listing
 
-### Index Funds
+#### Index Funds
 
 Previously, any ERC20 Uniswap V2 pool token could be traded on Uniswap. But Index Funds - backed by multiple ERC20 tokens - could not. Until now.
 
 On the Bazar, Ethereans can freely swap and track crypto Index Funds.
 
-### Programmable Equities
+#### Programmable Equities
 
 Programmable equities are a new asset class in crypto. They are the ERC20 voting tokens of Decentralized Flexible Organizations (DFOs). Holders have 100% ownership of the protocol; there is no opportunity for external manipulation.
 
 On the Bazar, all programmable equities can be listed and traded on Uniswap.
 
-### Non-Fungible Tokens (NFTs)
+#### Non-Fungible Tokens (NFTs)
 
 ERC1155 NFTs are tokens with metadata, but at the same time have a supply. The reason they haven't been tradable in AMMs before is due to their 'transfer' function. They use the 'SafeTransferFrom' method, instead of the ERC20 methods, 'Transfer' and 'TransferFrom.' Also, they don't have decimals; they're transferred using ID and Amount.
 
 ethArt V2 will be released in November, and the Bazar will be able to synthesise ERC1155 tokens with ERC20s (as WETH with ETH) in the background, fundamentally reshaping the NFT market by allowing Ethereans to trade ERC1155 tokens for the first time.
 
-### Swappable ERC 1155 Release
+#### Swappable ERC 1155 Release
 
 The release of ethArt V2 and swappable NFTs is scheduled for late November. 
 
-# UniFi Token Distribution
+## UniFi Token Distribution
 
 The total supply of $UniFi is 88,888,888, which is initially distributed and Locked as follows:
 
@@ -206,7 +246,7 @@ The total supply of $UniFi is 88,888,888, which is initially distributed and Loc
 - 40% (35,900,000) are locked in the UniFI's DFO wallet <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0x2578aA454b29C15c8eEF62C972Ee1ff57CD99DEf">[0x2578aA454b29C15c8eEF62C972Ee1ff57CD99DEf]</a>. This pays out the liquidity staking rewards. The active reward staking contract is <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0xb266252Fd70D253b4330151A96694d35e94b846c">[0xb266252Fd70D253b4330151A96694d35e94b846c]</a>
 - 16% (14,333,333) are locked in the DFOhub wallet (owned by $buidl holders) <a target="_blank" href="https://etherscan.io/tokenHoldings?a=0x5D40c724ba3e7Ffa6a91db223368977C522BdACD">[0x5D40c724ba3e7Ffa6a91db223368977C522BdACD]</a>
 
-# UniFi Fair Inflation
+### UniFi Fair Inflation
 
 A sustainable economic model for DFO-based startups to maintain value and fund operations | UniFi version
 
@@ -221,7 +261,7 @@ Inflation events will occur once a day (every 6,300 ETH Blocks) across three Uni
 
 All functionalities related to this R&D will become available for every DFO as Optional Basic Functionalities, to accelerate the exploration of Programmable Equity R&D.
 
-# UniFi Liquidity Staking
+### UniFi Liquidity Staking
 
 $UniFi liquidity staking is available here: <a href="https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c">https://dapp.dfohub.com/?staking=0xb266252Fd70D253b4330151A96694d35e94b846c</a>
 
@@ -231,7 +271,7 @@ Staking will inflate the supply over the first year (if every tier is completely
 
 The Five Year tier was filled by the team in an early test, and we won't touch the rewards for three years. When they are unlocked and redeemed, 50% of the UniFi will be sent to the UniFi wallet and 50% to the NERV operations wallet.
 
-# UniFi Earning System
+## UniFi Earning System
 
 The UniFi DFO earn from:
 

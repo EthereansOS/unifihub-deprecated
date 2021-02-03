@@ -1,0 +1,55 @@
+# {{name}}
+
+{{{natspec.devdoc}}}
+
+{{#if ownFunctions}}
+## Functions:
+{{#ownFunctions}}
+{{#if (or (eq visibility "public") (eq visibility "external"))}}
+- [`{{name}}({{args}})`](#function-{{name}})
+{{/if}}
+{{/ownFunctions}}
+{{/if}}
+
+{{#if ownEvents}}
+## Events:
+{{#ownEvents}}
+- [`{{name}}({{args}})`](#event-{{name}})
+{{/ownEvents}}
+{{/if}}
+
+{{#ownFunctions}}
+{{#if (or (eq visibility "public") (eq visibility "external"))}}
+### Function: {{name}}
+`{{name}}({{args}}){{#if outputs}} → {{outputs}}{{/if}}`
+{{#if natspec.devdoc}}
+#### Description
+{{natspec.devdoc}}{{else}}{{/if}}
+{{#if natspec.params}}
+#### Parameters:
+{{#natspec.params}}
+- `{{param}}`: {{description}}
+{{/natspec.params}}
+{{/if}}
+{{#if natspec.returns}}
+#### Return Values:
+{{#natspec.returns}}
+- {{param}} {{description}}
+{{/natspec.returns}}
+{{/if}}
+{{/if}}
+{{/ownFunctions}}
+
+{{#ownEvents}}
+### Event: {{name}}
+`{{name}}({{args}})`
+{{#if natspec.devdoc}}
+#### Description
+{{natspec.devdoc}}{{else}}{{/if}}
+{{#if natspec.params}}
+#### Parameters:
+{{#natspec.params}}
+- `{{param}}`: {{description}}
+{{/natspec.params}}
+{{/if}}
+{{/ownEvents}}
