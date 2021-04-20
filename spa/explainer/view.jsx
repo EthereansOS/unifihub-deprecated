@@ -1,20 +1,18 @@
 var Explainer = React.createClass({
     renderExStableCoin() {
-        return this.renderInput("ExStableCoin", "assets/img/exp1.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Unified Stable Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.", () => this.emit('section/change', 'grimoire', {href: "#grimuSD"}), () => this.emit('section/change', 'stableCoin'));
+        return this.renderInput("ExStableCoin", "", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "A Stable Coin to Pool Them All", "Unified Stable Dollar (uSD) is a new stablecoin minted by the magic rainbow of Uniswap stablecoin pools. Backed by the power of the Unicorn, uSD is the most secure stablecoin ever. The only way it could be destabilized is if the entire stablecoin industry crashed.", () => this.emit('section/change', 'grimoire', {href: "#grimuSD"}), () => this.emit('section/change', 'stableCoin'));
     },
     renderExDex() {
-        return this.renderInput("ExDex", "assets/img/exp3.png", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "Swap More Than Just Tokens", "Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.", () => this.emit('section/change', 'grimoire', {href: "#grimBaz"}), () => this.emit('section/change', 'swapBazar'));
+        return this.renderInput("ExDex", "", "a", "InfoButton", "a", "dappButton", "More", "Launch Dapp", "Swap More Than Just Tokens", "Ancient black magic is unleashing the true power of the Unicorn. Programmable Equities, Token Indexes and NFTs (including ERC 1155 NFTs, thanks to ethArt V2) can now be swapped, on the new Bazaar DEX.", () => this.emit('section/change', 'grimoire', {href: "#grimBaz"}), () => this.emit('section/change', 'swapBazar'));
     },
     renderExGrimoire() {
-        return this.renderInput("ExGrimoire", "assets/img/exp2.png", "a", "readButton", "a", "gitButton", "Read", "Github", "Unicorn Magic For Dummies", "The Official guide for using Unicorn magic with the DeFi on the top of Uniswap. Grimoire, the best selling book of 2020, is prescribed by all the top wizard Universities, and won this years' Booker Prize.", () => this.emit('section/change', 'Grimoire'), "https://github.com/b-u-i-d-l/unifi");
+        return this.renderInput("ExGrimoire", "", "a", "readButton", "a", "gitButton", "Read", "Github", "Unicorn Magic For Dummies", "The Official guide for using Unicorn magic with the DeFi on the top of Uniswap. Grimoire, the best selling book of 2020, is prescribed by all the top wizard Universities, and won this years' Booker Prize.", () => this.emit('section/change', 'Grimoire'), "https://github.com/b-u-i-d-l/unifi");
     },
     renderInput(expFeature, featureIllustration, featureActionA, featureActionAStyle, featureActionB, featureActionBStyle, featureBtnA, featureBtnB, featureTitle, featureDesc, actionA, actionB) {
         return (
             <section className={expFeature + " feature"}>
                 <section className="cardinfo">
-                    <figure>
-                        <img src={featureIllustration}></img>
-                    </figure>
+                    
                     <article className="featureDescription">
                         <h3>{featureTitle}</h3>
                         <p>{featureDesc}</p>
@@ -41,9 +39,7 @@ var Explainer = React.createClass({
                 {this.renderExStableCoin()}
                 {this.renderExDex()}
                 {this.renderExGrimoire()}
-                <section className="expMoreandMore">
-                    <h5><img src="assets/img/farmer.png"></img>And more to come...</h5>
-                </section>
+                
                 <footer>
                     <section>
                         <section className="welcomeLinks">
