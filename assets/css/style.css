@@ -13,7 +13,7 @@ section, article, label {display: inline-block;}
 .unifiWelcome, .unifiAll, .unifiDapp {width: 100%; text-align: center;}
 .cover {max-height: 400px; width: 100%; margin: 0 auto; display: block; overflow: hidden; position: relative; text-align: center;border-bottom: 3px solid #bab9b9;}
 .cover > img {width: 200%; display: inline-block;}
-.unifiWelcome header {width: 200px; display: inline-block; padding: 10px; border: 3px solid #bab9b9;background: #e3d2c2; margin-top: -30px; position: relative; z-index: 10000000000000; border-radius: 8px;}
+.unifiWelcome header {width: 200px; display: inline-block; padding: 10px; border: 3px solid #bab9b9;background: #e3d2c2; position: relative; z-index: 10000000000000; border-radius: 8px;}
 .unifiWelcome header h2 {font-size: 13px; font-weight: bolder; color: #291d01;}
 .unifiWelcome .MenuOpen {display: none !important;}
 .unifiWelcome .MenuOpen .MConnect {display: none;}

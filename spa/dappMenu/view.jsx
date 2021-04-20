@@ -16,37 +16,13 @@ var DappMenu = React.createClass({
             menuItems: [{
                 title: "Stable Coin",
                 icon: "m4"
-            }, {
-                title: "Liquidity Crafting",
-                icon: "m2",
-                props : {
-                    onClick: () => this.emit("section/change", "grimoire", {
-                        href : "#grimCraft"
-                    }),
-                    href: "#grimCraft"
-                }
-            }, {
-                title: "Liquidity Offering",
-                icon: "m5",
-                props : {
-                    onClick: () => this.emit("section/change", "grimoire", {
-                        href : "#grimCraft"
-                    }),
-                    href: "#grimCraft"
-                }
-            }, {
+            },
+            {
                 title: "Swap Bazar",
                 icon: "m1"
             }, {
                 title: "Grimoire",
                 icon: "m0"
-            }, {
-                title: "Github",
-                icon: "m3",
-                props : {
-                    href: "https://github.com/b-u-i-d-l/unifi",
-                    target: "_blank"
-                }
             }]
         };
     },

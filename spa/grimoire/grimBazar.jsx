@@ -24,7 +24,7 @@ var GrimBazar = React.createClass({
                         </ul>
                         <article className="grimoireArticle" id="Bazbasics">
                             <h2>Basics</h2>
-                            <p>The UniFi Bazar unleashes the true potential of Decentralized Finance on top of Uniswap, by enabling Ethereans to trade Index Funds, Programmable Equities and NFTs more easily than ever before.</p>
+                            <p>The Cell Bazar unleashes the true potential of Decentralized Finance on top of Uniswap, by enabling Ethereans to trade Index Funds, Programmable Equities and NFTs more easily than ever before.</p>
                         </article>
                         <article className="grimoireArticle" id="Bazlisting">
                             <h2>Listing</h2>

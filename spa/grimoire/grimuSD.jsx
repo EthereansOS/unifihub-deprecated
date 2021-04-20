@@ -45,30 +45,30 @@ var GrimuSD = React.createClass({
                             <h6>Sometimes, collateralization is not enough, and uSD must rebalance in one of two ways.</h6>
                             <h4>DFO Debit</h4>
                             <p>When a stablecoin loses value, the Uniswap Tier pools rebalance to an uneven disparity (≠ 50/50). If the stablecoin totally fails, the other stablecoins effectively pump in correlation.</p>
-                            <p>DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the UniFi DFO then pays off by minting UniFi. Let’s look at how this plays out, step by step:</p>
+                            <p>DFO Debit resolves this issue on-chain by rebalancing uSD, creating debt which the Cell DFO then pays off by minting Cell. Let’s look at how this plays out, step by step:</p>
                             <ol>
                                 <li>1 - A  stablecoin collateralized by uSD loses value or fails altogether.</li>
-                                <li>2 - $UniFi holders vote to remove the tiers containing the failed stablecoin from the whitelist.</li>
+                                <li>2 - $Cell holders vote to remove the tiers containing the failed stablecoin from the whitelist.</li>
                                 <li>The uSD supply becomes grater than the supply of the collateralized pooled stablecoins.</li>
-                                <li>3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new UniFi, minted at a 20% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
+                                <li>3 - To restore 1:1 equilibrium, anyone holding uSD can burn it to receive new Cell, minted at a 20% discount of the uSD/UniFi Uniswap pool mid-price ratio.</li>
                             </ol>
-                            <h6>The goal of $UniFi holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.</h6>
+                            <h6>The goal of $Cell holders, which aligns with their self-interest, is to ensure uSD’s security. Thus there is an economic disincentive to whitelist insecure stablecoins.</h6>
                             <h4>DFO Credit</h4>
                             <p>As established, uSD is backed by Uniswap pool liquidity. This raises an issue; Uniswap pools earn 0.3% of trading fees. This could destabilize uSD by creating an excess of collateralized stablecoins in the pools. </p>
-                            <p>DFO Credit, the second rebalancing function of the UniFi DFO, resolves this by removing that excess from the pools and sending it in the DFO wallet managed by $UniFi holders.</p>
-                            <p>This is a long term economic incentive for the UniFi DFO to grow and invest credit in R&D.</p>
+                            <p>DFO Credit, the second rebalancing function of the Cell DFO, resolves this by removing that excess from the pools and sending it in the DFO wallet managed by $Cell holders.</p>
+                            <p>This is a long term economic incentive for the Cell DFO to grow and invest credit in R&D.</p>
                         </article>
                         <article className="grimoireArticle" id="uSDsec">
                             <h2>Security and Emergency Strategies</h2>
-                            <h4>The UniFi has a number of measures in place to ensure its security.</h4>
-                            <p>1 - uSD pool collateral is locked. Stored in an external smart contract, it can’t be touched even by the UniFi DFO, precluding voter fraud by bad actors.</p>
-                            <p>2 - In the case of any bug or update, $UniFi holders can vote to pause the uSD smart contract. This prevents minting of new uSD or rebalancing of uSD, but holders will still be able to redeem it for the pooled stable coins, and thus revoke the collateral.</p>
-                            <p>3 - Even if the uSD protocol fails, and even if the UniFi DFO votes to update uSD to an undesirable new version, uSD holders will still be able to interact with the old smart contract—until all collateral is revoked—as well as the new one.</p>
+                            <h4>The Cell has a number of measures in place to ensure its security.</h4>
+                            <p>1 - uSD pool collateral is locked. Stored in an external smart contract, it can’t be touched even by the Cell DFO, precluding voter fraud by bad actors.</p>
+                            <p>2 - In the case of any bug or update, $Cell holders can vote to pause the uSD smart contract. This prevents minting of new uSD or rebalancing of uSD, but holders will still be able to redeem it for the pooled stable coins, and thus revoke the collateral.</p>
+                            <p>3 - Even if the uSD protocol fails, and even if the Cell DFO votes to update uSD to an undesirable new version, uSD holders will still be able to interact with the old smart contract—until all collateral is revoked—as well as the new one.</p>
                         </article>
                         <article className="grimoireArticle" id="uSDres">
                             <h2>Resilience, Decentralization and independency</h2>
                             <p>uSD is the most resilient, secure and stable stablecoin in the industry. By taking advantage of Decentralized Finance on the top of Uniswap, a security layer with a decentralized core, it frees holders from dependence on censorship or centralized manipulation by states and stablecoin issuers. It resolves all risks that come with trusting the big stablecoin companies, like MakerDAO, Coinbase, Tether etc.</p>
-                            <p>uSD is backed by a Decentralized Flexible Organization. $UniFi holders on the Ethereum network have 100% control of the code and Credit/Debit of the protocol. Nobody can stop or censor the UniFi-uSD protocol; for the first time, the Ethereum network doesn’t have to choose between stability and independence in a stablecoin; it can have both.</p>
+                            <p>uSD is backed by a Decentralized Flexible Organization. $Cell holders on the Ethereum network have 100% control of the code and Credit/Debit of the protocol. Nobody can stop or censor the Cell-uSD protocol; for the first time, the Ethereum network doesn’t have to choose between stability and independence in a stablecoin; it can have both.</p>
                         </article>
                         <article className="grimoireArticle" id="uSDallow">
                             <h2>Allowed Stable Coins</h2>
@@ -82,13 +82,9 @@ var GrimuSD = React.createClass({
                                 <li><b>PAX</b> <a targer="_blank" href="https://etherscan.io/token/0x8e870d67f660d95d5be530380d0ec0bd388289e1">0x8e870d67f660d95d5be530380d0ec0bd388289e1</a></li>
                             </ol>
                         </article>
-                        <article className="grimoireArticle" id="uSDapi">
-                            <h2>APIs and Documentation</h2>
-                            <p>To build on top of uSD and to interact with the dApp, you can find all of the documentation and APIs here:  <a target="_blank" href="https://github.com/b-u-i-d-l/unifi-docs">Documentation</a></p>
-                        </article>
                         <article className="grimoireArticle" id="uSDarchi">
                             <h2>Responsible DeFi Limits</h2>
-                            <p>Due to a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responible DeFi Approach</a>, UniFi uSD is limited in its early stage to mint by:</p>
+                            <p>Due to a <a target="_blank" href="https://github.com/b-u-i-d-l/responsible-defi">Responible DeFi Approach</a>, Cell uSD is limited in its early stage to mint by:</p>
                             <ol>
                                 <li>- 500,000 uSD Mintable for the first month (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/10941929">10941929</a>)</li>
                                 <li>- 2,000,000 uSD Mintable for the first two months (untill block n <a target="_blank" href="https://etherscan.io/block/countdown/11141929">11141929</a>)</li>

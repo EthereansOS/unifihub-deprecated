@@ -9,7 +9,7 @@ var Index = React.createClass({
     getCustomLoader() {
         return (<section className="Intro">
             <img className="introLoader" src="assets/img/loaderwow.gif" />
-            <h1>Welcome to the <span><b>UniFi</b></span> World</h1>
+            <h1>Welcome to the <span><b>Cell Finance</b></span> World</h1>
         </section>);
     },
     getDefaultSubscriptions() {
