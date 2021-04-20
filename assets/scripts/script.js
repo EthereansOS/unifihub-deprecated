@@ -248,16 +248,19 @@ window.consumeAddressBarParam = function consumeAddressBarParam(paramName) {
 
 window.getSendingOptions = function getSendingOptions(transaction, value) {
     return new Promise(async function(ok, ko) {
+        var lastGasLimit = (await window.web3.eth.getBlock('latest')).gasLimit;
         if (transaction) {
             var address = await window.getAddress();
             return window.bypassEstimation ? ok({
                 from: address,
-                gas: window.gasLimit || '7900000',
+                gas: window.gasLimit || lastGasLimit,
                 value
             }) : transaction.estimateGas({
                     from: address,
                     gasPrice: window.web3.utils.toWei("13", "gwei"),
-                    value
+                    value,
+                    gas: lastGasLimit,
+                    gasLimit: lastGasLimit
                 },
                 function(error, gas) {
                     if (error) {
@@ -265,7 +268,7 @@ window.getSendingOptions = function getSendingOptions(transaction, value) {
                     }
                     return ok({
                         from: address,
-                        gas: gas || window.gasLimit || '7900000',
+                        gas: gas || window.gasLimit || lastGasLimit,
                         value
                     });
                 });

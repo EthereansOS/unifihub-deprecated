@@ -298,7 +298,7 @@ var StableCoinController = function (view) {
             var { pairData, reserves } = await context.getBestRebalanceByCreditPair();
             var redeemable = parseInt(differences[0]);
             var balanceOf = parseInt(await window.blockchainCall(window.stableCoin.token.methods.balanceOf, window.walletAddress));
-            redeemable = redeemable > balanceOf ? balanceOf : redeemable;
+            //redeemable = redeemable > balanceOf ? balanceOf : redeemable;
             var reallyRedeemable = reserves.token0InStable + reserves.token1InStable;
             redeemable = redeemable > reallyRedeemable ? reallyRedeemable : redeemable;
 
